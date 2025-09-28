@@ -23,14 +23,9 @@ const useChat = () => {
         content: m.content
       }));
 
-      // Get AI response
-      let aiResponse = await chatService.sendMessage(content, conversationHistory);
-      
-      // Add medical disclaimer for health-related queries
-      if (chatService.isHealthRelated(content)) {
-        aiResponse = chatService.formatMedicalResponse(aiResponse);
-      }
-      
+      // Get AI response (medical disclaimer is already added in the service/function)
+      const aiResponse = await chatService.sendMessage(content, conversationHistory);
+
       // Add AI response
       setMessages(prev => [...prev, { role: 'ai', content: aiResponse }]);
     } catch (error) {

@@ -10,7 +10,7 @@ Important guidelines:
 - Avoid definitive diagnoses
 - Suggest when emergency care might be needed`;
 
-exports.handler = async (event, context) => {
+exports.handler = async (event) => {
   // CORS headers
   const headers = {
     'Access-Control-Allow-Origin': '*',
