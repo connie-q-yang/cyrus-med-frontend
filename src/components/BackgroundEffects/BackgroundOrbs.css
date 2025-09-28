@@ -1,0 +1,45 @@
+.bg-orb {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(100px);
+    opacity: 0.25;
+    animation: float 20s infinite ease-in-out;
+    pointer-events: none;
+    transition: transform 0.3s ease;
+  }
+  
+  .orb1 {
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, var(--teal), transparent);
+    top: -200px;
+    left: -200px;
+    animation-delay: 0s;
+  }
+  
+  .orb2 {
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, var(--soft-blue), transparent);
+    bottom: -150px;
+    right: -150px;
+    animation-delay: 5s;
+  }
+  
+  .orb3 {
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, var(--peach), transparent);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation-delay: 10s;
+    opacity: 0.15; /* Softer peach accent */
+  }
+  
+  @keyframes float {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    25% { transform: translate(50px, -50px) scale(1.1); }
+    50% { transform: translate(-50px, 50px) scale(0.9); }
+    75% { transform: translate(30px, 30px) scale(1.05); }
+  }
