@@ -78,6 +78,24 @@ const ChatPreview = () => {
             Send
           </button>
         </form>
+
+        <div className="privacy-disclaimer">
+          <div className="disclaimer-content">
+            <svg className="lock-icon" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 7V5C12 2.79086 10.2091 1 8 1C5.79086 1 4 2.79086 4 5V7M8 10V12M3 15H13C13.5523 15 14 14.5523 14 14V8C14 7.44772 13.5523 7 13 7H3C2.44772 7 2 7.44772 2 8V14C2 14.5523 2.44772 15 3 15Z"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"/>
+            </svg>
+            <span className="disclaimer-text">
+              <strong>HIPAA Compliant</strong> • Everything is private and secure
+            </span>
+          </div>
+          <p className="disclaimer-details">
+            Every conversation is encrypted and stored securely. We never use your data for AI training and only share with your doctor if you explicitly authorize it.
+          </p>
+        </div>
       </motion.div>
     </section>
   );

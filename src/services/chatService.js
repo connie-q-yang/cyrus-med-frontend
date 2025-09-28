@@ -1,10 +1,18 @@
 import { AzureOpenAI } from 'openai';
 
+// Check if environment variables are set
+if (!process.env.REACT_APP_AZURE_OPENAI_API_KEY ||
+    !process.env.REACT_APP_AZURE_OPENAI_ENDPOINT ||
+    !process.env.REACT_APP_AZURE_OPENAI_API_VERSION ||
+    !process.env.REACT_APP_AZURE_OPENAI_DEPLOYMENT) {
+  console.error('Azure OpenAI environment variables are not properly configured');
+}
+
 // Initialize Azure OpenAI with configuration from environment
 const client = new AzureOpenAI({
-    apiKey: process.env.REACT_APP_AZURE_OPENAI_API_KEY,  // <-- Make sure this is 'apiKey'
+    apiKey: process.env.REACT_APP_AZURE_OPENAI_API_KEY,
     endpoint: process.env.REACT_APP_AZURE_OPENAI_ENDPOINT,
-    apiVersion: process.env.REACT_APP_AZURE_OPENAI_API_VERSION || "2024-12-01-preview",
+    apiVersion: process.env.REACT_APP_AZURE_OPENAI_API_VERSION,
     dangerouslyAllowBrowser: true
   });  
 
@@ -29,7 +37,7 @@ class ChatService {
 
       const response = await client.chat.completions.create({
         messages: messages,
-        model: process.env.REACT_APP_AZURE_OPENAI_DEPLOYMENT || 'gpt-4.1',
+        model: process.env.REACT_APP_AZURE_OPENAI_DEPLOYMENT,
         temperature: 0.7,
         max_tokens: 500,
         top_p: 0.95,
