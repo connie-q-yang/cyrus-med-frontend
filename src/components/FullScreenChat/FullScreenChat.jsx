@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import ChatMessage from '../ChatPreview/ChatMessage';
 import useChat from '../../hooks/useChat';
+import { exportChatAsDocx, exportChatAsText } from '../../utils/exportChat';
 import './FullScreenChat.css';
 
 const samplePrompts = [
@@ -131,25 +132,62 @@ const FullScreenChat = ({ isOpen, onClose }) => {
             transition={{ type: "spring", stiffness: 300 }}
           >
             <div className="chat-header">
-              <div className="header-content">
-                <div className="header-info">
-                  <h2>Cyrus AI Medical Assistant</h2>
-                  <div className="privacy-badge">
+              <div className="header-top-bar">
+                <div className="security-badges">
+                  <span className="badge secure">
                     <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
                       <path d="M12 7V5C12 2.79086 10.2091 1 8 1C5.79086 1 4 2.79086 4 5V7M8 10V12M3 15H13C13.5523 15 14 14.5523 14 14V8C14 7.44772 13.5523 7 13 7H3C2.44772 7 2 7.44772 2 8V14C2 14.5523 2.44772 15 3 15Z"
-                            stroke="currentColor"
-                            strokeWidth="1.5"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"/>
+                            stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
                     </svg>
-                    HIPAA Compliant
-                  </div>
+                    Secure
+                  </span>
+                  <span className="badge anonymous">Anonymous</span>
+                  <span className="badge instant">Instant Guidance</span>
                 </div>
-                <button className="close-button" onClick={onClose}>
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                    <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                <div className="emergency-notice">
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                    <path d="M8 5V8M8 11H8.01M14.07 11L8.54 2C8.24 1.52 7.76 1.52 7.46 2L1.93 11C1.63 11.48 1.88 12 2.47 12H13.53C14.12 12 14.37 11.48 14.07 11Z"
+                          stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
-                </button>
+                  If this is an emergency, call 911 or go to the nearest emergency room
+                </div>
+              </div>
+              <div className="header-content">
+                <div className="header-info">
+                  <h2>Cyrus AI Health Companion</h2>
+                </div>
+                <div className="header-actions">
+                  {messages.length > 1 && (
+                    <div className="export-buttons">
+                      <button
+                        className="export-btn"
+                        onClick={() => exportChatAsDocx(messages)}
+                        title="Download as Word Document"
+                      >
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                          <path d="M10 2V10M10 10L13 7M10 10L7 7M3 12V16C3 17.1046 3.89543 18 5 18H15C16.1046 18 17 17.1046 17 16V12"
+                                stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                        </svg>
+                        Download
+                      </button>
+                      <button
+                        className="export-btn text"
+                        onClick={() => exportChatAsText(messages)}
+                        title="Download as Text"
+                      >
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                          <path d="M7 18V6M7 6L4 9M7 6L10 9M13 2V14M13 14L10 11M13 14L16 11"
+                                stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                        </svg>
+                      </button>
+                    </div>
+                  )}
+                  <button className="close-button" onClick={onClose}>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                      <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                    </svg>
+                  </button>
+                </div>
               </div>
             </div>
 

@@ -43,9 +43,13 @@
 
 /* Markdown Styling */
 .message-paragraph {
-  margin: 0 0 12px 0;
-  line-height: 1.6;
+  margin: 0 0 16px 0;
+  line-height: 1.7;
   font-size: 15px;
+}
+
+.message-paragraph:last-child {
+  margin-bottom: 0;
 }
 
 .message-paragraph:last-of-type {
@@ -54,7 +58,22 @@
 
 .message-bold {
   font-weight: 600;
-  color: #fff;
+  color: var(--emerald);
+  display: inline-block;
+  margin-top: 8px;
+  margin-bottom: 4px;
+}
+
+/* Special styling for SOAP headers */
+.message-paragraph > .message-bold:first-child {
+  display: block;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-top: 12px;
+  margin-bottom: 8px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid rgba(16, 185, 129, 0.2);
 }
 
 .message-italic {

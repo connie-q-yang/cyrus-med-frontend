@@ -30,15 +30,81 @@
 
 /* Header */
 .chat-header {
-  padding: 24px 32px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), transparent);
+}
+
+.header-top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 24px;
+  background: rgba(255, 182, 0, 0.05);
+  border-bottom: 1px solid rgba(255, 182, 0, 0.1);
+}
+
+.security-badges {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+}
+
+.badge.secure {
+  background: rgba(16, 185, 129, 0.1);
+  color: var(--emerald);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.badge.anonymous {
+  background: rgba(139, 92, 246, 0.1);
+  color: #8B5CF6;
+  border: 1px solid rgba(139, 92, 246, 0.2);
+}
+
+.badge.instant {
+  background: rgba(59, 130, 246, 0.1);
+  color: #3B82F6;
+  border: 1px solid rgba(59, 130, 246, 0.2);
+}
+
+.badge svg {
+  width: 12px;
+  height: 12px;
+}
+
+.emergency-notice {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  border-radius: 20px;
+  color: #EF4444;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.emergency-notice svg {
+  flex-shrink: 0;
 }
 
 .header-content {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 20px 32px;
 }
 
 .header-info {
@@ -47,8 +113,57 @@
   gap: 20px;
 }
 
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.export-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.export-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.export-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+.export-btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+.export-btn.text svg {
+  display: none;
+}
+
+.export-btn.text::before {
+  content: 'TXT';
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
 .chat-header h2 {
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 300;
   color: #fff;
   margin: 0;
@@ -406,8 +521,36 @@
     padding: 0;
   }
 
-  .chat-header {
-    padding: 20px;
+  .header-top-bar {
+    flex-direction: column;
+    gap: 8px;
+    padding: 10px;
+  }
+
+  .security-badges {
+    font-size: 11px;
+  }
+
+  .badge {
+    padding: 3px 8px;
+    font-size: 11px;
+  }
+
+  .emergency-notice {
+    font-size: 12px;
+    padding: 5px 10px;
+  }
+
+  .header-content {
+    padding: 16px 20px;
+  }
+
+  .chat-header h2 {
+    font-size: 16px;
+  }
+
+  .export-buttons {
+    display: none;
   }
 
   .chat-body {

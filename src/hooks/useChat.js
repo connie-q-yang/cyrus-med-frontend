@@ -2,56 +2,28 @@ import { useState, useCallback } from 'react';
 import chatService from '../services/chatService';
 
 // Generate contextual follow-up questions to encourage engagement
-const generateFollowUpQuestions = (userMessage, aiResponse) => {
-  const lowerMessage = userMessage.toLowerCase();
+const generateFollowUpQuestions = (aiResponse, exchangeCount) => {
   const lowerResponse = aiResponse.toLowerCase();
 
-  // Common follow-up questions based on context
-  if (lowerMessage.includes('headache') || lowerResponse.includes('headache')) {
+  // If SOAP note is provided (after 4-5 exchanges), encourage beta signup
+  if (lowerResponse.includes('subjective:') || lowerResponse.includes('s:') || exchangeCount >= 4) {
     return [
-      "How can I prevent headaches?",
-      "When should I see a doctor?",
-      "What are migraine symptoms?"
+      "Get priority access to Cyrus Med",
+      "Schedule a consultation",
+      "Join the beta waitlist"
     ];
   }
 
-  if (lowerMessage.includes('flu') || lowerMessage.includes('cold')) {
-    return [
-      "How long do symptoms last?",
-      "What medications can help?",
-      "How can I prevent spreading it?"
-    ];
+  // During information gathering phase, don't show follow-ups to maintain focus
+  if (exchangeCount < 3) {
+    return [];
   }
 
-  if (lowerMessage.includes('chest pain') || lowerMessage.includes('heart')) {
-    return [
-      "What are heart attack symptoms?",
-      "Should I call 911?",
-      "What tests might I need?"
-    ];
-  }
-
-  if (lowerMessage.includes('anxiety') || lowerMessage.includes('stress')) {
-    return [
-      "What are calming techniques?",
-      "When to seek therapy?",
-      "Are there natural remedies?"
-    ];
-  }
-
-  if (lowerMessage.includes('medication') || lowerMessage.includes('prescription')) {
-    return [
-      "What about side effects?",
-      "Can I take with other meds?",
-      "What if I miss a dose?"
-    ];
-  }
-
-  // Default follow-up questions to encourage beta signup
+  // After initial exchanges, encourage beta signup
   return [
-    "Schedule a video consultation",
-    "Get personalized health plan",
-    "Track my symptoms over time"
+    "Get personalized care plan",
+    "Join beta for full access",
+    "Track symptoms over time"
   ];
 };
 
@@ -59,7 +31,7 @@ const useChat = () => {
   const [messages, setMessages] = useState([
     {
       role: 'ai',
-      content: "Hello! I'm Cyrus, your AI medical assistant. I can help answer health questions, explain symptoms, and provide general medical information. How can I help you today?\n\nPlease note: I'm here to provide information and support, but always consult with healthcare professionals for medical advice, diagnosis, or treatment."
+      content: "Hi, I'm Cyrus, your personal AI health companion. Can you tell me what's going on today?"
     }
   ]);
   const [isLoading, setIsLoading] = useState(false);
@@ -67,12 +39,13 @@ const useChat = () => {
   const sendMessage = useCallback(async (content) => {
     // Add user message
     const userMessage = { role: 'user', content };
-    setMessages(prev => [...prev, userMessage]);
+    const updatedMessages = [...messages, userMessage];
+    setMessages(updatedMessages);
     setIsLoading(true);
 
     try {
-      // Convert messages to Azure OpenAI format
-      const conversationHistory = messages.map(m => ({
+      // Convert messages to Azure OpenAI format (including the new user message)
+      const conversationHistory = updatedMessages.map(m => ({
         role: m.role === 'ai' ? 'assistant' : m.role,
         content: m.content
       }));
@@ -80,14 +53,17 @@ const useChat = () => {
       // Get AI response (medical disclaimer is already added in the service/function)
       const aiResponse = await chatService.sendMessage(content, conversationHistory);
 
-      // Generate follow-up questions based on the topic
-      const followUpQuestions = generateFollowUpQuestions(content, aiResponse);
+      // Calculate exchange count based on updated messages
+      const exchangeCount = Math.floor(updatedMessages.length / 2);
+
+      // Generate follow-up questions based on the topic and exchange count
+      const followUpQuestions = generateFollowUpQuestions(aiResponse, exchangeCount);
 
       // Add AI response with follow-up questions
       setMessages(prev => [...prev, {
         role: 'ai',
         content: aiResponse,
-        followUpQuestions: followUpQuestions
+        followUpQuestions: followUpQuestions.length > 0 ? followUpQuestions : undefined
       }]);
     } catch (error) {
       console.error('Chat error:', error);
@@ -103,7 +79,7 @@ const useChat = () => {
   const clearChat = useCallback(() => {
     setMessages([{
       role: 'ai',
-      content: "Hello! I'm Cyrus, your AI medical assistant. I can help answer health questions, explain symptoms, and provide general medical information. How can I help you today?\n\nPlease note: I'm here to provide information and support, but always consult with healthcare professionals for medical advice, diagnosis, or treatment."
+      content: "Hi, I'm Cyrus, your personal AI health companion. Can you tell me what's going on today?"
     }]);
   }, []);
 
