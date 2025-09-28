@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import FullScreenChat from '../FullScreenChat/FullScreenChat';
 import './Hero.css';
 
 const Hero = () => {
   const [currentBenefit, setCurrentBenefit] = useState(0);
   const [consultationCount, setConsultationCount] = useState(15571632);
+  const [isChatOpen, setIsChatOpen] = useState(false);
 
   const benefits = [
     "Feel better in hours, not days",
@@ -28,8 +30,14 @@ const Hero = () => {
     };
   }, [benefits.length]);
 
-  const scrollToChat = () => {
-    document.getElementById('chat-section').scrollIntoView({ behavior: 'smooth' });
+  const openChat = () => {
+    setIsChatOpen(true);
+    document.body.style.overflow = 'hidden';
+  };
+
+  const closeChat = () => {
+    setIsChatOpen(false);
+    document.body.style.overflow = 'auto';
   };
 
   return (
@@ -90,13 +98,15 @@ const Hero = () => {
           </div>
 
           <div className="cta-container">
-            <button className="cta-primary" onClick={scrollToChat}>
+            <button className="cta-primary" onClick={openChat}>
               Start Free Consultation
             </button>
             <p className="cta-subtitle">No signup required • Get answers in seconds</p>
           </div>
         </motion.div>
       </div>
+
+      <FullScreenChat isOpen={isChatOpen} onClose={closeChat} />
     </section>
   );
 };
