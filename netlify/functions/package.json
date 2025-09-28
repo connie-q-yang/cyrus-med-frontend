@@ -1,0 +1,8 @@
+{
+  "name": "netlify-functions",
+  "version": "1.0.0",
+  "description": "Netlify Functions for Cyrus Med",
+  "dependencies": {
+    "openai": "^4.20.0"
+  }
+}

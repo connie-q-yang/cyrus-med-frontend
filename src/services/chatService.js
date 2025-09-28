@@ -1,86 +1,57 @@
-import { AzureOpenAI } from 'openai';
-
-// Check if environment variables are set
-if (!process.env.REACT_APP_AZURE_OPENAI_API_KEY ||
-    !process.env.REACT_APP_AZURE_OPENAI_ENDPOINT ||
-    !process.env.REACT_APP_AZURE_OPENAI_API_VERSION ||
-    !process.env.REACT_APP_AZURE_OPENAI_DEPLOYMENT) {
-  console.error('Azure OpenAI environment variables are not properly configured');
-}
-
-// Initialize Azure OpenAI with configuration from environment
-const client = new AzureOpenAI({
-    apiKey: process.env.REACT_APP_AZURE_OPENAI_API_KEY,
-    endpoint: process.env.REACT_APP_AZURE_OPENAI_ENDPOINT,
-    apiVersion: process.env.REACT_APP_AZURE_OPENAI_API_VERSION,
-    dangerouslyAllowBrowser: true
-  });  
-
-// System prompt for medical AI assistant
-const SYSTEM_PROMPT = `You are Cyrus, an AI medical assistant. You provide helpful, accurate, and empathetic medical information while always reminding users that you're not a replacement for professional medical care. Be conversational, caring, and clear in your responses. Keep responses concise but informative. 
-
-Important guidelines:
-- Always remind users to consult healthcare professionals for serious concerns
-- Be empathetic and understanding
-- Provide evidence-based information when possible
-- Avoid definitive diagnoses
-- Suggest when emergency care might be needed`;
-
 class ChatService {
   async sendMessage(message, conversationHistory = []) {
     try {
-      const messages = [
-        { role: 'system', content: SYSTEM_PROMPT },
-        ...conversationHistory,
-        { role: 'user', content: message }
-      ];
+      // For local development, check if Netlify Dev is running
+      const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
 
-      const response = await client.chat.completions.create({
-        messages: messages,
-        model: process.env.REACT_APP_AZURE_OPENAI_DEPLOYMENT,
-        temperature: 0.7,
-        max_tokens: 500,
-        top_p: 0.95,
-        frequency_penalty: 0,
-        presence_penalty: 0,
+      // Use appropriate endpoint
+      let endpoint;
+      if (isLocal) {
+        // Try Netlify Dev first, fallback to direct API if not available
+        endpoint = 'http://localhost:8888/.netlify/functions/chat';
+      } else {
+        // Production - use relative path
+        endpoint = '/.netlify/functions/chat';
+      }
+
+      console.log('Sending request to:', endpoint);
+
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          message,
+          conversationHistory
+        }),
       });
 
-      return response.choices[0].message.content;
-    } catch (error) {
-      console.error('Error calling Azure OpenAI:', error);
-      
-      // More specific error handling for Azure
-      if (error.status === 401) {
-        return "Authentication error. Please check your Azure OpenAI API key configuration.";
-      } else if (error.status === 404) {
-        return "Deployment not found. Please verify your Azure OpenAI deployment name.";
-      } else if (error.status === 429) {
-        return "Rate limit exceeded. Please try again in a moment.";
-      } else if (error.message?.includes('API key') || error.message?.includes('api_key')) {
-        return "Please configure your Azure OpenAI API key in the .env file to enable AI responses.";
+      const data = await response.json();
+
+      if (!response.ok) {
+        console.error('API Error:', data);
+        throw new Error(data.error || `HTTP error! status: ${response.status}`);
       }
-      
-      return "I'm having trouble connecting right now. Please try again in a moment.";
+
+      return data.response;
+    } catch (error) {
+      console.error('Error calling chat service:', error);
+
+      // Check if it's a network error (likely means Netlify Dev isn't running)
+      if (error.message.includes('fetch')) {
+        return "I'm having trouble connecting to the chat service. If you're developing locally, make sure to run 'netlify dev' instead of 'npm start' to enable serverless functions.";
+      }
+
+      // Return a more helpful error message
+      return "I apologize, but I encountered an error processing your request. Please try again. If the problem persists, please check your Azure OpenAI configuration.";
     }
   }
 
-  // Method to validate health-related queries
-  isHealthRelated(message) {
-    const healthKeywords = [
-      'pain', 'ache', 'symptom', 'medicine', 'doctor', 'health',
-      'sick', 'illness', 'disease', 'treatment', 'therapy', 'medication',
-      'fever', 'cold', 'flu', 'covid', 'vaccine', 'injection',
-      'prescription', 'diagnosis', 'condition', 'injury', 'bleeding'
-    ];
-    
-    const lowerMessage = message.toLowerCase();
-    return healthKeywords.some(keyword => lowerMessage.includes(keyword));
-  }
+  formatResponse(response) {
+    // Medical disclaimer
+    const disclaimer = '\n\n*Remember: This information is for educational purposes only and should not replace professional medical advice. If you have serious concerns, please consult with a healthcare provider.*';
 
-  // Format medical response with disclaimers
-  formatMedicalResponse(response) {
-    const disclaimer = "\n\n*Remember: This information is for educational purposes only and should not replace professional medical advice. If you're experiencing serious symptoms, please contact a healthcare provider or emergency services.*";
-    
     // Only add disclaimer if it's not already in the response
     if (!response.includes('educational purposes') && !response.includes('medical advice')) {
       return response + disclaimer;
