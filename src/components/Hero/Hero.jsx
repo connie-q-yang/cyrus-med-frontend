@@ -26,7 +26,7 @@ const Hero = () => {
       clearInterval(benefitInterval);
       clearInterval(countInterval);
     };
-  }, []);
+  }, [benefits.length]);
 
   const scrollToChat = () => {
     document.getElementById('chat-section').scrollIntoView({ behavior: 'smooth' });
