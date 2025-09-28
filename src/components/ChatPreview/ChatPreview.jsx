@@ -112,6 +112,28 @@ const ChatPreview = () => {
             </p>
           </div>
         </motion.div>
+        {/* Transition Arrow to Waitlist */}
+        <motion.div
+          className="transition-arrow"
+          initial={{ opacity: 0 }}
+          animate={inView ? { opacity: 1 } : {}}
+          transition={{ duration: 0.6, delay: 0.8 }}
+        >
+          <p className="arrow-text">Ready to transform your healthcare experience?</p>
+          <motion.div
+            className="arrow-container"
+            animate={{ y: [0, 10, 0] }}
+            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+          >
+            <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+              <path d="M20 8V32M20 32L12 24M20 32L28 24"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"/>
+            </svg>
+          </motion.div>
+        </motion.div>
       </section>
 
       <FullScreenChat isOpen={isChatOpen} onClose={closeChat} />

@@ -18,43 +18,106 @@ const Waitlist = () => {
 
     // Simulate API call - replace with actual backend integration
     setTimeout(() => {
-      toast.success('🎉 Welcome to the future of healthcare! Check your email for next steps.');
+      toast.success('Welcome to the future of healthcare! Check your email for next steps.');
       setEmail('');
       setIsSubmitting(false);
     }, 1000);
   };
 
+  const scrollToChat = () => {
+    document.getElementById('chat-section')?.scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
     <section className="waitlist" id="waitlist" ref={ref}>
-      <motion.div 
-        className="waitlist-card"
-        initial={{ opacity: 0, y: 50 }}
-        animate={inView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.6 }}
+      <motion.div
+        className="waitlist-container"
+        initial={{ opacity: 0 }}
+        animate={inView ? { opacity: 1 } : {}}
+        transition={{ duration: 0.8 }}
       >
-        <h3>Reserve Your Spot</h3>
-        <p>
-          Be among the first to experience the revolution in personal healthcare. 
-          Limited spots available for our exclusive beta.
-        </p>
-        
-        <form className="waitlist-form" onSubmit={handleSubmit}>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="Enter your email"
-            required
-            disabled={isSubmitting}
-          />
-          <button type="submit" disabled={isSubmitting}>
-            {isSubmitting ? 'Joining...' : 'Join Waitlist'}
+        <motion.div
+          className="waitlist-card"
+          initial={{ opacity: 0, y: 30 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, delay: 0.2 }}
+        >
+          <div className="exclusive-badge">
+            <span className="badge-text">LIMITED BETA ACCESS</span>
+          </div>
+
+          <h2>Reserve Your Spot</h2>
+          <p className="waitlist-subtitle">
+            Join the healthcare revolution. Be among the first to experience
+            instant, personalized medical guidance powered by AI.
+          </p>
+
+          <div className="waitlist-benefits">
+            <div className="benefit">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <path d="M2 10L8 16L18 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+              </svg>
+              <span>Priority access to all features</span>
+            </div>
+            <div className="benefit">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <path d="M2 10L8 16L18 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+              </svg>
+              <span>Free consultation credits</span>
+            </div>
+            <div className="benefit">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <path d="M2 10L8 16L18 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+              </svg>
+              <span>Shape the future of Cyrus Med</span>
+            </div>
+          </div>
+
+          <form className="waitlist-form" onSubmit={handleSubmit}>
+            <div className="form-group">
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Enter your email address"
+                required
+                disabled={isSubmitting}
+                className="email-input"
+              />
+              <button type="submit" disabled={isSubmitting} className="submit-button">
+                {isSubmitting ? 'Securing Your Spot...' : 'Get Early Access'}
+              </button>
+            </div>
+          </form>
+
+          <div className="waitlist-stats">
+            <div className="stat">
+              <span className="stat-number">15,000+</span>
+              <span className="stat-label">people waiting</span>
+            </div>
+            <div className="stat-divider"></div>
+            <div className="stat">
+              <span className="stat-number">500</span>
+              <span className="stat-label">beta spots left</span>
+            </div>
+          </div>
+
+          <p className="privacy-note">
+            We respect your privacy. No spam, ever.
+          </p>
+        </motion.div>
+
+        <motion.div
+          className="cta-alternative"
+          initial={{ opacity: 0 }}
+          animate={inView ? { opacity: 1 } : {}}
+          transition={{ duration: 0.6, delay: 0.4 }}
+        >
+          <p>Want to try it now?</p>
+          <button className="demo-link" onClick={scrollToChat}>
+            Experience the demo
           </button>
-        </form>
-        
-        <div className="exclusive-tag">
-          🎯 Exclusive Beta Access
-        </div>
+        </motion.div>
       </motion.div>
     </section>
   );

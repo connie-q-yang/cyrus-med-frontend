@@ -1,0 +1,285 @@
+.future-healthcare {
+  padding: 120px 40px;
+  position: relative;
+  background: linear-gradient(180deg, transparent 0%, rgba(16, 185, 129, 0.02) 50%, transparent 100%);
+}
+
+.future-container {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 80px;
+}
+
+.section-title {
+  font-size: clamp(36px, 5vw, 56px);
+  font-weight: 200;
+  color: #fff;
+  margin-bottom: 24px;
+  letter-spacing: -1px;
+  line-height: 1.2;
+}
+
+.section-title .highlight {
+  font-weight: 400;
+  background: linear-gradient(135deg, var(--emerald), var(--teal), var(--soft-blue));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.section-subtitle {
+  max-width: 800px;
+  margin: 0 auto;
+  font-size: 20px;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.6;
+  font-weight: 300;
+}
+
+/* Transformation Grid */
+.transformation-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(500px, 100%), 1fr));
+  gap: 32px;
+  margin: 60px 0;
+}
+
+.transform-card {
+  padding: 40px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01));
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 24px;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.transform-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.05), rgba(76, 179, 212, 0.03));
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+
+.transform-card:hover::before,
+.transform-card.active::before {
+  opacity: 1;
+}
+
+.transform-card:hover {
+  border-color: rgba(16, 185, 129, 0.2);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+.transform-content {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  position: relative;
+  z-index: 1;
+}
+
+.transform-icon {
+  flex-shrink: 0;
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(76, 179, 212, 0.05));
+  border-radius: 20px;
+  border: 1px solid rgba(16, 185, 129, 0.15);
+}
+
+.transform-icon svg {
+  color: var(--emerald);
+}
+
+.transform-text {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.transform-before,
+.transform-after {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.transform-label {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.transform-value {
+  font-size: 16px;
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.transform-before .transform-value {
+  color: rgba(255, 255, 255, 0.5);
+  text-decoration: line-through;
+  text-decoration-color: rgba(255, 100, 100, 0.5);
+}
+
+.transform-after .transform-value {
+  color: var(--emerald);
+  font-weight: 500;
+}
+
+.transform-arrow {
+  color: rgba(255, 255, 255, 0.3);
+  transition: all 0.3s;
+}
+
+.transform-card:hover .transform-arrow {
+  color: var(--emerald);
+  transform: translateX(4px);
+}
+
+/* Impact Section */
+.impact-section {
+  margin-top: 80px;
+  text-align: center;
+}
+
+.impact-stats {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 80px;
+  padding: 60px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.01));
+  backdrop-filter: blur(30px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 32px;
+  position: relative;
+  overflow: hidden;
+}
+
+.impact-stats::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--emerald), var(--teal), transparent);
+  animation: shimmer 3s infinite;
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.impact-stat {
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.impact-stat:hover {
+  transform: translateY(-4px);
+}
+
+.impact-number {
+  display: block;
+  font-size: 48px;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--emerald), var(--teal), var(--soft-blue));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 8px;
+  letter-spacing: -1px;
+}
+
+.impact-label {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.6);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 400;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .transformation-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .transform-card {
+    padding: 32px;
+  }
+
+  .impact-stats {
+    gap: 48px;
+    padding: 40px;
+  }
+}
+
+@media (max-width: 768px) {
+  .future-healthcare {
+    padding: 80px 20px;
+  }
+
+  .section-title {
+    font-size: 32px;
+  }
+
+  .section-subtitle {
+    font-size: 18px;
+  }
+
+  .transformation-grid {
+    gap: 20px;
+  }
+
+  .transform-card {
+    padding: 24px;
+  }
+
+  .transform-content {
+    flex-direction: column;
+    gap: 24px;
+    text-align: center;
+  }
+
+  .transform-text {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .transform-arrow {
+    transform: rotate(90deg);
+  }
+
+  .transform-card:hover .transform-arrow {
+    transform: rotate(90deg) translateY(4px);
+  }
+
+  .impact-stats {
+    flex-direction: column;
+    gap: 32px;
+    padding: 32px 24px;
+  }
+
+  .impact-number {
+    font-size: 36px;
+  }
+}
