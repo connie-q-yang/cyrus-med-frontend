@@ -1,7 +1,10 @@
 {
   "permissions": {
     "allow": [
-      "Bash(netlify dev:*)"
+      "Bash(netlify dev:*)",
+      "Bash(npm install express cors dotenv)",
+      "Bash(npm install:*)",
+      "Bash(npm run dev:local:*)"
     ],
     "deny": [],
     "ask": []
