@@ -115,6 +115,8 @@
   background-clip: text;
   font-weight: 300;
   font-style: italic;
+  display: inline-block;
+  padding-right: 0.1em;
 }
 
 .benefits-carousel {
