@@ -108,23 +108,23 @@ export const exportChatAsDocx = async (messages) => {
 
 export const exportChatAsText = (messages) => {
   let text = "CYRUS MED - HEALTH CONSULTATION SUMMARY\n";
-  text += "=" .repeat(40) + "\n\n";
+  text += "=".repeat(40) + "\n\n";
   text += `Generated: ${new Date().toLocaleString()}\n`;
   text += "Status: Secure • Anonymous • Educational Purpose Only\n\n";
   text += "DISCLAIMER:\n";
   text += "This document contains general health information for educational purposes only.\n";
   text += "It is not medical advice, diagnosis, or treatment.\n";
   text += "Always consult with a qualified healthcare provider for medical concerns.\n\n";
-  text += "=" .repeat(40) + "\n";
+  text += "=".repeat(40) + "\n";
   text += "CONVERSATION:\n";
-  text += "=" .repeat(40) + "\n\n";
+  text += "=".repeat(40) + "\n\n";
 
   messages.forEach(msg => {
     const speaker = msg.role === 'user' ? 'YOU' : 'CYRUS';
     text += `${speaker}:\n${msg.content}\n\n`;
   });
 
-  text += "\n" + "=" .repeat(40) + "\n";
+  text += "\n" + "=".repeat(40) + "\n";
   text += "IMPORTANT REMINDERS:\n";
   text += "• If you have a medical emergency, call 911 immediately\n";
   text += "• This conversation is for informational purposes only\n";
