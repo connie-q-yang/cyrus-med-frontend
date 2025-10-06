@@ -26,7 +26,15 @@ exports.handler = async (event) => {
     }
 
     // Your Resend API Key
-    const RESEND_API_KEY = process.env.RESEND_API_KEY || 're_2JLZ5GYe_3Vab9R5yPriRe7LAkjr3ptJc';
+    const RESEND_API_KEY = process.env.RESEND_API_KEY;
+
+    if (!RESEND_API_KEY) {
+      console.error('RESEND_API_KEY not configured');
+      return {
+        statusCode: 500,
+        body: JSON.stringify({ error: 'Email service not configured. Please add RESEND_API_KEY to Netlify environment variables.' })
+      };
+    }
 
     // Email HTML content
     const emailHtml = `
