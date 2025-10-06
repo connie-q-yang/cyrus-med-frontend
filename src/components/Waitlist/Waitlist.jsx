@@ -1,27 +1,76 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { toast } from 'react-toastify';
+import { addToWaitlist, getWaitlistCount } from '../../lib/supabase';
 import './Waitlist.css';
 
 const Waitlist = () => {
   const [email, setEmail] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [waitlistCount, setWaitlistCount] = useState(15000);
   const { ref, inView } = useInView({
     threshold: 0.1,
     triggerOnce: true
   });
 
+  useEffect(() => {
+    // Fetch actual waitlist count on mount
+    const fetchCount = async () => {
+      const count = await getWaitlistCount();
+      if (count > 0) {
+        setWaitlistCount(15000 + count); // Start with base number + actual signups
+      }
+    };
+    fetchCount();
+  }, []);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Basic email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      toast.error('Please enter a valid email address');
+      return;
+    }
+
     setIsSubmitting(true);
 
-    // Simulate API call - replace with actual backend integration
-    setTimeout(() => {
-      toast.success('Welcome to the future of healthcare! Check your email for next steps.');
-      setEmail('');
+    try {
+      const result = await addToWaitlist(email);
+
+      if (result.success) {
+        // Send welcome email via Netlify Function
+        fetch('/.netlify/functions/send-welcome-email', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ email }),
+        })
+        .then(res => res.json())
+        .then(data => {
+          console.log('Email sent:', data);
+        })
+        .catch(err => {
+          console.error('Email error:', err);
+          // Don't show error to user as the signup was successful
+        });
+
+        toast.success(result.message || 'Welcome to Cyrus Med! Check your email for next steps.');
+        setEmail('');
+        // Update count
+        setWaitlistCount(prev => prev + 1);
+      } else {
+        toast.info(result.message || 'Something went wrong. Please try again.');
+      }
+    } catch (error) {
+      console.error('Waitlist submission error:', error);
+      toast.error('Unable to join waitlist. Please try again later.');
+    } finally {
       setIsSubmitting(false);
-    }, 1000);
+    }
   };
 
   const scrollToChat = () => {
@@ -92,7 +141,7 @@ const Waitlist = () => {
 
           <div className="waitlist-stats">
             <div className="stat">
-              <span className="stat-number">15,000+</span>
+              <span className="stat-number">{waitlistCount.toLocaleString()}+</span>
               <span className="stat-label">people waiting</span>
             </div>
             <div className="stat-divider"></div>
