@@ -1,4 +1,5 @@
 import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Header from './components/Header/Header';
@@ -7,18 +8,32 @@ import FutureHealthcare from './components/FutureHealthcare/FutureHealthcare';
 import ChatPreview from './components/ChatPreview/ChatPreview';
 import Waitlist from './components/Waitlist/Waitlist';
 import BackgroundOrbs from './components/BackgroundEffects/BackgroundOrbs';
+import AboutUs from './components/AboutUs/AboutUs';
 import './App.css';
 
-function App() {
+function HomePage() {
   return (
-    <div className="App">
+    <>
       <BackgroundOrbs />
       <Header />
       <Hero />
       <FutureHealthcare />
       <ChatPreview />
       <Waitlist />
-      <ToastContainer 
+    </>
+  );
+}
+
+function App() {
+  return (
+    <div className="App">
+      <Router>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/about" element={<AboutUs />} />
+        </Routes>
+      </Router>
+      <ToastContainer
         position="bottom-right"
         theme="dark"
         autoClose={3000}

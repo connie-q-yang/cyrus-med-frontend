@@ -62,6 +62,9 @@ const Header = () => {
               <button onClick={() => scrollToSection('chat-section')} className="nav-link">
                 Try Demo
               </button>
+              <a href="/about" target="_blank" rel="noopener noreferrer" className="nav-link">
+                About Us
+              </a>
             </nav>
 
             <div className="header-actions">
@@ -109,6 +112,9 @@ const Header = () => {
             <button onClick={() => scrollToSection('chat-section')} className="mobile-nav-link">
               Try Demo
             </button>
+            <a href="/about" target="_blank" rel="noopener noreferrer" className="mobile-nav-link">
+              About Us
+            </a>
             <button
               className="mobile-beta-button"
               onClick={() => scrollToSection('waitlist')}

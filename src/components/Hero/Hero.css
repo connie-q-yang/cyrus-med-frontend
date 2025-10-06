@@ -124,7 +124,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 48px;
+  margin-bottom: 56px;
 }
 
 .hero-subtitle {
@@ -198,9 +198,17 @@
 .cta-container {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 24px;
   align-items: center;
-  animation: fadeInUp 1s ease-out 0.8s backwards;
+  animation: fadeInUp 1s ease-out 0.6s backwards;
+}
+
+.cta-buttons {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
 }
 
 .cta-primary {
@@ -246,6 +254,50 @@
   background: linear-gradient(135deg, #fff 0%, rgba(255, 255, 255, 0.95) 100%);
 }
 
+.cta-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 24px 56px;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.9);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 100px;
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+}
+
+.cta-secondary::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.cta-secondary:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+.cta-secondary:hover {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 10px 40px rgba(255, 255, 255, 0.08);
+}
+
 .cta-subtitle {
   font-size: 12px;
   color: rgba(255, 255, 255, 0.4);
@@ -268,17 +320,16 @@
     font-size: 20px;
   }
 
-  .trust-indicators {
-    gap: 40px;
+  .cta-buttons {
+    flex-direction: column;
+    width: 100%;
   }
 
-  .indicator-number {
-    font-size: 28px;
-  }
-
-  .cta-primary {
+  .cta-primary, .cta-secondary {
     padding: 20px 48px;
     font-size: 15px;
+    width: 100%;
+    max-width: 300px;
   }
 
   .hero-badge span {

@@ -5,7 +5,6 @@ import './Hero.css';
 
 const Hero = () => {
   const [currentBenefit, setCurrentBenefit] = useState(0);
-  const [consultationCount, setConsultationCount] = useState(15571632);
   const [isChatOpen, setIsChatOpen] = useState(false);
 
   const benefits = [
@@ -20,13 +19,8 @@ const Hero = () => {
       setCurrentBenefit((prev) => (prev + 1) % benefits.length);
     }, 3000);
 
-    const countInterval = setInterval(() => {
-      setConsultationCount(prev => prev + Math.floor(Math.random() * 3) + 1);
-    }, 5000);
-
     return () => {
       clearInterval(benefitInterval);
-      clearInterval(countInterval);
     };
   }, [benefits.length]);
 
@@ -38,6 +32,10 @@ const Hero = () => {
   const closeChat = () => {
     setIsChatOpen(false);
     document.body.style.overflow = 'auto';
+  };
+
+  const scrollToWaitlist = () => {
+    document.getElementById('waitlist')?.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
@@ -76,31 +74,15 @@ const Hero = () => {
             </AnimatePresence>
           </div>
 
-          <div className="trust-indicators">
-            <motion.div
-              className="indicator"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.8 }}
-            >
-              <span className="indicator-number">{consultationCount.toLocaleString()}</span>
-              <span className="indicator-label">consultations completed</span>
-            </motion.div>
-            <motion.div
-              className="indicator"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 1 }}
-            >
-              <span className="indicator-number">$39</span>
-              <span className="indicator-label">for video doctor visit</span>
-            </motion.div>
-          </div>
-
           <div className="cta-container">
-            <button className="cta-primary" onClick={openChat}>
-              Start Free Consultation
-            </button>
+            <div className="cta-buttons">
+              <button className="cta-primary" onClick={openChat}>
+                Start Free Consultation
+              </button>
+              <button className="cta-secondary" onClick={scrollToWaitlist}>
+                Get on Waitlist
+              </button>
+            </div>
             <p className="cta-subtitle">No signup required • Get answers in seconds</p>
           </div>
         </motion.div>
