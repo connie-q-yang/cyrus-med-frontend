@@ -9,6 +9,7 @@ const Waitlist = () => {
   const [email, setEmail] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [waitlistCount, setWaitlistCount] = useState(15000);
+  const [betaSpotsLeft, setBetaSpotsLeft] = useState(500);
   const { ref, inView } = useInView({
     threshold: 0.1,
     triggerOnce: true
@@ -20,6 +21,9 @@ const Waitlist = () => {
       const count = await getWaitlistCount();
       if (count > 0) {
         setWaitlistCount(15000 + count); // Start with base number + actual signups
+        // Calculate remaining beta spots (500 total spots)
+        const spotsLeft = Math.max(0, 500 - count);
+        setBetaSpotsLeft(spotsLeft);
       }
     };
     fetchCount();
@@ -60,8 +64,9 @@ const Waitlist = () => {
 
         toast.success(result.message || 'Welcome to Cyrus Med! Check your email for next steps.');
         setEmail('');
-        // Update count
+        // Update counts
         setWaitlistCount(prev => prev + 1);
+        setBetaSpotsLeft(prev => Math.max(0, prev - 1));
       } else {
         toast.info(result.message || 'Something went wrong. Please try again.');
       }
@@ -92,7 +97,9 @@ const Waitlist = () => {
           transition={{ duration: 0.6, delay: 0.2 }}
         >
           <div className="exclusive-badge">
-            <span className="badge-text">LIMITED BETA ACCESS</span>
+            <span className="badge-text">
+              {betaSpotsLeft < 50 ? '⚡ ALMOST FULL' : 'LIMITED BETA ACCESS'}
+            </span>
           </div>
 
           <h2>Reserve Your Spot</h2>
@@ -146,7 +153,9 @@ const Waitlist = () => {
             </div>
             <div className="stat-divider"></div>
             <div className="stat">
-              <span className="stat-number">500</span>
+              <span className="stat-number" style={{ color: betaSpotsLeft < 100 ? '#ff6b6b' : 'inherit' }}>
+                {betaSpotsLeft}
+              </span>
               <span className="stat-label">beta spots left</span>
             </div>
           </div>
