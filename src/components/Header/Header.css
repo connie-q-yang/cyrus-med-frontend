@@ -262,6 +262,14 @@
   .mobile-menu-toggle {
     display: block;
   }
+
+  .consult-button {
+    display: none;
+  }
+
+  .header-actions {
+    justify-content: center;
+  }
 }
 
 @media (max-width: 640px) {
