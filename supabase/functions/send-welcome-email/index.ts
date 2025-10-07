@@ -67,7 +67,7 @@ serve(async (req) => {
                             </div>
 
                             <div style="text-align: center; margin: 40px 0;">
-                                <a href="https://cyrusmed.com" style="display: inline-block; background: linear-gradient(135deg, #8A7CF4, #4CB3D4); color: white; padding: 16px 48px; border-radius: 100px; text-decoration: none; font-weight: 600;">
+                                <a href="https://cyrusmed.netlify.app" style="display: inline-block; background: linear-gradient(135deg, #8A7CF4, #4CB3D4); color: white; padding: 16px 48px; border-radius: 100px; text-decoration: none; font-weight: 600;">
                                     Visit Cyrus Med
                                 </a>
                             </div>

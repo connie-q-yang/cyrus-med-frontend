@@ -84,7 +84,7 @@ exports.handler = async (event) => {
                                 <p style="color: rgba(255,255,255,0.9); font-size: 14px; margin: 0 0 20px 0;">
                                     Refer 3 friends and get instant access when we launch
                                 </p>
-                                <a href="https://cyrusmed.com" style="display: inline-block; background: white; color: #0A2540; padding: 12px 32px; border-radius: 100px; text-decoration: none; font-weight: 600; font-size: 14px;">
+                                <a href="https://cyrusmed.netlify.app" style="display: inline-block; background: white; color: #0A2540; padding: 12px 32px; border-radius: 100px; text-decoration: none; font-weight: 600; font-size: 14px;">
                                     Share with Friends
                                 </a>
                             </div>
