@@ -14,13 +14,9 @@ export { supabase };
 
 // Function to add email to waitlist
 export const addToWaitlist = async (email) => {
-  // For now, we'll store in localStorage as a fallback
-  // since Supabase seems to have authentication issues
   try {
-    // Get existing waitlist from localStorage
+    // First check localStorage to prevent duplicates
     const existingWaitlist = JSON.parse(localStorage.getItem('waitlist') || '[]');
-
-    // Check if email already exists
     if (existingWaitlist.some(item => item.email === email.toLowerCase())) {
       return {
         success: false,
@@ -28,40 +24,62 @@ export const addToWaitlist = async (email) => {
       };
     }
 
-    // Add to localStorage
+    // Try to save to Supabase first
+    if (supabase) {
+      try {
+        const { data, error } = await supabase
+          .from('waitlist')
+          .insert([
+            {
+              email: email.toLowerCase(),
+              joined_at: new Date().toISOString(),
+              source: 'website',
+              status: 'pending'
+            }
+          ])
+          .select();
+
+        if (error) {
+          // Check if email already exists in database
+          if (error.code === '23505') {
+            return {
+              success: false,
+              message: 'You\'re already on the waitlist! Check your email for updates.'
+            };
+          }
+          // If other Supabase error, fall back to localStorage
+          console.warn('Supabase error, falling back to localStorage:', error);
+          throw error;
+        }
+
+        // Success - also save to localStorage for offline access
+        existingWaitlist.push({
+          email: email.toLowerCase(),
+          joined_at: new Date().toISOString(),
+          source: 'website',
+          status: 'pending'
+        });
+        localStorage.setItem('waitlist', JSON.stringify(existingWaitlist));
+
+        return {
+          success: true,
+          message: 'Welcome to OpenHealth! Check your email for next steps.',
+          data
+        };
+      } catch (supabaseError) {
+        // Fallback to localStorage if Supabase fails
+        console.log('Using localStorage fallback');
+      }
+    }
+
+    // Fallback: Save to localStorage only
     existingWaitlist.push({
       email: email.toLowerCase(),
       joined_at: new Date().toISOString(),
       source: 'website',
       status: 'pending'
     });
-
     localStorage.setItem('waitlist', JSON.stringify(existingWaitlist));
-
-    // Try to save to Supabase if available (but don't block on errors)
-    if (supabase) {
-      supabase
-        .from('waitlist')
-        .insert([
-          {
-            email: email.toLowerCase(),
-            joined_at: new Date().toISOString(),
-            source: 'website',
-            status: 'pending'
-          }
-        ])
-        .select()
-        .then(({ data, error }) => {
-          if (!error) {
-            console.log('Successfully saved to Supabase:', data);
-          } else {
-            console.warn('Supabase save failed, but email saved locally:', error);
-          }
-        })
-        .catch(err => {
-          console.warn('Supabase error (non-blocking):', err);
-        });
-    }
 
     return {
       success: true,
@@ -80,11 +98,11 @@ export const addToWaitlist = async (email) => {
 // Function to get waitlist count (optional - for displaying stats)
 export const getWaitlistCount = async () => {
   try {
-    // First try to get from localStorage
+    // Get local count first
     const localWaitlist = JSON.parse(localStorage.getItem('waitlist') || '[]');
     const localCount = localWaitlist.length;
 
-    // If Supabase is available, try to get the count from there too
+    // Try to get count from Supabase
     if (supabase) {
       try {
         const { count, error } = await supabase
@@ -92,15 +110,15 @@ export const getWaitlistCount = async () => {
           .select('*', { count: 'exact', head: true });
 
         if (!error && count !== null) {
-          // Return the higher count (in case some are in Supabase but not local)
-          return Math.max(count, localCount);
+          // Return the database count if successful
+          return count;
         }
       } catch (supabaseError) {
-        console.warn('Supabase count failed, using local count:', supabaseError);
+        console.log('Using localStorage count as fallback');
       }
     }
 
-    // Return local count as fallback
+    // Fallback to local count
     return localCount;
   } catch (error) {
     console.error('Error getting waitlist count:', error);
