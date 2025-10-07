@@ -60,7 +60,7 @@ const Waitlist = () => {
           // Don't show error to user as the signup was successful
         });
 
-        toast.success(result.message || 'Welcome to Cyrus Med! Check your email for next steps.');
+        toast.success(result.message || 'Welcome to OpenHealth! Check your email for next steps.');
         setEmail('');
         // Update remaining spots
         setBetaSpotsLeft(prev => Math.max(0, prev - 1));

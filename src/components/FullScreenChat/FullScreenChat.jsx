@@ -154,7 +154,7 @@ const FullScreenChat = ({ isOpen, onClose }) => {
               </div>
               <div className="header-content">
                 <div className="header-info">
-                  <h2>Cyrus AI Health Companion</h2>
+                  <h2>OpenHealth AI Health Companion</h2>
                 </div>
                 <div className="header-actions">
                   {messages.length > 1 && (

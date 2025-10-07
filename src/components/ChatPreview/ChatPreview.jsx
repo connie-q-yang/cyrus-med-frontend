@@ -30,7 +30,7 @@ const ChatPreview = () => {
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
         >
-          <h2>Experience Cyrus in Action</h2>
+          <h2>Experience OpenHealth in Action</h2>
           <p>Get instant, personalized medical guidance 24/7</p>
         </motion.div>
 

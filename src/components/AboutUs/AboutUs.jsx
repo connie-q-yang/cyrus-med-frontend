@@ -18,7 +18,7 @@ const AboutUs = () => {
             <h2>Our Philosophy</h2>
             <p>
               Getting the right care fast should feel simple, private, and reassuring.
-              Cyrus is a 24/7 health guide that helps you understand symptoms, decide
+              OpenHealth is a 24/7 health guide that helps you understand symptoms, decide
               what to do now, and, when it is safer, get to Urgent Care or the ER
               without delay. It is free to use, with affordable access to licensed
               clinicians when you want a human.
@@ -26,11 +26,11 @@ const AboutUs = () => {
           </section>
 
           <section className="about-section">
-            <h2>How Cyrus Helps</h2>
+            <h2>How OpenHealth Helps</h2>
             <p>
               Think of it as a careful co-pilot: it organizes your story, flags red
               flags, and suggests the next best step (self-care, clinic, Urgent Care
-              or ER), plus practical actions like click to call and directions. Cyrus
+              or ER), plus practical actions like click to call and directions. OpenHealth
               is not a medical diagnosis and can make mistakes; it works best alongside
               licensed professionals, especially for urgent or complex issues.
             </p>
@@ -39,7 +39,7 @@ const AboutUs = () => {
           <section className="about-section">
             <h2>Your Privacy Comes First</h2>
             <p>
-              Use Cyrus anonymously or create an account to save chats. We use
+              Use OpenHealth anonymously or create an account to save chats. We use
               HIPAA-grade protections. Your data is yours, we do not sell it, and
               we will not use your personal conversations to train AI without your
               explicit consent.

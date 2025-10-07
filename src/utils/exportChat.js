@@ -7,7 +7,7 @@ export const exportChatAsDocx = async (messages) => {
       properties: {},
       children: [
         new Paragraph({
-          text: "Cyrus Med - Health Consultation Summary",
+          text: "OpenHealth - Health Consultation Summary",
           heading: HeadingLevel.HEADING_1,
           spacing: { after: 400 }
         }),
@@ -55,7 +55,7 @@ export const exportChatAsDocx = async (messages) => {
           return new Paragraph({
             children: [
               new TextRun({
-                text: isUser ? "You: " : "Cyrus: ",
+                text: isUser ? "You: " : "OpenHealth: ",
                 bold: true,
                 color: isUser ? "2563EB" : "10B981"
               }),
@@ -92,7 +92,7 @@ export const exportChatAsDocx = async (messages) => {
           spacing: { after: 400 }
         }),
         new Paragraph({
-          text: "© 2025 Cyrus Med - AI Health Companion",
+          text: "© 2025 OpenHealth - AI Health Companion",
           italics: true,
           alignment: "center",
           spacing: { before: 400 }
@@ -102,12 +102,12 @@ export const exportChatAsDocx = async (messages) => {
   });
 
   const blob = await Packer.toBlob(doc);
-  const fileName = `cyrus-med-chat-${new Date().toISOString().slice(0, 10)}.docx`;
+  const fileName = `openhealth-chat-${new Date().toISOString().slice(0, 10)}.docx`;
   saveAs(blob, fileName);
 };
 
 export const exportChatAsText = (messages) => {
-  let text = "CYRUS MED - HEALTH CONSULTATION SUMMARY\n";
+  let text = "OPENHEALTH - HEALTH CONSULTATION SUMMARY\n";
   text += "=".repeat(40) + "\n\n";
   text += `Generated: ${new Date().toLocaleString()}\n`;
   text += "Status: Secure • Anonymous • Educational Purpose Only\n\n";
@@ -120,7 +120,7 @@ export const exportChatAsText = (messages) => {
   text += "=".repeat(40) + "\n\n";
 
   messages.forEach(msg => {
-    const speaker = msg.role === 'user' ? 'YOU' : 'CYRUS';
+    const speaker = msg.role === 'user' ? 'YOU' : 'OPENHEALTH';
     text += `${speaker}:\n${msg.content}\n\n`;
   });
 
@@ -130,9 +130,9 @@ export const exportChatAsText = (messages) => {
   text += "• This conversation is for informational purposes only\n";
   text += "• Always consult with healthcare professionals for medical advice\n";
   text += "• Keep this document secure if it contains personal health information\n\n";
-  text += "© 2025 Cyrus Med - AI Health Companion\n";
+  text += "© 2025 OpenHealth - AI Health Companion\n";
 
   const blob = new Blob([text], { type: 'text/plain' });
-  const fileName = `cyrus-med-chat-${new Date().toISOString().slice(0, 10)}.txt`;
+  const fileName = `openhealth-chat-${new Date().toISOString().slice(0, 10)}.txt`;
   saveAs(blob, fileName);
 };

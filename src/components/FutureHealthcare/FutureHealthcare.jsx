@@ -109,7 +109,7 @@ const FutureHealthcare = () => {
                     </svg>
                   </div>
                   <div className="transform-after">
-                    <span className="transform-label">With Cyrus</span>
+                    <span className="transform-label">With OpenHealth</span>
                     <span className="transform-value">{transform.after}</span>
                   </div>
                 </div>

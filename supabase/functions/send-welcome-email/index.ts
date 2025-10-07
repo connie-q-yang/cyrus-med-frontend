@@ -41,7 +41,7 @@ serve(async (req) => {
                     <tr>
                         <td style="background: linear-gradient(135deg, #0A2540 0%, #062033 100%); padding: 48px 40px; text-align: center; border-radius: 16px 16px 0 0;">
                             <h1 style="color: white; font-size: 32px; font-weight: 200; margin: 0;">
-                                Welcome to <span style="font-weight: 400;">Cyrus Med</span>
+                                Welcome to <span style="font-weight: 400;">OpenHealth</span>
                             </h1>
                             <p style="color: rgba(255,255,255,0.8); font-size: 16px; margin: 12px 0 0 0;">
                                 You're part of our exclusive beta community
@@ -53,13 +53,13 @@ serve(async (req) => {
                             <h2 style="color: #0A2540; font-size: 24px; margin: 0 0 24px 0;">🎉 You're In!</h2>
 
                             <p style="color: #4a5568; font-size: 16px; line-height: 1.6; margin: 0 0 24px 0;">
-                                Thank you for joining Cyrus Med. You're among the first to experience the future of AI-powered healthcare guidance.
+                                Thank you for joining OpenHealth. You're among the first to experience the future of AI-powered healthcare guidance.
                             </p>
 
                             <div style="background: #f7fafc; border-left: 4px solid #4CB3D4; padding: 20px; margin: 32px 0;">
                                 <h3 style="color: #0A2540; font-size: 18px; margin: 0 0 12px 0;">What's Next?</h3>
                                 <ul style="color: #4a5568; font-size: 15px; line-height: 1.8; margin: 0; padding-left: 20px;">
-                                    <li><strong>Priority Access:</strong> First to try Cyrus when we launch</li>
+                                    <li><strong>Priority Access:</strong> First to try OpenHealth when we launch</li>
                                     <li><strong>Free Credits:</strong> $50 in consultation credits for beta users</li>
                                     <li><strong>Shape the Future:</strong> Your feedback drives our development</li>
                                     <li><strong>24/7 Support:</strong> Get help whenever you need it</li>
@@ -67,8 +67,8 @@ serve(async (req) => {
                             </div>
 
                             <div style="text-align: center; margin: 40px 0;">
-                                <a href="https://cyrusmed.netlify.app" style="display: inline-block; background: linear-gradient(135deg, #8A7CF4, #4CB3D4); color: white; padding: 16px 48px; border-radius: 100px; text-decoration: none; font-weight: 600;">
-                                    Visit Cyrus Med
+                                <a href="https://openhealth.netlify.app" style="display: inline-block; background: linear-gradient(135deg, #8A7CF4, #4CB3D4); color: white; padding: 16px 48px; border-radius: 100px; text-decoration: none; font-weight: 600;">
+                                    Visit OpenHealth
                                 </a>
                             </div>
 
@@ -80,7 +80,7 @@ serve(async (req) => {
                     <tr>
                         <td style="background: #f7fafc; padding: 32px 40px; text-align: center; border-radius: 0 0 16px 16px;">
                             <p style="color: #718096; font-size: 13px; margin: 0;">
-                                © 2025 Cyrus Med. All rights reserved.
+                                © 2025 OpenHealth. All rights reserved.
                             </p>
                         </td>
                     </tr>
@@ -106,9 +106,9 @@ serve(async (req) => {
         'Authorization': `Bearer ${RESEND_API_KEY}`,
       },
       body: JSON.stringify({
-        from: 'Cyrus Med <welcome@cyrusmed.com>',
+        from: 'OpenHealth <welcome@openhealth.com>',
         to: record.email,
-        subject: 'Welcome to Cyrus Med Beta 🎉',
+        subject: 'Welcome to OpenHealth Beta 🎉',
         html: emailHtml,
       }),
     })

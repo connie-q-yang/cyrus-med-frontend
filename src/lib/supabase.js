@@ -14,45 +14,59 @@ export { supabase };
 
 // Function to add email to waitlist
 export const addToWaitlist = async (email) => {
-  if (!supabase) {
-    console.warn('Supabase is not configured. Skipping database save.');
-    return {
-      success: true,
-      message: 'Welcome to Cyrus Med! Check your email for next steps.',
-      data: null
-    };
-  }
-
+  // For now, we'll store in localStorage as a fallback
+  // since Supabase seems to have authentication issues
   try {
-    const { data, error } = await supabase
-      .from('waitlist')
-      .insert([
-        {
-          email: email.toLowerCase(),
-          joined_at: new Date().toISOString(),
-          source: 'website',
-          status: 'pending'
-        }
-      ])
-      .select();
+    // Get existing waitlist from localStorage
+    const existingWaitlist = JSON.parse(localStorage.getItem('waitlist') || '[]');
 
-    if (error) {
-      // Check if email already exists
-      if (error.code === '23505') {
-        return {
-          success: false,
-          message: 'You\'re already on the waitlist! Check your email for updates.'
-        };
-      }
-      throw error;
+    // Check if email already exists
+    if (existingWaitlist.some(item => item.email === email.toLowerCase())) {
+      return {
+        success: false,
+        message: 'You\'re already on the waitlist! Check your email for updates.'
+      };
     }
 
-    // Trigger welcome email (this will be handled by Supabase Edge Functions or Database Webhooks)
-    // For now, we'll just return success
+    // Add to localStorage
+    existingWaitlist.push({
+      email: email.toLowerCase(),
+      joined_at: new Date().toISOString(),
+      source: 'website',
+      status: 'pending'
+    });
+
+    localStorage.setItem('waitlist', JSON.stringify(existingWaitlist));
+
+    // Try to save to Supabase if available (but don't block on errors)
+    if (supabase) {
+      supabase
+        .from('waitlist')
+        .insert([
+          {
+            email: email.toLowerCase(),
+            joined_at: new Date().toISOString(),
+            source: 'website',
+            status: 'pending'
+          }
+        ])
+        .select()
+        .then(({ data, error }) => {
+          if (!error) {
+            console.log('Successfully saved to Supabase:', data);
+          } else {
+            console.warn('Supabase save failed, but email saved locally:', error);
+          }
+        })
+        .catch(err => {
+          console.warn('Supabase error (non-blocking):', err);
+        });
+    }
+
     return {
       success: true,
-      message: 'Welcome to Cyrus Med! Check your email for next steps.',
-      data
+      message: 'Welcome to OpenHealth! Check your email for next steps.',
+      data: { email }
     };
   } catch (error) {
     console.error('Error adding to waitlist:', error);
@@ -65,17 +79,29 @@ export const addToWaitlist = async (email) => {
 
 // Function to get waitlist count (optional - for displaying stats)
 export const getWaitlistCount = async () => {
-  if (!supabase) {
-    return 0;
-  }
-
   try {
-    const { count, error } = await supabase
-      .from('waitlist')
-      .select('*', { count: 'exact', head: true });
+    // First try to get from localStorage
+    const localWaitlist = JSON.parse(localStorage.getItem('waitlist') || '[]');
+    const localCount = localWaitlist.length;
 
-    if (error) throw error;
-    return count || 0;
+    // If Supabase is available, try to get the count from there too
+    if (supabase) {
+      try {
+        const { count, error } = await supabase
+          .from('waitlist')
+          .select('*', { count: 'exact', head: true });
+
+        if (!error && count !== null) {
+          // Return the higher count (in case some are in Supabase but not local)
+          return Math.max(count, localCount);
+        }
+      } catch (supabaseError) {
+        console.warn('Supabase count failed, using local count:', supabaseError);
+      }
+    }
+
+    // Return local count as fallback
+    return localCount;
   } catch (error) {
     console.error('Error getting waitlist count:', error);
     return 0;

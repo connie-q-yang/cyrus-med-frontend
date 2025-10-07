@@ -1,5 +1,5 @@
 {
-    "name": "cyrus-med-v1",
+    "name": "openhealth-v1",
     "version": "0.1.0",
     "private": true,
     "dependencies": {
