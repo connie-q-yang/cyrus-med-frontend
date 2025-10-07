@@ -93,50 +93,33 @@ const Waitlist = () => {
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
-          {betaSpotsLeft < 100 && (
-            <motion.div
-              className="urgency-banner"
-              initial={{ scale: 0.9 }}
-              animate={{ scale: 1 }}
-              transition={{ duration: 0.3, repeat: Infinity, repeatType: "reverse", repeatDelay: 2 }}
-            >
-              🔥 Only {betaSpotsLeft} spots remaining!
-            </motion.div>
-          )}
-
           <div className="exclusive-badge">
-            <span className="badge-text">
-              {betaSpotsLeft < 50 ? '🚀 FINAL SPOTS AVAILABLE' : '✨ EXCLUSIVE BETA ACCESS'}
-            </span>
+            <span className="badge-text">LIMITED BETA ACCESS</span>
           </div>
 
-          <h2>Be Among The First {betaSpotsLeft}</h2>
+          <h2>Reserve Your Spot</h2>
           <p className="waitlist-subtitle">
-            Get <span className="highlight-text">$50 in free credits</span> and priority access to your AI health companion.
-            <br />Join innovators shaping the future of healthcare.
+            Join the exclusive beta program for AI-powered healthcare.
           </p>
 
-          <div className="value-props">
-            <div className="value-item">
-              <div className="value-icon">💰</div>
-              <div className="value-content">
-                <strong>$50 Free Credits</strong>
-                <span>Start with complimentary consultations</span>
-              </div>
+          <div className="waitlist-benefits">
+            <div className="benefit">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M2 8L6 12L14 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+              </svg>
+              <span>$50 in free consultation credits</span>
             </div>
-            <div className="value-item">
-              <div className="value-icon">⚡</div>
-              <div className="value-content">
-                <strong>Skip the Line</strong>
-                <span>First access when we launch</span>
-              </div>
+            <div className="benefit">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M2 8L6 12L14 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+              </svg>
+              <span>Priority access to all features</span>
             </div>
-            <div className="value-item">
-              <div className="value-icon">🎯</div>
-              <div className="value-content">
-                <strong>Shape the Product</strong>
-                <span>Your feedback drives our features</span>
-              </div>
+            <div className="benefit">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M2 8L6 12L14 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+              </svg>
+              <span>Help shape product development</span>
             </div>
           </div>
 
@@ -151,48 +134,20 @@ const Waitlist = () => {
                 disabled={isSubmitting}
                 className="email-input"
               />
-              <button type="submit" disabled={isSubmitting} className="submit-button pulse-animation">
-                {isSubmitting ? 'Securing Your Spot...' : betaSpotsLeft < 50 ? 'Claim Final Spot →' : 'Reserve My Spot →'}
+              <button type="submit" disabled={isSubmitting} className="submit-button">
+                {isSubmitting ? 'Processing...' : 'Get Early Access'}
               </button>
             </div>
           </form>
 
-          <div className="spots-indicator">
-            <div className="spots-progress">
-              <div
-                className="spots-progress-bar"
-                style={{
-                  width: `${((500 - betaSpotsLeft) / 500) * 100}%`,
-                  background: betaSpotsLeft < 100 ? 'linear-gradient(135deg, #ff6b6b, #ff4757)' : 'linear-gradient(135deg, #8A7CF4, #4CB3D4)'
-                }}
-              />
-            </div>
-            <p className="spots-text">
-              <strong>{betaSpotsLeft} of 500</strong> early access spots remaining
-            </p>
+          <div className="spots-remaining">
+            <span className="spots-number">{betaSpotsLeft}</span>
+            <span className="spots-label">spots remaining</span>
           </div>
 
-          <div className="trust-signals">
-            <div className="trust-item">
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                <path d="M8 1L10 6L15 7L11.5 10.5L12.5 15L8 12L3.5 15L4.5 10.5L1 7L6 6L8 1Z" stroke="currentColor" strokeWidth="1.5" fill="currentColor" opacity="0.3"/>
-              </svg>
-              <span>No credit card required</span>
-            </div>
-            <div className="trust-item">
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                <circle cx="8" cy="8" r="7" stroke="currentColor" strokeWidth="1.5"/>
-                <path d="M5 8L7 10L11 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-              </svg>
-              <span>Instant confirmation email</span>
-            </div>
-            <div className="trust-item">
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                <path d="M8 2L3 5V9C3 12 8 14 8 14C8 14 13 12 13 9V5L8 2Z" stroke="currentColor" strokeWidth="1.5" fill="currentColor" opacity="0.3"/>
-              </svg>
-              <span>HIPAA compliant</span>
-            </div>
-          </div>
+          <p className="privacy-note">
+            No credit card required. HIPAA compliant. Unsubscribe anytime.
+          </p>
         </motion.div>
 
         <motion.div
