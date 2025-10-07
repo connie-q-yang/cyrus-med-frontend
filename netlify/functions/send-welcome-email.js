@@ -100,7 +100,7 @@ exports.handler = async (event) => {
                                 Cyrus Med - Your AI Health Companion
                             </p>
                             <p style="color: #a0aec0; font-size: 12px; margin: 0;">
-                                © 2024 Cyrus Med. All rights reserved.
+                                © 2025 Cyrus Med. All rights reserved.
                             </p>
                         </td>
                     </tr>

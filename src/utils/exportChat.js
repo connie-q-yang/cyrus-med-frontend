@@ -92,7 +92,7 @@ export const exportChatAsDocx = async (messages) => {
           spacing: { after: 400 }
         }),
         new Paragraph({
-          text: "© 2024 Cyrus Med - AI Health Companion",
+          text: "© 2025 Cyrus Med - AI Health Companion",
           italics: true,
           alignment: "center",
           spacing: { before: 400 }
@@ -130,7 +130,7 @@ export const exportChatAsText = (messages) => {
   text += "• This conversation is for informational purposes only\n";
   text += "• Always consult with healthcare professionals for medical advice\n";
   text += "• Keep this document secure if it contains personal health information\n\n";
-  text += "© 2024 Cyrus Med - AI Health Companion\n";
+  text += "© 2025 Cyrus Med - AI Health Companion\n";
 
   const blob = new Blob([text], { type: 'text/plain' });
   const fileName = `cyrus-med-chat-${new Date().toISOString().slice(0, 10)}.txt`;

@@ -80,7 +80,7 @@ serve(async (req) => {
                     <tr>
                         <td style="background: #f7fafc; padding: 32px 40px; text-align: center; border-radius: 0 0 16px 16px;">
                             <p style="color: #718096; font-size: 13px; margin: 0;">
-                                © 2024 Cyrus Med. All rights reserved.
+                                © 2025 Cyrus Med. All rights reserved.
                             </p>
                         </td>
                     </tr>
