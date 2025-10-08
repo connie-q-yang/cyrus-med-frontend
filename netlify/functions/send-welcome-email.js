@@ -120,7 +120,7 @@ exports.handler = async (event) => {
         'Authorization': `Bearer ${RESEND_API_KEY}`,
       },
       body: JSON.stringify({
-        from: 'OpenHealth <onboarding@resend.dev>', // Change this to your verified domain later
+        from: 'onboarding@resend.dev', // Using Resend's test domain
         to: email,
         subject: 'Welcome to OpenHealth Beta! 🎉',
         html: emailHtml,
