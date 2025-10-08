@@ -1,17 +1,18 @@
 import { createClient } from '@supabase/supabase-js';
 
-// These will be replaced with your actual Supabase credentials
-const supabaseUrl = process.env.REACT_APP_SUPABASE_URL || 'https://rsgvhilaapbyhvzfmldu.supabase.co';
-const supabaseAnonKey = process.env.REACT_APP_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJzZ3ZoaWxhYXBieWh2emZtbGR1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTk1MjQxOTksImV4cCI6MjA3NTEwMDE5OX0.8Q3mimHi0mNqrwfJ1Wys4Jy71YUCvF-2dS6U4lKxKvI';
+// Using direct values to ensure they work in production
+const supabaseUrl = 'https://rsgvhilaapbyhvzfmldu.supabase.co';
+const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJzZ3ZoaWxhYXBieWh2emZtbGR1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTk1MjQxOTksImV4cCI6MjA3NTEwMDE5OX0.8Q3mimHi0mNqrwfJ1Wys4Jy71YUCvF-2dS6U4lKxKvI';
 
-// Create Supabase client only if credentials are available
-let supabase = null;
-if (supabaseUrl && supabaseAnonKey) {
-  supabase = createClient(supabaseUrl, supabaseAnonKey);
-  console.log('Supabase initialized with URL:', supabaseUrl);
-} else {
-  console.error('Supabase credentials missing!');
-}
+// Create Supabase client with additional options
+const supabase = createClient(supabaseUrl, supabaseAnonKey, {
+  auth: {
+    persistSession: false,
+    autoRefreshToken: false,
+  },
+});
+
+console.log('Supabase initialized with URL:', supabaseUrl);
 
 export { supabase };
 
