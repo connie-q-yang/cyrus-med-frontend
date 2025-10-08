@@ -8,6 +8,9 @@ const supabaseAnonKey = process.env.REACT_APP_SUPABASE_ANON_KEY || 'eyJhbGciOiJI
 let supabase = null;
 if (supabaseUrl && supabaseAnonKey) {
   supabase = createClient(supabaseUrl, supabaseAnonKey);
+  console.log('Supabase initialized with URL:', supabaseUrl);
+} else {
+  console.error('Supabase credentials missing!');
 }
 
 export { supabase };
