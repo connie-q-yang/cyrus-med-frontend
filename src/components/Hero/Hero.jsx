@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import FullScreenChat from '../FullScreenChat/FullScreenChat';
+import { trackButtonClick } from '../../utils/analytics';
 import './Hero.css';
 
 const Hero = () => {
@@ -25,6 +26,7 @@ const Hero = () => {
   }, [benefits.length]);
 
   const openChat = () => {
+    trackButtonClick('try_demo', 'hero');
     setIsChatOpen(true);
     document.body.style.overflow = 'hidden';
   };
@@ -35,6 +37,7 @@ const Hero = () => {
   };
 
   const scrollToWaitlist = () => {
+    trackButtonClick('get_on_waitlist', 'hero');
     document.getElementById('waitlist')?.scrollIntoView({ behavior: 'smooth' });
   };
 

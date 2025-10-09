@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import ChatMessage from '../ChatPreview/ChatMessage';
 import useChat from '../../hooks/useChat';
 import { exportChatAsDocx, exportChatAsText } from '../../utils/exportChat';
+import { trackDemoAction, trackChatMetrics, trackButtonClick } from '../../utils/analytics';
 import './FullScreenChat.css';
 
 const samplePrompts = [
@@ -75,6 +76,8 @@ const FullScreenChat = ({ isOpen, onClose }) => {
   const { messages, sendMessage, isLoading } = useChat();
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
+  const sessionStartRef = useRef(null);
+  const messageCountRef = useRef(0);
 
   // Only scroll when new messages are added, not on every render
   useEffect(() => {
@@ -92,16 +95,38 @@ const FullScreenChat = ({ isOpen, onClose }) => {
     }
   }, [messages]);
 
-  // Focus input when opened
+  // Focus input when opened and track session start
   useEffect(() => {
-    if (isOpen && inputRef.current) {
-      inputRef.current.focus();
+    if (isOpen) {
+      if (inputRef.current) {
+        inputRef.current.focus();
+      }
+      // Track demo opened
+      trackDemoAction('demo_opened');
+      sessionStartRef.current = Date.now();
+      messageCountRef.current = 0;
+    } else if (sessionStartRef.current) {
+      // Track session metrics when closing
+      const sessionDuration = Math.floor((Date.now() - sessionStartRef.current) / 1000);
+      trackChatMetrics({
+        messageCount: messageCountRef.current,
+        duration: sessionDuration,
+        topicCount: Math.ceil(messageCountRef.current / 2)
+      });
+      sessionStartRef.current = null;
     }
   }, [isOpen]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (input.trim() && !isLoading) {
+      // Track message sent (not the content)
+      trackDemoAction('message_sent', {
+        messageNumber: messageCountRef.current + 1,
+        inputMethod: 'manual'
+      });
+      messageCountRef.current++;
+
       await sendMessage(input);
       setInput('');
       setShowPrompts(false);
@@ -109,6 +134,18 @@ const FullScreenChat = ({ isOpen, onClose }) => {
   };
 
   const handlePromptClick = async (prompt) => {
+    // Track prompt usage (category, not the actual prompt)
+    const category = samplePrompts.find(cat =>
+      cat.prompts.includes(prompt)
+    )?.category || 'unknown';
+
+    trackDemoAction('prompt_selected', {
+      category: category,
+      messageNumber: messageCountRef.current + 1,
+      inputMethod: 'prompt'
+    });
+    messageCountRef.current++;
+
     setInput(prompt);
     setShowPrompts(false);
     await sendMessage(prompt);
@@ -161,7 +198,10 @@ const FullScreenChat = ({ isOpen, onClose }) => {
                     <div className="export-buttons">
                       <button
                         className="export-btn"
-                        onClick={() => exportChatAsDocx(messages)}
+                        onClick={() => {
+                          trackButtonClick('export_docx', 'demo_chat');
+                          exportChatAsDocx(messages);
+                        }}
                         title="Download as Word Document"
                       >
                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
@@ -172,7 +212,10 @@ const FullScreenChat = ({ isOpen, onClose }) => {
                       </button>
                       <button
                         className="export-btn text"
-                        onClick={() => exportChatAsText(messages)}
+                        onClick={() => {
+                          trackButtonClick('export_text', 'demo_chat');
+                          exportChatAsText(messages);
+                        }}
                         title="Download as Text"
                       >
                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none">

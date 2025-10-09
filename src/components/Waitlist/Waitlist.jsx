@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { toast } from 'react-toastify';
 import { addToWaitlist, getWaitlistCount } from '../../lib/supabase';
+import { trackWaitlistSignup } from '../../utils/analytics';
 import './Waitlist.css';
 
 const Waitlist = () => {
@@ -59,6 +60,9 @@ const Waitlist = () => {
           console.error('Email error:', err);
           // Don't show error to user as the signup was successful
         });
+
+        // Track successful signup
+        trackWaitlistSignup(email, 'waitlist_section');
 
         toast.success(result.message || 'Welcome to OpenMedicine! Check your email for next steps.');
         setEmail('');

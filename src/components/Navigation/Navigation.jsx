@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { trackButtonClick } from '../../utils/analytics';
 import './Navigation.css';
 
 const Navigation = () => {
@@ -13,6 +14,7 @@ const Navigation = () => {
   }, []);
 
   const scrollToWaitlist = () => {
+    trackButtonClick('join_beta', 'navigation');
     document.getElementById('waitlist').scrollIntoView({ behavior: 'smooth' });
   };
 
