@@ -8,10 +8,10 @@ const Hero = () => {
   const [isChatOpen, setIsChatOpen] = useState(false);
 
   const benefits = [
-    "Feel better in hours, not days",
-    "Available 24/7, whenever you need care",
-    "Proactive health insights before issues arise",
-    "Evidence-based care from advanced AI"
+    "Skip the 3-week wait for appointments",
+    "Get answers in seconds, not hours",
+    "Know if you need urgent care or can rest",
+    "Save hundreds on unnecessary ER visits"
   ];
 
   useEffect(() => {
@@ -47,17 +47,7 @@ const Hero = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
-          <div className="hero-badge">
-            <motion.span
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ delay: 0.5, type: "spring" }}
-            >
-              Fast & Free
-            </motion.span>
-          </div>
-
-          <h1>Your AI Doctor Who Actually <span className="gradient-text">Gets You</span></h1>
+          <h1>Clarity for your health concerns. <span className="gradient-text">Instantly.</span></h1>
 
           <div className="benefits-carousel">
             <AnimatePresence mode="wait">
@@ -77,13 +67,13 @@ const Hero = () => {
           <div className="cta-container">
             <div className="cta-buttons">
               <button className="cta-primary" onClick={openChat}>
-                Start Free Consultation
+                Try Demo
               </button>
               <button className="cta-secondary" onClick={scrollToWaitlist}>
-                Get on Waitlist
+                Join Beta Waitlist
               </button>
             </div>
-            <p className="cta-subtitle">No signup required • Get answers in seconds</p>
+            <p className="cta-subtitle">Join 500+ beta users getting instant health clarity</p>
           </div>
         </motion.div>
       </div>

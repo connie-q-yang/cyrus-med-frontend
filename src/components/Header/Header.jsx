@@ -50,7 +50,7 @@ const Header = () => {
                   <path d="M16 8V16L20 20" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
                   <path d="M12 16H16" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
                 </svg>
-                <span className="logo-text">OpenHealth</span>
+                <span className="logo-text">OpenMedicine</span>
               </div>
             </div>
 

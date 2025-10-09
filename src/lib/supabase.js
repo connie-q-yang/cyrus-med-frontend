@@ -67,7 +67,7 @@ export const addToWaitlist = async (email) => {
 
         return {
           success: true,
-          message: 'Welcome to OpenHealth! Check your email for next steps.',
+          message: 'Welcome to OpenMedicine! Check your email for next steps.',
           data
         };
       } catch (supabaseError) {
@@ -87,7 +87,7 @@ export const addToWaitlist = async (email) => {
 
     return {
       success: true,
-      message: 'Welcome to OpenHealth! Check your email for next steps.',
+      message: 'Welcome to OpenMedicine! Check your email for next steps.',
       data: { email }
     };
   } catch (error) {

@@ -19,7 +19,7 @@ const Navigation = () => {
   return (
     <nav className={`navigation ${scrolled ? 'scrolled' : ''}`}>
       <div className="nav-container">
-        <div className="logo">OpenHealth</div>
+        <div className="logo">OpenMedicine</div>
         <button onClick={scrollToWaitlist} className="nav-btn">
           Join Beta
         </button>

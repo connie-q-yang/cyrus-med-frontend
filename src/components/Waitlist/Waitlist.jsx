@@ -60,7 +60,7 @@ const Waitlist = () => {
           // Don't show error to user as the signup was successful
         });
 
-        toast.success(result.message || 'Welcome to OpenHealth! Check your email for next steps.');
+        toast.success(result.message || 'Welcome to OpenMedicine! Check your email for next steps.');
         setEmail('');
         // Update remaining spots
         setBetaSpotsLeft(prev => Math.max(0, prev - 1));
@@ -93,13 +93,9 @@ const Waitlist = () => {
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
-          <div className="exclusive-badge">
-            <span className="badge-text">LIMITED BETA ACCESS</span>
-          </div>
-
-          <h2>Reserve Your Spot</h2>
+          <h2>Get clarity in minutes.</h2>
           <p className="waitlist-subtitle">
-            Join the exclusive beta program for AI-powered healthcare.
+            Join {500 - betaSpotsLeft} others who are already experiencing the future of healthcare.
           </p>
 
           <div className="waitlist-benefits">
@@ -149,7 +145,7 @@ const Waitlist = () => {
           </div>
 
           <p className="privacy-note">
-            No credit card required. HIPAA compliant. Unsubscribe anytime.
+            Not for emergencies. If you're experiencing a medical emergency, call 911.
           </p>
         </motion.div>
 

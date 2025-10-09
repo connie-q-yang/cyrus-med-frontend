@@ -4,7 +4,8 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Header from './components/Header/Header';
 import Hero from './components/Hero/Hero';
-import FutureHealthcare from './components/FutureHealthcare/FutureHealthcare';
+import HowItWorks from './components/HowItWorks/HowItWorks';
+import TrustSection from './components/TrustSection/TrustSection';
 import ChatPreview from './components/ChatPreview/ChatPreview';
 import Waitlist from './components/Waitlist/Waitlist';
 import BackgroundOrbs from './components/BackgroundEffects/BackgroundOrbs';
@@ -17,7 +18,8 @@ function HomePage() {
       <BackgroundOrbs />
       <Header />
       <Hero />
-      <FutureHealthcare />
+      <HowItWorks />
+      <TrustSection />
       <ChatPreview />
       <Waitlist />
     </>

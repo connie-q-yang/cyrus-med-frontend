@@ -8,7 +8,7 @@ const generateFollowUpQuestions = (aiResponse, exchangeCount) => {
   // If SOAP note is provided (after 4-5 exchanges), encourage beta signup
   if (lowerResponse.includes('subjective:') || lowerResponse.includes('s:') || exchangeCount >= 4) {
     return [
-      "Get priority access to OpenHealth",
+      "Get priority access to OpenMedicine",
       "Schedule a consultation",
       "Join the beta waitlist"
     ];
@@ -31,7 +31,7 @@ const useChat = () => {
   const [messages, setMessages] = useState([
     {
       role: 'ai',
-      content: "Hi, I'm OpenHealth, your personal AI health companion. Can you tell me what's going on today?"
+      content: "Hi, I'm OpenMedicine, your personal AI health companion. Can you tell me what's going on today?"
     }
   ]);
   const [isLoading, setIsLoading] = useState(false);
@@ -79,7 +79,7 @@ const useChat = () => {
   const clearChat = useCallback(() => {
     setMessages([{
       role: 'ai',
-      content: "Hi, I'm OpenHealth, your personal AI health companion. Can you tell me what's going on today?"
+      content: "Hi, I'm OpenMedicine, your personal AI health companion. Can you tell me what's going on today?"
     }]);
   }, []);
 

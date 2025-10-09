@@ -52,7 +52,7 @@ exports.handler = async (event) => {
                     <tr>
                         <td style="background: linear-gradient(135deg, #0A2540 0%, #062033 100%); padding: 48px 40px; text-align: center; border-radius: 16px 16px 0 0;">
                             <h1 style="color: white; font-size: 32px; font-weight: 200; margin: 0;">
-                                Welcome to <span style="font-weight: 400;">OpenHealth</span>
+                                Welcome to <span style="font-weight: 400;">OpenMedicine</span>
                             </h1>
                             <p style="color: rgba(255,255,255,0.8); font-size: 16px; margin: 12px 0 0 0;">
                                 You're part of our exclusive beta community 🎉
@@ -64,13 +64,13 @@ exports.handler = async (event) => {
                             <h2 style="color: #0A2540; font-size: 24px; margin: 0 0 24px 0;">You're In!</h2>
 
                             <p style="color: #4a5568; font-size: 16px; line-height: 1.6; margin: 0 0 24px 0;">
-                                Thank you for joining OpenHealth's exclusive waitlist. You're among the first pioneers to experience the future of AI-powered healthcare guidance.
+                                Thank you for joining OpenMedicine's exclusive waitlist. You're among the first pioneers to experience the future of AI-powered healthcare guidance.
                             </p>
 
                             <div style="background: #f7fafc; border-left: 4px solid #4CB3D4; padding: 20px; margin: 32px 0;">
                                 <h3 style="color: #0A2540; font-size: 18px; margin: 0 0 12px 0;">Your Beta Benefits</h3>
                                 <ul style="color: #4a5568; font-size: 15px; line-height: 1.8; margin: 0; padding-left: 20px;">
-                                    <li><strong>Priority Access:</strong> Be first to try OpenHealth when we launch</li>
+                                    <li><strong>Priority Access:</strong> Be first to try OpenMedicine when we launch</li>
                                     <li><strong>$50 Free Credits:</strong> Start your journey with complimentary consultations</li>
                                     <li><strong>Shape the Future:</strong> Your feedback directly influences our development</li>
                                     <li><strong>24/7 Support:</strong> Get instant health guidance whenever you need it</li>
@@ -97,10 +97,10 @@ exports.handler = async (event) => {
                     <tr>
                         <td style="background: #f7fafc; padding: 32px 40px; text-align: center; border-radius: 0 0 16px 16px; border-top: 1px solid #e2e8f0;">
                             <p style="color: #718096; font-size: 13px; margin: 0 0 8px 0;">
-                                OpenHealth - Your AI Health Companion
+                                OpenMedicine - Your AI Health Companion
                             </p>
                             <p style="color: #a0aec0; font-size: 12px; margin: 0;">
-                                © 2025 OpenHealth. All rights reserved.
+                                © 2025 OpenMedicine. All rights reserved.
                             </p>
                         </td>
                     </tr>
@@ -122,7 +122,7 @@ exports.handler = async (event) => {
       body: JSON.stringify({
         from: 'welcome@openhealth.io', // Your verified domain
         to: email,
-        subject: 'Welcome to OpenHealth Beta! 🎉',
+        subject: 'Welcome to OpenMedicine Beta! 🎉',
         html: emailHtml,
       }),
     });

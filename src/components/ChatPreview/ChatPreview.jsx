@@ -30,7 +30,7 @@ const ChatPreview = () => {
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
         >
-          <h2>Experience OpenHealth in Action</h2>
+          <h2>Experience OpenMedicine in Action</h2>
           <p>Get instant, personalized medical guidance 24/7</p>
         </motion.div>
 
@@ -41,40 +41,6 @@ const ChatPreview = () => {
           transition={{ duration: 0.6, delay: 0.2 }}
         >
           <div className="preview-content">
-            <div className="preview-features">
-              <div className="feature-item">
-                <div className="feature-icon">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                    <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2"/>
-                    <path d="M12 6V12L16 16" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-                  </svg>
-                </div>
-                <h3>Instant Responses</h3>
-                <p>Get medical insights in seconds, not hours or days</p>
-              </div>
-
-              <div className="feature-item">
-                <div className="feature-icon">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                    <path d="M12 2L15 9L22 10L17 15L18 22L12 18L6 22L7 15L2 10L9 9L12 2Z" stroke="currentColor" strokeWidth="2" strokeLinejoin="round"/>
-                  </svg>
-                </div>
-                <h3>Evidence-Based</h3>
-                <p>Backed by millions of medical cases and research</p>
-              </div>
-
-              <div className="feature-item">
-                <div className="feature-icon">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                    <path d="M12 2C6.5 2 2 6.5 2 12S6.5 22 12 22 22 17.5 22 12 17.5 2 12 2Z" stroke="currentColor" strokeWidth="2"/>
-                    <path d="M12 6V12L16 14" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-                  </svg>
-                </div>
-                <h3>24/7 Available</h3>
-                <p>Always here when you need medical guidance</p>
-              </div>
-            </div>
-
             <div className="chat-demo">
               <div className="demo-messages">
                 <div className="demo-message user">
