@@ -8,6 +8,7 @@ import HowItWorks from './components/HowItWorks/HowItWorks';
 import TrustSection from './components/TrustSection/TrustSection';
 import ChatPreview from './components/ChatPreview/ChatPreview';
 import Waitlist from './components/Waitlist/Waitlist';
+import FAQ from './components/FAQ/FAQ';
 import BackgroundOrbs from './components/BackgroundEffects/BackgroundOrbs';
 import AboutUs from './components/AboutUs/AboutUs';
 import './App.css';
@@ -22,6 +23,7 @@ function HomePage() {
       <TrustSection />
       <ChatPreview />
       <Waitlist />
+      <FAQ />
     </>
   );
 }
