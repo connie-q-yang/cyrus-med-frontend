@@ -102,12 +102,12 @@ export const exportChatAsDocx = async (messages) => {
   });
 
   const blob = await Packer.toBlob(doc);
-  const fileName = `openhealth-chat-${new Date().toISOString().slice(0, 10)}.docx`;
+  const fileName = `openmedicine-chat-${new Date().toISOString().slice(0, 10)}.docx`;
   saveAs(blob, fileName);
 };
 
 export const exportChatAsText = (messages) => {
-  let text = "OPENHEALTH - HEALTH CONSULTATION SUMMARY\n";
+  let text = "OPENMEDICINE - HEALTH CONSULTATION SUMMARY\n";
   text += "=".repeat(40) + "\n\n";
   text += `Generated: ${new Date().toLocaleString()}\n`;
   text += "Status: Secure • Anonymous • Educational Purpose Only\n\n";
@@ -120,7 +120,7 @@ export const exportChatAsText = (messages) => {
   text += "=".repeat(40) + "\n\n";
 
   messages.forEach(msg => {
-    const speaker = msg.role === 'user' ? 'YOU' : 'OPENHEALTH';
+    const speaker = msg.role === 'user' ? 'YOU' : 'OPENMEDICINE';
     text += `${speaker}:\n${msg.content}\n\n`;
   });
 
