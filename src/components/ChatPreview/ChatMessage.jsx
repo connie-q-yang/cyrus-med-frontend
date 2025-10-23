@@ -4,8 +4,16 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import './ChatMessage.css';
 
-const ChatMessage = ({ message, onFollowUpClick }) => {
-  const isAI = message.role === 'ai';
+const ChatMessage = ({ message, onFollowUpClick, isFinalSummary, onJoinWaitlist, onScheduleConsultation }) => {
+  const isAI = message.role === 'ai' || message.role === 'assistant';
+
+  // Check if this is a summary message (contains "Your Symptoms:" or "What This Could Mean:")
+  const isSummaryMessage = isAI && (
+    message.content.includes('Your Symptoms:') ||
+    message.content.includes('What This Could Mean:') ||
+    message.content.includes('**Your Symptoms:**') ||
+    message.content.includes('**What This Could Mean:**')
+  );
 
   return (
     <motion.div
@@ -35,19 +43,31 @@ const ChatMessage = ({ message, onFollowUpClick }) => {
           {message.content}
         </ReactMarkdown>
 
-        {isAI && message.followUpQuestions && (
-          <div className="follow-up-section">
-            <p className="follow-up-prompt">Learn more:</p>
-            <div className="follow-up-questions">
-              {message.followUpQuestions.map((question, idx) => (
-                <button
-                  key={idx}
-                  className="follow-up-button"
-                  onClick={() => onFollowUpClick && onFollowUpClick(question)}
-                >
-                  {question}
-                </button>
-              ))}
+        {/* Show CTAs only on final summary message */}
+        {isSummaryMessage && isFinalSummary && (
+          <div className="final-cta-section">
+            <p className="cta-prompt">What would you like to do next?</p>
+            <div className="cta-buttons">
+              <button
+                className="cta-button primary"
+                onClick={onScheduleConsultation}
+              >
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                  <path d="M6 2V6M14 2V6M3 10H17M5 4H15C16.1046 4 17 4.89543 17 6V16C17 17.1046 16.1046 18 15 18H5C3.89543 18 3 17.1046 3 16V6C3 4.89543 3.89543 4 5 4Z"
+                        stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+                Schedule a Consultation
+              </button>
+              <button
+                className="cta-button secondary"
+                onClick={onJoinWaitlist}
+              >
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                  <path d="M16 7C16 9.20914 12.4183 11 8 11C3.58172 11 0 9.20914 0 7M16 7C16 4.79086 12.4183 3 8 3C3.58172 3 0 4.79086 0 7M16 7V13C16 15.2091 12.4183 17 8 17C3.58172 17 0 15.2091 0 13V7"
+                        stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+                Join Waitlist
+              </button>
             </div>
           </div>
         )}

@@ -5,7 +5,11 @@
       "Bash(npm install express cors dotenv)",
       "Bash(npm install:*)",
       "Bash(npm run dev:local:*)",
-      "Bash(npm start)"
+      "Bash(npm start)",
+      "Bash(npm run build:*)",
+      "Bash(PORT=8888 netlify dev:*)",
+      "Bash(node server.js:*)",
+      "WebSearch"
     ],
     "deny": [],
     "ask": []

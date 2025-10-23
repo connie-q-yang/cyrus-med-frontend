@@ -40,7 +40,7 @@ Neuro: focal weakness, face droop, speech change, vision change, severe "worst" 
 GI/GU: persistent vomiting, hematemesis/melena, RLQ pain migration/guarding/rebound, abdominal distension, testicular pain/swelling, vaginal bleeding/discharge, urinary retention, dysuria/hematuria
 Infection: fever, rigors, immunosuppression, recent chemo, central lines
 
-7. Provide an AI Cyrus summary
+7. Provide an AI Luna summary
 a. Summarize key findings.
 b. Suggest top 3 possible differential diagnosis with percentage odds (without making a definitive diagnosis).
 c. Example: "Your symptoms raise concerns such as appendicitis, ovarian torsion, or other GI causes."

@@ -8,63 +8,63 @@ import './FullScreenChat.css';
 
 const samplePrompts = [
   {
-    category: "Period & Cycle",
+    category: "Urinary Tract Infection (UTI)",
+    icon: "💧",
+    prompts: [
+      "I have burning when I urinate, could this be a UTI?",
+      "I keep getting UTIs, what can I do to prevent them?",
+      "Is it normal to have UTI symptoms after sex?",
+      "What's the difference between a UTI and a bladder infection?"
+    ]
+  },
+  {
+    category: "Vaginal Infections",
+    icon: "🔬",
+    prompts: [
+      "I have a fishy odor and discharge, could this be BV?",
+      "What's the difference between a yeast infection and BV?",
+      "I have itching and white discharge, is this a yeast infection?",
+      "How can I tell if I have bacterial vaginosis?"
+    ]
+  },
+  {
+    category: "Birth Control & Contraception",
+    icon: "💊",
+    prompts: [
+      "Which birth control method is right for me?",
+      "I missed a birth control pill, what should I do?",
+      "Can birth control cause yeast infections or UTIs?",
+      "What are my emergency contraception options?"
+    ]
+  },
+  {
+    category: "Period & Menstrual Issues",
     icon: "🌸",
     prompts: [
+      "I have severe period cramps, what can help?",
       "My period is 2 weeks late, what could it mean?",
-      "I have severe cramps, is this normal?",
-      "My cycle is irregular, should I be concerned?",
-      "I'm spotting between periods, what does this mean?"
+      "I have heavy bleeding and clots, is this normal?",
+      "I'm spotting between periods, should I be concerned?"
+    ]
+  },
+  {
+    category: "PCOS & Hormonal Health",
+    icon: "⚖️",
+    prompts: [
+      "What are the signs and symptoms of PCOS?",
+      "I have irregular periods and acne, could it be PCOS?",
+      "How is PCOS diagnosed and treated?",
+      "I think I have a hormonal imbalance, what should I know?"
     ]
   },
   {
     category: "Pregnancy & Fertility",
     icon: "🤰",
     prompts: [
-      "Could I be pregnant? What are the early signs?",
-      "I'm trying to conceive, when should I test?",
-      "Is this discharge normal during pregnancy?",
-      "I had a miscarriage, when can I try again?"
-    ]
-  },
-  {
-    category: "Birth Control",
-    icon: "💊",
-    prompts: [
-      "Which birth control is right for me?",
-      "I missed a pill, what should I do?",
-      "Are these side effects from my IUD normal?",
-      "How do I switch birth control methods safely?"
-    ]
-  },
-  {
-    category: "Hormonal Health",
-    icon: "⚖️",
-    prompts: [
-      "What are signs of PCOS?",
-      "I think I have a hormonal imbalance, what now?",
-      "Is this a thyroid problem?",
-      "What are normal hormone levels for my age?"
-    ]
-  },
-  {
-    category: "Menopause & Aging",
-    icon: "🌺",
-    prompts: [
-      "Am I starting menopause? What are the signs?",
-      "How do I manage hot flashes?",
-      "Is HRT right for me?",
-      "Why is my libido changing?"
-    ]
-  },
-  {
-    category: "Sexual Health",
-    icon: "❤️",
-    prompts: [
-      "Is this STI symptom serious?",
-      "Why does sex hurt sometimes?",
-      "How do I talk to my partner about testing?",
-      "Is this vaginal discharge normal?"
+      "What are the early signs of pregnancy?",
+      "I'm trying to conceive, when should I take a test?",
+      "Is this discharge or symptom normal during pregnancy?",
+      "How can I improve my chances of getting pregnant?"
     ]
   }
 ];
@@ -152,6 +152,61 @@ const FullScreenChat = ({ isOpen, onClose }) => {
     setInput('');
   };
 
+  const handleYesNoClick = async (answer) => {
+    trackDemoAction('yes_no_response', {
+      messageNumber: messageCountRef.current + 1,
+      inputMethod: 'button'
+    });
+    messageCountRef.current++;
+
+    await sendMessage(answer);
+  };
+
+  const handleJoinWaitlist = () => {
+    trackButtonClick('join_waitlist', 'demo_chat');
+    // Close the chat modal
+    onClose();
+    // Scroll to waitlist section
+    setTimeout(() => {
+      const waitlistSection = document.getElementById('waitlist') || document.querySelector('.waitlist');
+      if (waitlistSection) {
+        waitlistSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 300);
+  };
+
+  const handleScheduleConsultation = () => {
+    trackButtonClick('schedule_consultation', 'demo_chat');
+    // For now, also scroll to waitlist (you can change this to a booking page later)
+    onClose();
+    setTimeout(() => {
+      const waitlistSection = document.getElementById('waitlist') || document.querySelector('.waitlist');
+      if (waitlistSection) {
+        waitlistSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 300);
+  };
+
+  // Check if we should show yes/no buttons
+  const shouldShowYesNoButtons = () => {
+    if (messages.length === 0 || isLoading || messages.length === 1) return false;
+    const lastMessage = messages[messages.length - 1];
+    // Show buttons if last message is from AI and contains a question mark
+    return lastMessage.role === 'assistant' && lastMessage.content.includes('?');
+  };
+
+  // Check if the last message is the final summary
+  const isFinalSummary = (index) => {
+    return index === messages.length - 1 && !isLoading && messages.length > 5;
+  };
+
+  const handleOverlayClick = (e) => {
+    // Only close if clicking the overlay itself, not its children
+    if (e.target === e.currentTarget) {
+      onClose();
+    }
+  };
+
   return (
     <AnimatePresence>
       {isOpen && (
@@ -160,6 +215,7 @@ const FullScreenChat = ({ isOpen, onClose }) => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
+          onClick={handleOverlayClick}
         >
           <motion.div
             className="fullscreen-chat"
@@ -291,6 +347,9 @@ const FullScreenChat = ({ isOpen, onClose }) => {
                       key={index}
                       message={message}
                       onFollowUpClick={handlePromptClick}
+                      isFinalSummary={isFinalSummary(index)}
+                      onJoinWaitlist={handleJoinWaitlist}
+                      onScheduleConsultation={handleScheduleConsultation}
                     />
                   ))}
                   {isLoading && (
@@ -310,13 +369,38 @@ const FullScreenChat = ({ isOpen, onClose }) => {
             </div>
 
             <div className="chat-footer">
+              {shouldShowYesNoButtons() && (
+                <div className="yes-no-buttons">
+                  <button
+                    className="yes-button"
+                    onClick={() => handleYesNoClick('Yes')}
+                    disabled={isLoading}
+                  >
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                      <path d="M16 6L8.5 13.5L4 9" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                    Yes
+                  </button>
+                  <button
+                    className="no-button"
+                    onClick={() => handleYesNoClick('No')}
+                    disabled={isLoading}
+                  >
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                      <path d="M14 6L6 14M6 6L14 14" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"/>
+                    </svg>
+                    No
+                  </button>
+                </div>
+              )}
+
               <form className="chat-form" onSubmit={handleSubmit}>
                 <input
                   ref={inputRef}
                   type="text"
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
-                  placeholder="Type your health question here..."
+                  placeholder={shouldShowYesNoButtons() ? "Or type your own response..." : "Type your health question here..."}
                   disabled={isLoading}
                   className="chat-input"
                 />
