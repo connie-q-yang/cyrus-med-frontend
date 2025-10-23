@@ -121,8 +121,8 @@
 .start-chat-btn {
   width: 100%;
   padding: 20px 32px;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.85));
-  color: #0A2540;
+  background: var(--primary-gradient);
+  color: #fff;
   border: none;
   border-radius: 50px;
   font-size: 16px;
@@ -134,12 +134,13 @@
   justify-content: center;
   gap: 12px;
   letter-spacing: 0.5px;
+  box-shadow: 0 10px 30px rgba(192, 132, 252, 0.3);
 }
 
 .start-chat-btn:hover {
   transform: translateY(-2px);
-  background: #fff;
-  box-shadow: 0 20px 40px rgba(255, 255, 255, 0.2);
+  background: var(--gradient-vibrant);
+  box-shadow: 0 20px 40px rgba(244, 114, 182, 0.4);
 }
 
 .start-chat-btn svg {

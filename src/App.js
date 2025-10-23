@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Header from './components/Header/Header';
@@ -11,6 +11,7 @@ import Waitlist from './components/Waitlist/Waitlist';
 import FAQ from './components/FAQ/FAQ';
 import BackgroundOrbs from './components/BackgroundEffects/BackgroundOrbs';
 import AboutUs from './components/AboutUs/AboutUs';
+import ComingSoon from './components/ComingSoon/ComingSoon';
 import './App.css';
 
 function HomePage() {
@@ -33,7 +34,9 @@ function App() {
     <div className="App">
       <Router>
         <Routes>
-          <Route path="/" element={<HomePage />} />
+          <Route path="/" element={<Navigate to="/xx" replace />} />
+          <Route path="/xx" element={<HomePage />} />
+          <Route path="/xy" element={<ComingSoon />} />
           <Route path="/about" element={<AboutUs />} />
         </Routes>
       </Router>

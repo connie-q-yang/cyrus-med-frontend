@@ -8,63 +8,63 @@ import './FullScreenChat.css';
 
 const samplePrompts = [
   {
-    category: "Urgent Symptoms",
-    icon: "🚨",
+    category: "Period & Cycle",
+    icon: "🌸",
     prompts: [
-      "I have chest pain, is it serious?",
-      "I feel dizzy and lightheaded, should I go to the ER?",
-      "My child has a fever of 102°F, should I be worried?",
-      "I have shortness of breath — what do I do?"
+      "My period is 2 weeks late, what could it mean?",
+      "I have severe cramps, is this normal?",
+      "My cycle is irregular, should I be concerned?",
+      "I'm spotting between periods, what does this mean?"
     ]
   },
   {
-    category: "Common Illness",
-    icon: "🤒",
+    category: "Pregnancy & Fertility",
+    icon: "🤰",
     prompts: [
-      "Do I have the flu or just a cold?",
-      "I have a sore throat — do I need antibiotics?",
-      "What can I take for a bad cough?",
-      "I have a headache that won't go away — what should I do?"
+      "Could I be pregnant? What are the early signs?",
+      "I'm trying to conceive, when should I test?",
+      "Is this discharge normal during pregnancy?",
+      "I had a miscarriage, when can I try again?"
     ]
   },
   {
-    category: "Medications",
+    category: "Birth Control",
     icon: "💊",
     prompts: [
-      "Can I take ibuprofen and Tylenol together?",
-      "What are the side effects of my blood pressure meds?",
-      "I missed a dose of my prescription, what should I do?",
-      "Can I drink alcohol while taking antibiotics?"
+      "Which birth control is right for me?",
+      "I missed a pill, what should I do?",
+      "Are these side effects from my IUD normal?",
+      "How do I switch birth control methods safely?"
     ]
   },
   {
-    category: "Women's Health",
-    icon: "👩‍⚕️",
+    category: "Hormonal Health",
+    icon: "⚖️",
     prompts: [
-      "I missed my period, could I be pregnant?",
-      "Is this birth control side effect normal?",
-      "I have cramps and heavy bleeding — what does it mean?",
-      "What are the signs of menopause?"
+      "What are signs of PCOS?",
+      "I think I have a hormonal imbalance, what now?",
+      "Is this a thyroid problem?",
+      "What are normal hormone levels for my age?"
     ]
   },
   {
-    category: "Mental Health",
-    icon: "🧠",
+    category: "Menopause & Aging",
+    icon: "🌺",
     prompts: [
-      "I feel really anxious all the time — what should I do?",
-      "I can't sleep, any safe remedies?",
-      "How do I know if I'm depressed?",
-      "What can I do for a panic attack?"
+      "Am I starting menopause? What are the signs?",
+      "How do I manage hot flashes?",
+      "Is HRT right for me?",
+      "Why is my libido changing?"
     ]
   },
   {
-    category: "Lifestyle",
-    icon: "🏃‍♀️",
+    category: "Sexual Health",
+    icon: "❤️",
     prompts: [
-      "What's a healthy diet for weight loss?",
-      "How much exercise do I need per week?",
-      "Is intermittent fasting safe?",
-      "How can I lower my blood pressure naturally?"
+      "Is this STI symptom serious?",
+      "Why does sex hurt sometimes?",
+      "How do I talk to my partner about testing?",
+      "Is this vaginal discharge normal?"
     ]
   }
 ];

@@ -6,25 +6,25 @@ const steps = [
   {
     number: '1',
     title: 'Share Your Concerns',
-    description: 'Tell us your symptoms in your own words. No medical jargon needed.',
+    description: 'Describe your symptoms, cycle changes, or health questions in detail.',
     icon: 'message'
   },
   {
     number: '2',
     title: 'AI Analysis',
-    description: 'Our AI analyzes your symptoms against millions of medical cases.',
+    description: 'Our AI trained on women\'s health data analyzes your specific situation.',
     icon: 'brain'
   },
   {
     number: '3',
     title: 'Personalized Guidance',
-    description: 'Receive clear, actionable health guidance tailored to your situation.',
+    description: 'Get evidence-based insights for your reproductive and hormonal health.',
     icon: 'guide'
   },
   {
     number: '4',
     title: 'Next Steps',
-    description: 'Know whether to rest, visit urgent care, or seek emergency help.',
+    description: 'Know when to see your OB-GYN, adjust lifestyle, or seek urgent care.',
     icon: 'arrow'
   }
 ];

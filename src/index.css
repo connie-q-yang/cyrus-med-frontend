@@ -5,35 +5,41 @@
   }
   
   :root {
-    /* Primary Gradient: Teal → Soft Blue */
-    --primary-gradient: linear-gradient(135deg, #4CB3D4 0%, #8A7CF4 100%);
-    
+    /* Primary Gradient: Purple → Pink */
+    --primary-gradient: linear-gradient(135deg, #C084FC 0%, #F472B6 100%);
+
     /* Secondary Gradient variations */
-    --gradient-warm: linear-gradient(135deg, #4CB3D4 0%, #8A7CF4 50%, #FFAB91 100%);
-    --gradient-subtle: linear-gradient(135deg, #4CB3D4 0%, #6B9BD1 50%, #8A7CF4 100%);
-    
-    /* Glass effects - Frosted white */
-    --glass-bg: rgba(255, 255, 255, 0.08);
-    --glass-bg-hover: rgba(255, 255, 255, 0.12);
-    --glass-border: rgba(255, 255, 255, 0.18);
+    --gradient-warm: linear-gradient(135deg, #A78BFA 0%, #F472B6 50%, #FCA5A5 100%);
+    --gradient-subtle: linear-gradient(135deg, #E9D5FF 0%, #FBCFE8 50%, #FED7E2 100%);
+    --gradient-vibrant: linear-gradient(135deg, #DB2777 0%, #9333EA 100%);
+
+    /* Glass effects - Frosted with pink tint */
+    --glass-bg: rgba(255, 255, 255, 0.1);
+    --glass-bg-hover: rgba(255, 255, 255, 0.15);
+    --glass-border: rgba(255, 255, 255, 0.25);
     --glass-white: rgba(255, 255, 255, 0.95);
-    
+    --glass-pink: rgba(244, 114, 182, 0.1);
+    --glass-purple: rgba(168, 85, 247, 0.1);
+
     /* Core colors */
-    --teal: #4CB3D4;
-    --soft-blue: #8A7CF4;
+    --purple: #A855F7;
+    --purple-light: #C084FC;
+    --purple-dark: #9333EA;
+    --pink: #EC4899;
+    --pink-light: #F472B6;
+    --pink-dark: #DB2777;
+    --rose: #FB7185;
+    --lavender: #E9D5FF;
     --emerald: #10B981;
     --emerald-dark: #059669;
-    --peach: #FFAB91;
-    --peach-light: #FFD4C4;
-    --warm-coral: #FF8A65;
-    
+
     /* Text colors */
-    --text-primary: #1a1a2e;
+    --text-primary: #1a0f1f;
     --text-light: #ffffff;
-    --text-muted: rgba(255, 255, 255, 0.75);
-    
-    /* Background gradient - Darker, more medical feel */
-    --bg-gradient: linear-gradient(135deg, #0A2540 0%, #1E3A5F 50%, #0A2540 100%);
+    --text-muted: rgba(255, 255, 255, 0.8);
+
+    /* Background gradient - Soft purple to pink */
+    --bg-gradient: linear-gradient(135deg, #1F1435 0%, #2D1B3D 25%, #3D2146 50%, #2D1B3D 75%, #1F1435 100%);
   }
   
   body {
@@ -55,12 +61,12 @@
   }
   
   ::-webkit-scrollbar-thumb {
-    background: linear-gradient(180deg, var(--teal), var(--soft-blue));
+    background: linear-gradient(180deg, var(--purple), var(--pink));
     border-radius: 5px;
   }
-  
+
   ::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(180deg, var(--teal), var(--emerald));
+    background: linear-gradient(180deg, var(--purple-light), var(--pink-light));
   }
   
   /* Global Typography */

@@ -1,7 +1,7 @@
 .waitlist {
   padding: 40px 40px 150px;
   position: relative;
-  background: linear-gradient(180deg, transparent 0%, rgba(138, 124, 244, 0.02) 100%);
+  background: linear-gradient(180deg, transparent 0%, rgba(192, 132, 252, 0.02) 100%);
 }
 
 .waitlist-container {
@@ -31,7 +31,7 @@
   left: -50%;
   width: 200%;
   height: 200%;
-  background: radial-gradient(circle, rgba(16, 185, 129, 0.05), transparent 70%);
+  background: radial-gradient(circle, rgba(244, 114, 182, 0.05), transparent 70%);
   animation: rotate 30s linear infinite;
 }
 
@@ -50,26 +50,26 @@
 .badge-text {
   display: inline-block;
   padding: 10px 24px;
-  background: linear-gradient(135deg, rgba(16, 185, 129, 0.12), rgba(76, 179, 212, 0.12));
-  border: 1px solid rgba(16, 185, 129, 0.25);
+  background: linear-gradient(135deg, rgba(192, 132, 252, 0.12), rgba(244, 114, 182, 0.12));
+  border: 1px solid rgba(192, 132, 252, 0.25);
   border-radius: 100px;
-  color: var(--emerald);
+  color: var(--purple-light);
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 2.5px;
   text-transform: uppercase;
   animation: shimmer 4s infinite;
-  box-shadow: 0 4px 20px rgba(16, 185, 129, 0.15);
+  box-shadow: 0 4px 20px rgba(192, 132, 252, 0.15);
 }
 
 @keyframes shimmer {
   0%, 100% {
     opacity: 1;
-    box-shadow: 0 4px 20px rgba(16, 185, 129, 0.15);
+    box-shadow: 0 4px 20px rgba(192, 132, 252, 0.15);
   }
   50% {
     opacity: 0.85;
-    box-shadow: 0 6px 30px rgba(16, 185, 129, 0.25);
+    box-shadow: 0 6px 30px rgba(244, 114, 182, 0.25);
   }
 }
 
@@ -121,7 +121,7 @@
 }
 
 .benefit svg {
-  color: var(--emerald);
+  color: var(--pink-light);
   flex-shrink: 0;
 }
 
@@ -167,10 +167,10 @@
 
 .email-input:focus {
   background: rgba(255, 255, 255, 0.09);
-  border-color: var(--emerald);
+  border-color: var(--purple-light);
   box-shadow:
-    0 0 0 4px rgba(16, 185, 129, 0.12),
-    0 10px 40px rgba(16, 185, 129, 0.1);
+    0 0 0 4px rgba(192, 132, 252, 0.12),
+    0 10px 40px rgba(244, 114, 182, 0.1);
   transform: translateY(-1px);
 }
 
@@ -223,7 +223,7 @@
   display: block;
   font-size: 28px;
   font-weight: 600;
-  background: linear-gradient(135deg, var(--emerald), var(--teal));
+  background: var(--primary-gradient);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -261,7 +261,7 @@
 .spots-number {
   font-size: 38px;
   font-weight: 200;
-  background: linear-gradient(135deg, var(--emerald), var(--teal));
+  background: var(--primary-gradient);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;

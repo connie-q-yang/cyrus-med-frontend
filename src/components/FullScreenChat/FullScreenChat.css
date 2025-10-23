@@ -4,7 +4,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(10, 37, 64, 0.95);
+  background: rgba(31, 20, 53, 0.95);
   backdrop-filter: blur(20px);
   z-index: 10000;
   display: flex;
@@ -61,21 +61,21 @@
 }
 
 .badge.secure {
-  background: rgba(16, 185, 129, 0.1);
-  color: var(--emerald);
-  border: 1px solid rgba(16, 185, 129, 0.2);
+  background: rgba(192, 132, 252, 0.1);
+  color: var(--purple-light);
+  border: 1px solid rgba(192, 132, 252, 0.2);
 }
 
 .badge.anonymous {
-  background: rgba(139, 92, 246, 0.1);
-  color: #8B5CF6;
-  border: 1px solid rgba(139, 92, 246, 0.2);
+  background: rgba(244, 114, 182, 0.1);
+  color: var(--pink-light);
+  border: 1px solid rgba(244, 114, 182, 0.2);
 }
 
 .badge.instant {
-  background: rgba(59, 130, 246, 0.1);
-  color: #3B82F6;
-  border: 1px solid rgba(59, 130, 246, 0.2);
+  background: rgba(168, 85, 247, 0.1);
+  color: var(--purple);
+  border: 1px solid rgba(168, 85, 247, 0.2);
 }
 
 .badge svg {
@@ -175,12 +175,12 @@
   align-items: center;
   gap: 6px;
   padding: 6px 12px;
-  background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(16, 185, 129, 0.05));
-  border: 1px solid rgba(16, 185, 129, 0.2);
+  background: linear-gradient(135deg, rgba(192, 132, 252, 0.1), rgba(244, 114, 182, 0.05));
+  border: 1px solid rgba(192, 132, 252, 0.2);
   border-radius: 20px;
   font-size: 11px;
   font-weight: 500;
-  color: var(--emerald);
+  color: var(--purple-light);
   letter-spacing: 0.5px;
 }
 
@@ -367,7 +367,7 @@
 
 .messages-area .user .message-bubble {
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.85));
-  color: #0A2540;
+  color: var(--text-primary);
   margin-left: auto;
   border-bottom-right-radius: 4px;
 }
@@ -459,19 +459,21 @@
   width: 56px;
   height: 56px;
   border-radius: 50%;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.8));
+  background: var(--primary-gradient);
   border: none;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   transition: all 0.3s;
-  color: #0A2540;
+  color: #fff;
+  box-shadow: 0 10px 30px rgba(192, 132, 252, 0.3);
 }
 
 .send-button:hover:not(:disabled) {
   transform: scale(1.1);
-  background: #fff;
+  background: var(--gradient-vibrant);
+  box-shadow: 0 15px 40px rgba(244, 114, 182, 0.4);
 }
 
 .send-button:disabled {

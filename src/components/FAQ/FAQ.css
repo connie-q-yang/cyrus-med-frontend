@@ -73,7 +73,7 @@
 }
 
 .faq-question.open {
-  background: rgba(16, 185, 129, 0.05);
+  background: rgba(192, 132, 252, 0.05);
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
@@ -93,7 +93,7 @@
 }
 
 .faq-question.open .chevron-icon {
-  color: #10b981;
+  color: var(--purple-light);
 }
 
 /* FAQ Answer */

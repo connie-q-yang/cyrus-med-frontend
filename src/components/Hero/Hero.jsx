@@ -9,10 +9,10 @@ const Hero = () => {
   const [isChatOpen, setIsChatOpen] = useState(false);
 
   const benefits = [
-    "Skip the 3-week wait for appointments",
-    "Get answers in seconds, not hours",
-    "Know if you need urgent care or can rest",
-    "Save hundreds on unnecessary ER visits"
+    "Understand your cycle, symptoms, and hormones",
+    "Get guidance on pregnancy and fertility concerns",
+    "Know when period symptoms need attention",
+    "Navigate menopause with confidence"
   ];
 
   useEffect(() => {
@@ -50,7 +50,7 @@ const Hero = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
-          <h1>Clarity for your health concerns. <span className="gradient-text">Instantly.</span></h1>
+          <h1>Women's health answers you can <span className="gradient-text">trust.</span></h1>
 
           <div className="benefits-carousel">
             <AnimatePresence mode="wait">
@@ -76,7 +76,7 @@ const Hero = () => {
                 Join Beta Waitlist
               </button>
             </div>
-            <p className="cta-subtitle">Join 500+ beta users getting instant health clarity</p>
+            <p className="cta-subtitle">Join 500+ women taking control of their health</p>
           </div>
         </motion.div>
       </div>

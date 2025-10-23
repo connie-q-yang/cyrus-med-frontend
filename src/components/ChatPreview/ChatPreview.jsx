@@ -44,10 +44,10 @@ const ChatPreview = () => {
             <div className="chat-demo">
               <div className="demo-messages">
                 <div className="demo-message user">
-                  <span>I've been having headaches for 3 days. Should I be worried?</span>
+                  <span>I've had irregular periods for 2 months. Should I be concerned?</span>
                 </div>
                 <div className="demo-message ai">
-                  <span>I understand headaches can be concerning. Let me help you assess this...</span>
+                  <span>I understand irregular cycles can be worrying. Let me help you understand what might be happening...</span>
                 </div>
               </div>
 
