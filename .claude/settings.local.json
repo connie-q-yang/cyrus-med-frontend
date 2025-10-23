@@ -4,7 +4,8 @@
       "Bash(netlify dev:*)",
       "Bash(npm install express cors dotenv)",
       "Bash(npm install:*)",
-      "Bash(npm run dev:local:*)"
+      "Bash(npm run dev:local:*)",
+      "Bash(npm start)"
     ],
     "deny": [],
     "ask": []

@@ -20,9 +20,9 @@ function HomePage() {
       <BackgroundOrbs />
       <Header />
       <Hero />
+      <ChatPreview />
       <HowItWorks />
       <TrustSection />
-      <ChatPreview />
       <Waitlist />
       <FAQ />
     </>
