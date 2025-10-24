@@ -6,6 +6,19 @@
 [build.environment]
   NODE_VERSION = "18"
 
+# Force HTTPS
+[[redirects]]
+  from = "http://openmedicine.io/*"
+  to = "https://openmedicine.io/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "http://www.openmedicine.io/*"
+  to = "https://www.openmedicine.io/:splat"
+  status = 301
+  force = true
+
 [[redirects]]
   from = "/api/*"
   to = "/.netlify/functions/:splat"
