@@ -75,7 +75,7 @@ const HowItWorks = () => {
   };
 
   return (
-    <section className="how-it-works" ref={ref}>
+    <section className="how-it-works" id="features" ref={ref}>
       <div className="how-container">
         <motion.div
           className="how-header"

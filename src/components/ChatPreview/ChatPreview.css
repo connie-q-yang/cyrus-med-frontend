@@ -107,6 +107,7 @@
   margin: 0 auto;
   position: relative;
   transform-style: preserve-3d;
+  overflow: visible;
 }
 
 .preview-content {

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import FullScreenChat from '../FullScreenChat/FullScreenChat';
+import DoctorLuna from './DoctorLuna';
 import './ChatPreview.css';
 
 const ChatPreview = () => {
@@ -106,6 +107,8 @@ const ChatPreview = () => {
           onMouseMove={handleMouseMove}
           onMouseLeave={handleMouseLeave}
         >
+          {/* Doctor Luna Character */}
+          <DoctorLuna inView={inView} />
           <div className="preview-content">
             <div className="chat-demo">
               <div className="demo-messages">

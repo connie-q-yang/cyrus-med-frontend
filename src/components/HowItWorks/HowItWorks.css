@@ -37,19 +37,19 @@
   padding: 60px 0;
 }
 
-/* Vertical Line */
+/* Vertical Line - Sleeker */
 .timeline-line {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  width: 3px;
+  width: 1px;
   height: calc(100% - 120px);
   background: linear-gradient(180deg,
-    var(--purple-light) 0%,
-    var(--pink-light) 50%,
-    var(--purple-light) 100%);
+    rgba(192, 132, 252, 0.3) 0%,
+    rgba(244, 114, 182, 0.3) 50%,
+    rgba(192, 132, 252, 0.3) 100%);
   transform-origin: top center;
-  opacity: 0.3;
+  opacity: 0.5;
 }
 
 /* Timeline Steps Container */
@@ -58,12 +58,12 @@
   z-index: 2;
 }
 
-/* Timeline Item */
+/* Timeline Item - Sleeker Spacing */
 .timeline-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 120px;
+  margin-bottom: 80px;
   position: relative;
 }
 
@@ -79,21 +79,21 @@
   flex-direction: row-reverse;
 }
 
-/* Timeline Content */
+/* Timeline Content - Sleeker Design */
 .timeline-content {
   width: calc(50% - 60px);
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(255, 255, 255, 0.02);
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 20px;
-  padding: 35px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 16px;
+  padding: 24px 28px;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
   position: relative;
   overflow: hidden;
   display: flex;
   align-items: center;
-  gap: 25px;
+  gap: 20px;
   perspective: 1000px;
   transform-style: preserve-3d;
 }
@@ -132,17 +132,22 @@
   opacity: 1;
 }
 
-/* Timeline Icon */
+/* Timeline Icon - Sleeker */
 .timeline-icon {
-  width: 48px;
-  height: 48px;
-  min-width: 48px;
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
   color: var(--purple-light);
   position: relative;
   z-index: 2;
+}
+
+.timeline-icon svg {
+  width: 22px;
+  height: 22px;
 }
 
 /* Timeline Text */
@@ -153,40 +158,42 @@
 }
 
 .timeline-title {
-  font-size: 22px;
+  font-size: 19px;
   font-weight: 400;
   color: #ffffff;
-  margin: 0 0 10px 0;
+  margin: 0 0 8px 0;
+  letter-spacing: -0.3px;
 }
 
 .timeline-description {
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 300;
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(255, 255, 255, 0.55);
   line-height: 1.6;
   margin: 0;
 }
 
-/* Timeline Marker */
+/* Timeline Marker - Sleeker */
 .timeline-marker {
   position: absolute;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  width: 48px;
-  height: 48px;
+  width: 36px;
+  height: 36px;
   background: var(--primary-gradient);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 3;
-  box-shadow: 0 4px 20px rgba(192, 132, 252, 0.4);
+  box-shadow: 0 3px 12px rgba(192, 132, 252, 0.35);
+  border: 2px solid rgba(255, 255, 255, 0.1);
 }
 
 .timeline-marker span {
   color: #ffffff;
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 600;
 }
 
