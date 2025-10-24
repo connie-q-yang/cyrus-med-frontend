@@ -9,7 +9,10 @@
       "Bash(npm run build:*)",
       "Bash(PORT=8888 netlify dev:*)",
       "Bash(node server.js:*)",
-      "WebSearch"
+      "WebSearch",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push)"
     ],
     "deny": [],
     "ask": []

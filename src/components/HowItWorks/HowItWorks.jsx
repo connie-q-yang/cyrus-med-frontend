@@ -117,10 +117,25 @@ const HowItWorks = () => {
               >
                 <motion.div
                   className="timeline-content"
-                  whileHover={{
-                    scale: 1.02,
-                    transition: { duration: 0.2 }
-                  }}
+                  whileHover={
+                    index === 0 ? {
+                      scale: 1.05,
+                      rotateZ: 2,
+                      transition: { duration: 0.3 }
+                    } : index === 1 ? {
+                      scale: 1.03,
+                      rotateY: 5,
+                      transition: { duration: 0.3 }
+                    } : index === 2 ? {
+                      scale: 1.04,
+                      rotateX: 5,
+                      transition: { duration: 0.3 }
+                    } : {
+                      scale: 1.05,
+                      rotateZ: -2,
+                      transition: { duration: 0.3 }
+                    }
+                  }
                 >
                   <div className="timeline-icon">
                     {step.icon === 'message' && (

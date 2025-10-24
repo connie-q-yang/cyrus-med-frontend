@@ -50,6 +50,21 @@ const TrustSection = () => {
               initial={{ opacity: 0, y: 30 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: 0.1 * index }}
+              whileHover={
+                index === 0 ? {
+                  scale: 1.05,
+                  rotateY: 5,
+                  transition: { duration: 0.3 }
+                } : index === 1 ? {
+                  scale: 1.03,
+                  y: -10,
+                  transition: { duration: 0.3 }
+                } : {
+                  scale: 1.05,
+                  rotateY: -5,
+                  transition: { duration: 0.3 }
+                }
+              }
             >
               <div className="trust-icon">
                 {point.icon === 'research' && (

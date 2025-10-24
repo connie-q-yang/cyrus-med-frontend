@@ -6,10 +6,29 @@ import './ChatPreview.css';
 
 const ChatPreview = () => {
   const [isChatOpen, setIsChatOpen] = useState(false);
+  const [tilt, setTilt] = useState({ x: 0, y: 0 });
+  const chatContainerRef = React.useRef(null);
   const { ref, inView } = useInView({
     threshold: 0.1,
     triggerOnce: true
   });
+
+  // 3D tilt effect on mouse move
+  const handleMouseMove = (e) => {
+    if (!chatContainerRef.current) return;
+    const rect = chatContainerRef.current.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    const rotateX = ((y - centerY) / centerY) * -5; // Max 5 degrees
+    const rotateY = ((x - centerX) / centerX) * 5;
+    setTilt({ x: rotateX, y: rotateY });
+  };
+
+  const handleMouseLeave = () => {
+    setTilt({ x: 0, y: 0 });
+  };
 
   const openChat = () => {
     setIsChatOpen(true);
@@ -75,10 +94,17 @@ const ChatPreview = () => {
         </motion.div>
 
         <motion.div
+          ref={chatContainerRef}
           className="chat-preview-container"
           initial={{ opacity: 0, scale: 0.95 }}
           animate={inView ? { opacity: 1, scale: 1 } : {}}
           transition={{ duration: 0.6, delay: 0.2 }}
+          style={{
+            transform: `perspective(1000px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)`,
+            transition: 'transform 0.2s ease-out'
+          }}
+          onMouseMove={handleMouseMove}
+          onMouseLeave={handleMouseLeave}
         >
           <div className="preview-content">
             <div className="chat-demo">
