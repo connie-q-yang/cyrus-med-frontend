@@ -186,8 +186,9 @@
 /* Mobile Menu */
 .mobile-menu {
   overflow: hidden;
-  background: rgba(10, 37, 64, 0.98);
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(15, 8, 24, 0.98);
+  backdrop-filter: blur(20px);
+  border-top: 1px solid rgba(192, 132, 252, 0.2);
 }
 
 .mobile-nav {
@@ -212,18 +213,18 @@
 }
 
 .mobile-nav-link:hover {
-  background: rgba(255, 255, 255, 0.06);
-  border-color: rgba(255, 255, 255, 0.15);
+  background: linear-gradient(135deg, rgba(192, 132, 252, 0.1), rgba(244, 114, 182, 0.05));
+  border-color: rgba(192, 132, 252, 0.3);
   color: #fff;
 }
 
 .mobile-beta-button {
   margin-top: 12px;
   padding: 16px 20px;
-  background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(76, 179, 212, 0.15));
-  border: 1px solid rgba(16, 185, 129, 0.3);
+  background: linear-gradient(135deg, rgba(192, 132, 252, 0.15), rgba(244, 114, 182, 0.15));
+  border: 1px solid rgba(192, 132, 252, 0.3);
   border-radius: 12px;
-  color: var(--emerald);
+  color: var(--purple-light);
   font-size: 15px;
   font-weight: 500;
   display: flex;
@@ -232,6 +233,11 @@
   gap: 10px;
   cursor: pointer;
   transition: all 0.3s;
+}
+
+.mobile-beta-button:hover {
+  background: linear-gradient(135deg, rgba(192, 132, 252, 0.25), rgba(244, 114, 182, 0.2));
+  border-color: rgba(192, 132, 252, 0.5);
 }
 
 /* Utility Classes */
