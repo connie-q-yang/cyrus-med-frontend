@@ -1,13 +1,13 @@
 .hero {
-  padding: 160px 40px 100px;
+  padding: 160px 60px 100px;
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
   overflow: hidden;
-  background: radial-gradient(ellipse at center top, rgba(192, 132, 252, 0.15) 0%, transparent 50%),
-              radial-gradient(ellipse at center bottom, rgba(244, 114, 182, 0.1) 0%, transparent 50%);
+  background: radial-gradient(ellipse at left center, rgba(192, 132, 252, 0.15) 0%, transparent 50%),
+              radial-gradient(ellipse at right center, rgba(244, 114, 182, 0.12) 0%, transparent 50%);
 }
 
 .hero::before {
@@ -27,21 +27,25 @@
 }
 
 .hero-container {
-  max-width: 900px;
+  max-width: 1400px;
   margin: 0 auto;
-  text-align: center;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
   position: relative;
   z-index: 2;
 }
 
-.hero-content {
-  width: 100%;
+/* Left Side - Main Content */
+.hero-left {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
 }
 
 .hero-badge {
-  display: inline-block;
-  margin-bottom: 32px;
-  animation: fadeInDown 0.8s ease-out;
+  align-self: flex-start;
 }
 
 @keyframes fadeInDown {
@@ -88,13 +92,13 @@
 }
 
 .hero h1 {
-  font-size: clamp(48px, 6vw, 80px);
-  line-height: 1.05;
-  margin-bottom: 32px;
+  font-size: clamp(42px, 5vw, 64px);
+  line-height: 1.1;
+  margin: 0;
   font-weight: 200;
   letter-spacing: -2px;
   color: #fff;
-  animation: fadeInUp 1s ease-out 0.2s backwards;
+  text-align: left;
 }
 
 @keyframes fadeInUp {
@@ -126,107 +130,39 @@
   50% { background-position: 100% 50%; }
 }
 
-.benefits-carousel {
-  height: 80px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 56px;
-}
-
-.hero-subtitle {
-  font-size: 24px;
-  color: rgba(255, 255, 255, 0.6);
-  line-height: 1.5;
+.hero-description {
+  font-size: 18px;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.6;
   margin: 0;
   font-weight: 300;
-  letter-spacing: 0.5px;
-  max-width: 600px;
-  margin: 0 auto;
-}
-
-.trust-indicators {
-  display: flex;
-  gap: 60px;
-  margin-bottom: 56px;
-  justify-content: center;
-  flex-wrap: wrap;
-  animation: fadeIn 1s ease-out 0.6s backwards;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-.indicator {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  position: relative;
-}
-
-.indicator::after {
-  content: '';
-  position: absolute;
-  bottom: -4px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 40px;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-}
-
-.indicator-number {
-  font-size: 36px;
-  font-weight: 100;
-  color: #fff;
-  letter-spacing: -1px;
-  position: relative;
-}
-
-.indicator-number::before {
-  content: '';
-  position: absolute;
-  inset: -10px;
-  background: radial-gradient(circle at center, rgba(255, 255, 255, 0.05), transparent 70%);
-  filter: blur(20px);
-  z-index: -1;
-}
-
-.indicator-label {
-  font-size: 11px;
-  color: rgba(255, 255, 255, 0.4);
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-  font-weight: 400;
+  letter-spacing: 0.3px;
+  max-width: 540px;
 }
 
 .cta-container {
   display: flex;
   flex-direction: column;
-  gap: 24px;
-  align-items: center;
-  animation: fadeInUp 1s ease-out 0.6s backwards;
+  gap: 20px;
 }
 
 .cta-buttons {
   display: flex;
-  gap: 20px;
-  justify-content: center;
+  gap: 12px;
   align-items: center;
   flex-wrap: wrap;
+  align-self: flex-start;
 }
 
 .cta-primary {
   display: inline-flex;
   align-items: center;
-  gap: 12px;
-  padding: 24px 56px;
+  gap: 10px;
+  padding: 16px 32px;
   background: var(--primary-gradient);
   color: #fff;
   border-radius: 100px;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 500;
   letter-spacing: 0.5px;
   cursor: pointer;
@@ -265,13 +201,13 @@
 .cta-secondary {
   display: inline-flex;
   align-items: center;
-  gap: 12px;
-  padding: 24px 56px;
+  gap: 10px;
+  padding: 16px 32px;
   background: var(--glass-pink);
   color: rgba(255, 255, 255, 0.95);
   border: 2px solid rgba(244, 114, 182, 0.3);
   border-radius: 100px;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 500;
   letter-spacing: 0.5px;
   cursor: pointer;
@@ -310,11 +246,191 @@
 }
 
 .cta-subtitle {
-  font-size: 12px;
-  color: rgba(255, 255, 255, 0.4);
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.5);
   margin: 0;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.3px;
   font-weight: 300;
+}
+
+/* Right Side - Animated Facts */
+.hero-right {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.facts-container {
+  width: 100%;
+  max-width: 520px;
+  position: relative;
+}
+
+/* Did You Know Label */
+.did-you-know {
+  font-size: 14px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.5);
+  font-style: italic;
+  margin-bottom: 4px;
+  position: relative;
+  z-index: 2;
+  letter-spacing: 0.3px;
+  align-self: flex-start;
+  text-align: left;
+  width: 100%;
+}
+
+.fact-card {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.03));
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 20px;
+  padding: 44px 40px;
+  position: relative;
+  overflow: visible;
+  min-height: 320px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  gap: 18px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  perspective: 1000px;
+}
+
+.fact-glow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 70% 30%, rgba(192, 132, 252, 0.15) 0%, transparent 70%);
+  pointer-events: none;
+  animation: glowRotate 8s linear infinite;
+  border-radius: 20px;
+}
+
+@keyframes glowRotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.fact-stat {
+  font-size: 76px;
+  font-weight: 800;
+  background: linear-gradient(135deg, #FFFFFF 0%, rgba(192, 132, 252, 0.95) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -4px;
+  line-height: 1.1;
+  position: relative;
+  z-index: 2;
+  text-shadow: 0 4px 20px rgba(192, 132, 252, 0.2);
+  padding: 4px 8px;
+  margin: 0;
+}
+
+.fact-description {
+  font-size: 21px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.95);
+  line-height: 1.4;
+  position: relative;
+  z-index: 2;
+  letter-spacing: -0.5px;
+  padding: 0 4px;
+  margin: 0;
+}
+
+.fact-impact {
+  font-size: 15px;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.6;
+  position: relative;
+  z-index: 2;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  font-style: italic;
+}
+
+.fact-indicators {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 32px;
+}
+
+.fact-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 0;
+}
+
+.fact-dot.active {
+  width: 32px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #C084FC, #F472B6);
+}
+
+.fact-dot:hover:not(.active) {
+  background: rgba(255, 255, 255, 0.4);
+  transform: scale(1.2);
+}
+
+@media (max-width: 968px) {
+  .hero-container {
+    grid-template-columns: 1fr;
+    gap: 60px;
+  }
+
+  .hero-left {
+    text-align: center;
+    align-items: center;
+  }
+
+  .hero-badge {
+    align-self: center;
+  }
+
+  .hero h1 {
+    text-align: center;
+  }
+
+  .hero-description {
+    text-align: center;
+    margin: 0 auto;
+  }
+
+  .cta-container {
+    align-items: center;
+  }
+
+  .cta-buttons {
+    justify-content: center;
+    align-self: center;
+  }
+
+  .fact-card {
+    min-height: 280px;
+    padding: 40px 32px;
+  }
+
+  .fact-stat {
+    font-size: 64px;
+  }
+
+  .fact-description {
+    font-size: 18px;
+  }
 }
 
 @media (max-width: 768px) {
@@ -323,12 +439,12 @@
   }
 
   .hero h1 {
-    font-size: 42px;
+    font-size: 38px;
     letter-spacing: -1px;
   }
 
-  .hero-subtitle {
-    font-size: 20px;
+  .hero-description {
+    font-size: 16px;
   }
 
   .cta-buttons {
@@ -347,5 +463,22 @@
   .hero-badge span {
     font-size: 11px;
     padding: 8px 20px;
+  }
+
+  .fact-card {
+    min-height: 260px;
+    padding: 36px 28px;
+  }
+
+  .fact-stat {
+    font-size: 56px;
+  }
+
+  .fact-description {
+    font-size: 17px;
+  }
+
+  .fact-impact {
+    font-size: 14px;
   }
 }

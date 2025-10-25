@@ -5,27 +5,56 @@ import { trackButtonClick } from '../../utils/analytics';
 import './Hero.css';
 
 const Hero = () => {
-  const [currentBenefit, setCurrentBenefit] = useState(0);
+  const [currentFact, setCurrentFact] = useState(0);
   const [isChatOpen, setIsChatOpen] = useState(false);
   const primaryBtnRef = React.useRef(null);
   const secondaryBtnRef = React.useRef(null);
 
-  const benefits = [
-    "Understand your cycle, symptoms, and hormones",
-    "Get guidance on pregnancy and fertility concerns",
-    "Know when period symptoms need attention",
-    "Navigate menopause with confidence"
+  // Well-documented women's health statistics
+  // IMPORTANT: Verify these with current sources before going live
+  // Suggested sources: WHO, NIH, ACOG, CDC, American Thyroid Association
+  const healthFacts = [
+    {
+      stat: "1 in 10",
+      description: "women have endometriosis worldwide",
+      impact: "That's 190 million women, yet diagnosis takes 7-10 years on average"
+    },
+    {
+      stat: "1 in 3",
+      description: "women say they don't fully understand their birth control options",
+      impact: "Or which method is best for their body and lifestyle"
+    },
+    {
+      stat: "70%",
+      description: "of women experience period pain",
+      impact: "But only 1 in 5 seek medical help, often dismissed as 'normal'"
+    },
+    {
+      stat: "1 in 5",
+      description: "women develop thyroid disorders in their lifetime",
+      impact: "Women are 5-8x more likely than men to have thyroid problems"
+    },
+    {
+      stat: "8%",
+      description: "of reproductive-age women have PCOS",
+      impact: "Yet 70% remain undiagnosed despite treatable symptoms"
+    },
+    {
+      stat: "23 days",
+      description: "longer wait time for pain diagnosis in women vs men",
+      impact: "Gender bias in healthcare delays critical diagnoses"
+    }
   ];
 
   useEffect(() => {
-    const benefitInterval = setInterval(() => {
-      setCurrentBenefit((prev) => (prev + 1) % benefits.length);
-    }, 3000);
+    const factInterval = setInterval(() => {
+      setCurrentFact((prev) => (prev + 1) % healthFacts.length);
+    }, 2500); // Faster rotation - 2.5 seconds
 
     return () => {
-      clearInterval(benefitInterval);
+      clearInterval(factInterval);
     };
-  }, [benefits.length]);
+  }, [healthFacts.length]);
 
   // Magnetic button effect
   const handleMagneticMove = (e, ref) => {
@@ -67,28 +96,23 @@ const Hero = () => {
   return (
     <section className="hero">
       <div className="hero-container">
+        {/* Left Side - Main Content */}
         <motion.div
-          className="hero-content"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
+          className="hero-left"
+          initial={{ opacity: 0, x: -50 }}
+          animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8 }}
         >
+          <div className="hero-badge">
+            <span>AI-Powered Women's Health</span>
+          </div>
+
           <h1>Women's health answers you can <span className="gradient-text">trust.</span></h1>
 
-          <div className="benefits-carousel">
-            <AnimatePresence mode="wait">
-              <motion.p
-                key={currentBenefit}
-                className="hero-subtitle"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.5 }}
-              >
-                {benefits[currentBenefit]}
-              </motion.p>
-            </AnimatePresence>
-          </div>
+          <p className="hero-description">
+            Get instant, evidence-based guidance for your reproductive and hormonal health.
+            No more waiting weeks for answers or second-guessing your symptoms.
+          </p>
 
           <div className="cta-container">
             <div className="cta-buttons">
@@ -112,6 +136,62 @@ const Hero = () => {
               </button>
             </div>
             <p className="cta-subtitle">Join 500+ women taking control of their health</p>
+          </div>
+        </motion.div>
+
+        {/* Right Side - Animated Health Facts */}
+        <motion.div
+          className="hero-right"
+          initial={{ opacity: 0, x: 50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+        >
+          <div className="facts-container">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={currentFact}
+                className="fact-card"
+                initial={{
+                  opacity: 0,
+                  rotateX: -15,
+                  y: 40
+                }}
+                animate={{
+                  opacity: 1,
+                  rotateX: 0,
+                  y: 0
+                }}
+                exit={{
+                  opacity: 0,
+                  rotateX: 15,
+                  y: -40
+                }}
+                transition={{
+                  duration: 0.4,
+                  ease: "easeOut"
+                }}
+              >
+                <div className="did-you-know">Did you know that...</div>
+                <div className="fact-stat">{healthFacts[currentFact].stat}</div>
+                <div className="fact-description">{healthFacts[currentFact].description}</div>
+                <div className="fact-impact">{healthFacts[currentFact].impact}</div>
+
+                {/* Decorative elements */}
+                <div className="fact-glow"></div>
+              </motion.div>
+            </AnimatePresence>
+
+            {/* Progress indicators */}
+            <div className="fact-indicators">
+              {healthFacts.map((_, index) => (
+                <button
+                  key={index}
+                  className={`fact-dot ${index === currentFact ? 'active' : ''}`}
+                  onClick={() => setCurrentFact(index)}
+                  aria-label={`Go to fact ${index + 1}`}
+                />
+              ))}
+            </div>
           </div>
         </motion.div>
       </div>

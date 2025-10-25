@@ -108,13 +108,6 @@ const Waitlist = () => {
                 <circle cx="9" cy="9" r="8" stroke="currentColor" strokeWidth="1.5" opacity="0.3"/>
                 <path d="M5 9L8 12L13 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
-              <span>$50 in free consultation credits</span>
-            </div>
-            <div className="benefit">
-              <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-                <circle cx="9" cy="9" r="8" stroke="currentColor" strokeWidth="1.5" opacity="0.3"/>
-                <path d="M5 9L8 12L13 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
               <span>Priority access to all features</span>
             </div>
             <div className="benefit">
