@@ -5,11 +5,14 @@ import chatService from '../services/chatService';
 const generateFollowUpQuestions = (aiResponse, exchangeCount) => {
   const lowerResponse = aiResponse.toLowerCase();
 
-  // If SOAP note is provided (after 4-5 exchanges), encourage beta signup
-  if (lowerResponse.includes('subjective:') || lowerResponse.includes('s:') || exchangeCount >= 4) {
+  // If SOAP note is provided (after 5-7 exchanges), encourage download and beta signup
+  if (lowerResponse.includes('**s (subjective):**') ||
+      lowerResponse.includes('s (subjective):') ||
+      lowerResponse.includes('soap note') ||
+      (exchangeCount >= 5 && lowerResponse.includes('subjective'))) {
     return [
+      "Download my SOAP note",
       "Get priority access to OpenMedicine",
-      "Schedule a consultation",
       "Join the beta waitlist"
     ];
   }
