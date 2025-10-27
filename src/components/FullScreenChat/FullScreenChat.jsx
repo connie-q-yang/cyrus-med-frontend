@@ -162,6 +162,16 @@ const FullScreenChat = ({ isOpen, onClose }) => {
     await sendMessage(answer);
   };
 
+  const handleMultipleChoiceClick = async (answer) => {
+    trackDemoAction('multiple_choice_response', {
+      messageNumber: messageCountRef.current + 1,
+      inputMethod: 'button'
+    });
+    messageCountRef.current++;
+
+    await sendMessage(answer);
+  };
+
   const handleJoinWaitlist = () => {
     trackButtonClick('join_waitlist', 'demo_chat');
     // Close the chat modal
@@ -187,12 +197,41 @@ const FullScreenChat = ({ isOpen, onClose }) => {
     }, 300);
   };
 
+  // Detect question type from last AI message
+  const getQuestionType = () => {
+    if (messages.length === 0 || isLoading || messages.length === 1) return null;
+    const lastMessage = messages[messages.length - 1];
+    if (lastMessage.role !== 'assistant' || !lastMessage.content.includes('?')) return null;
+
+    const content = lastMessage.content.toLowerCase();
+
+    // Age question
+    if (content.includes('what is your age') || content.includes('how old are you')) {
+      return 'age';
+    }
+
+    // Sex/Gender question
+    if (content.includes('biological sex') || content.includes('sex assigned at birth')) {
+      return 'sex';
+    }
+
+    // Pregnancy question
+    if (content.includes('currently pregnant') || content.includes('are you pregnant')) {
+      return 'pregnancy';
+    }
+
+    // Last Menstrual Period question
+    if (content.includes('last menstrual period') || content.includes('lmp') || content.includes('last period')) {
+      return 'lmp';
+    }
+
+    // Default to yes/no for clinical questions
+    return 'yesno';
+  };
+
   // Check if we should show yes/no buttons
   const shouldShowYesNoButtons = () => {
-    if (messages.length === 0 || isLoading || messages.length === 1) return false;
-    const lastMessage = messages[messages.length - 1];
-    // Show buttons if last message is from AI and contains a question mark
-    return lastMessage.role === 'assistant' && lastMessage.content.includes('?');
+    return getQuestionType() === 'yesno';
   };
 
   // Check if the last message is the final summary
@@ -369,6 +408,7 @@ const FullScreenChat = ({ isOpen, onClose }) => {
             </div>
 
             <div className="chat-footer">
+              {/* Yes/No Buttons */}
               {shouldShowYesNoButtons() && (
                 <div className="yes-no-buttons">
                   <button
@@ -394,13 +434,114 @@ const FullScreenChat = ({ isOpen, onClose }) => {
                 </div>
               )}
 
+              {/* Sex/Gender Selection */}
+              {getQuestionType() === 'sex' && (
+                <div className="multiple-choice-buttons">
+                  <button
+                    className="choice-button"
+                    onClick={() => handleMultipleChoiceClick('Female')}
+                    disabled={isLoading}
+                  >
+                    Female
+                  </button>
+                  <button
+                    className="choice-button"
+                    onClick={() => handleMultipleChoiceClick('Male')}
+                    disabled={isLoading}
+                  >
+                    Male
+                  </button>
+                  <button
+                    className="choice-button"
+                    onClick={() => handleMultipleChoiceClick('Other')}
+                    disabled={isLoading}
+                  >
+                    Other
+                  </button>
+                </div>
+              )}
+
+              {/* Pregnancy Status */}
+              {getQuestionType() === 'pregnancy' && (
+                <div className="yes-no-buttons">
+                  <button
+                    className="yes-button"
+                    onClick={() => handleYesNoClick('Yes')}
+                    disabled={isLoading}
+                  >
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                      <path d="M16 6L8.5 13.5L4 9" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                    Yes
+                  </button>
+                  <button
+                    className="no-button"
+                    onClick={() => handleYesNoClick('No')}
+                    disabled={isLoading}
+                  >
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                      <path d="M14 6L6 14M6 6L14 14" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"/>
+                    </svg>
+                    No
+                  </button>
+                </div>
+              )}
+
+              {/* Last Menstrual Period Selection */}
+              {getQuestionType() === 'lmp' && (
+                <div className="multiple-choice-buttons lmp-buttons">
+                  <button
+                    className="choice-button"
+                    onClick={() => handleMultipleChoiceClick('Within the last week')}
+                    disabled={isLoading}
+                  >
+                    Within the last week
+                  </button>
+                  <button
+                    className="choice-button"
+                    onClick={() => handleMultipleChoiceClick('1-2 weeks ago')}
+                    disabled={isLoading}
+                  >
+                    1-2 weeks ago
+                  </button>
+                  <button
+                    className="choice-button"
+                    onClick={() => handleMultipleChoiceClick('2-4 weeks ago')}
+                    disabled={isLoading}
+                  >
+                    2-4 weeks ago
+                  </button>
+                  <button
+                    className="choice-button"
+                    onClick={() => handleMultipleChoiceClick('More than a month ago')}
+                    disabled={isLoading}
+                  >
+                    More than a month ago
+                  </button>
+                  <button
+                    className="choice-button"
+                    onClick={() => handleMultipleChoiceClick('Not applicable')}
+                    disabled={isLoading}
+                  >
+                    Not applicable
+                  </button>
+                </div>
+              )}
+
               <form className="chat-form" onSubmit={handleSubmit}>
                 <input
                   ref={inputRef}
-                  type="text"
+                  type={getQuestionType() === 'age' ? 'number' : 'text'}
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
-                  placeholder={shouldShowYesNoButtons() ? "Or type your own response..." : "Type your health question here..."}
+                  placeholder={
+                    getQuestionType() === 'age' ? "Enter your age (e.g., 25)" :
+                    getQuestionType() === 'sex' ? "Or type your response..." :
+                    getQuestionType() === 'lmp' ? "Or type your response..." :
+                    getQuestionType() === 'pregnancy' ? "Or type your response..." :
+                    shouldShowYesNoButtons() ? "Or type your own response..." :
+                    "Type your health question here..."
+                  }
                   disabled={isLoading}
                   className="chat-input"
                 />
