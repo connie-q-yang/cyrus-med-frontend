@@ -201,7 +201,7 @@ const FullScreenChat = ({ isOpen, onClose }) => {
   const getQuestionType = () => {
     if (messages.length === 0 || isLoading || messages.length === 1) return null;
     const lastMessage = messages[messages.length - 1];
-    if (lastMessage.role !== 'assistant' || !lastMessage.content.includes('?')) return null;
+    if (lastMessage.role !== 'ai' || !lastMessage.content.includes('?')) return null;
 
     const content = lastMessage.content.toLowerCase();
 
