@@ -61,6 +61,30 @@ After providing the SOAP note, encourage them to download this summary and bring
 
 TONE: Warm, nurturing, gentle, non-judgmental, and empowering. Like a caring friend who listens without judgment. Use phrases like "I hear you," "That must be concerning," "You're not alone in this." Make women feel safe, heard, and supported.`;
 
+// FEW-SHOT EXAMPLES (Multishot Prompting)
+// Add conversation examples here to guide Luna's responses
+// Uncomment and customize the examples below:
+/*
+const FEW_SHOT_EXAMPLES = [
+  {
+    role: 'user',
+    content: 'I have burning when I urinate'
+  },
+  {
+    role: 'assistant',
+    content: 'I hear you, and I\'m here to help you understand what might be going on. Let me ask you a few questions to get a better picture. Have you noticed any changes in how often you need to urinate?'
+  },
+  {
+    role: 'user',
+    content: 'Yes, I\'ve been going more frequently'
+  },
+  {
+    role: 'assistant',
+    content: 'Thank you for sharing that. Increased frequency along with burning can be uncomfortable. Do you have any fever or chills?'
+  }
+];
+*/
+
 exports.handler = async (event) => {
   // CORS headers
   const headers = {
@@ -147,19 +171,24 @@ exports.handler = async (event) => {
       contextualSystemPrompt += `\n\nYou are in the middle of triage. Acknowledge their answer warmly, then ask ONLY ONE yes/no question. Keep it caring and clear.`;
     }
 
+    // To use few-shot examples, uncomment FEW_SHOT_EXAMPLES above and inject them here:
     const messages = [
       { role: 'system', content: contextualSystemPrompt },
+      // ...FEW_SHOT_EXAMPLES,  // <-- Uncomment this line to include few-shot examples
       ...(conversationHistory || []),
       { role: 'user', content: message }
     ];
 
     console.log('Sending request to Azure OpenAI...');
 
+    // Use higher token limit for SOAP note generation, lower for regular questions
+    const maxTokens = shouldProvideSummary ? 1500 : 500;
+
     const response = await client.chat.completions.create({
       messages: messages,
       model: process.env.REACT_APP_AZURE_OPENAI_DEPLOYMENT || 'gpt-4',
       temperature: 0.7,
-      max_tokens: 400,
+      max_tokens: maxTokens,
       top_p: 0.95,
       frequency_penalty: 0,
       presence_penalty: 0,
