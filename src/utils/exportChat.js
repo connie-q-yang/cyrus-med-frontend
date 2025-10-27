@@ -6,35 +6,71 @@ const extractSOAPNote = (messages) => {
   const lastMessage = messages[messages.length - 1];
   if (lastMessage && lastMessage.role === 'ai') {
     const content = lastMessage.content;
-    // Check if it contains SOAP note sections
-    if (content.includes('**S (Subjective):**') || content.includes('S (Subjective):')) {
+    // Check if it contains SOAP note sections (both old and new formats)
+    if (content.includes('**SOAP NOTE') ||
+        content.includes('**Chief Complaint:**') ||
+        content.includes('**S (Subjective):**') ||
+        content.includes('S (Subjective):')) {
       return content;
     }
   }
   return null;
 };
 
-// Helper function to parse SOAP sections
+// Helper function to parse SOAP sections (supports both H&P and traditional SOAP formats)
 const parseSOAPSections = (soapText) => {
   const sections = {
-    subjective: '',
-    objective: '',
+    chiefComplaint: '',
+    hpi: '',
+    pmh: '',
+    psh: '',
+    medications: '',
+    allergies: '',
+    ros: '',
     assessment: '',
     plan: '',
+    // Legacy format support
+    subjective: '',
+    objective: '',
     note: ''
   };
 
-  // Extract each section using regex
+  // New H&P format
+  const ccMatch = soapText.match(/\*\*Chief Complaint:\*\*\s*([\s\S]*?)(?=\*\*History of Present Illness|$)/i);
+  const hpiMatch = soapText.match(/\*\*History of Present Illness \(HPI\):\*\*\s*([\s\S]*?)(?=\*\*Past Medical History|$)/i);
+  const pmhMatch = soapText.match(/\*\*Past Medical History \(PMH\):\*\*\s*([\s\S]*?)(?=\*\*Past Surgical History|$)/i);
+  const pshMatch = soapText.match(/\*\*Past Surgical History \(PSH\):\*\*\s*([\s\S]*?)(?=\*\*Medications:|$)/i);
+  const medsMatch = soapText.match(/\*\*Medications:\*\*\s*([\s\S]*?)(?=\*\*Allergies:|$)/i);
+  const allergiesMatch = soapText.match(/\*\*Allergies:\*\*\s*([\s\S]*?)(?=\*\*Review of Systems|$)/i);
+  const rosMatch = soapText.match(/\*\*Review of Systems \(ROS\):\*\*\s*([\s\S]*?)(?=\*\*Assessment:|$)/i);
+  const assessmentMatch = soapText.match(/\*\*Assessment:\*\*\s*([\s\S]*?)(?=\*\*Plan:|$)/i);
+  const planMatch = soapText.match(/\*\*Plan:\*\*\s*([\s\S]*?)(?=\*\*Remember:|---|\n\n\n|$)/i);
+
+  // Legacy SOAP format
   const subjectiveMatch = soapText.match(/\*\*S \(Subjective\):\*\*\s*([\s\S]*?)(?=\*\*O \(Objective\):|$)/i);
   const objectiveMatch = soapText.match(/\*\*O \(Objective\):\*\*\s*([\s\S]*?)(?=\*\*A \(Assessment\):|$)/i);
-  const assessmentMatch = soapText.match(/\*\*A \(Assessment\):\*\*\s*([\s\S]*?)(?=\*\*P \(Plan\):|$)/i);
-  const planMatch = soapText.match(/\*\*P \(Plan\):\*\*\s*([\s\S]*?)(?=\*\*Remember:|---|\n\n\n|$)/i);
+  const legacyAssessmentMatch = soapText.match(/\*\*A \(Assessment\):\*\*\s*([\s\S]*?)(?=\*\*P \(Plan\):|$)/i);
+  const legacyPlanMatch = soapText.match(/\*\*P \(Plan\):\*\*\s*([\s\S]*?)(?=\*\*Remember:|---|\n\n\n|$)/i);
+
   const noteMatch = soapText.match(/\*\*Remember:\*\*\s*([\s\S]*?)$/i);
 
-  if (subjectiveMatch) sections.subjective = subjectiveMatch[1].trim();
-  if (objectiveMatch) sections.objective = objectiveMatch[1].trim();
+  // New format
+  if (ccMatch) sections.chiefComplaint = ccMatch[1].trim();
+  if (hpiMatch) sections.hpi = hpiMatch[1].trim();
+  if (pmhMatch) sections.pmh = pmhMatch[1].trim();
+  if (pshMatch) sections.psh = pshMatch[1].trim();
+  if (medsMatch) sections.medications = medsMatch[1].trim();
+  if (allergiesMatch) sections.allergies = allergiesMatch[1].trim();
+  if (rosMatch) sections.ros = rosMatch[1].trim();
   if (assessmentMatch) sections.assessment = assessmentMatch[1].trim();
   if (planMatch) sections.plan = planMatch[1].trim();
+
+  // Legacy format
+  if (subjectiveMatch) sections.subjective = subjectiveMatch[1].trim();
+  if (objectiveMatch) sections.objective = objectiveMatch[1].trim();
+  if (legacyAssessmentMatch && !sections.assessment) sections.assessment = legacyAssessmentMatch[1].trim();
+  if (legacyPlanMatch && !sections.plan) sections.plan = legacyPlanMatch[1].trim();
+
   if (noteMatch) sections.note = noteMatch[1].trim();
 
   return sections;
@@ -79,50 +115,189 @@ export const exportChatAsDocx = async (messages) => {
 
   if (hasSoapNote) {
     const sections = parseSOAPSections(soapNote);
+    const isNewFormat = sections.chiefComplaint || sections.hpi;
 
-    docChildren.push(
-      new Paragraph({
-        text: "SOAP Note - Health Consultation Summary",
-        heading: HeadingLevel.HEADING_2,
-        spacing: { after: 300, before: 200 }
-      }),
-      new Paragraph({
-        text: "S - Subjective",
-        heading: HeadingLevel.HEADING_3,
-        spacing: { after: 200, before: 300 }
-      }),
-      new Paragraph({
-        text: sections.subjective,
-        spacing: { after: 300 }
-      }),
-      new Paragraph({
-        text: "O - Objective",
-        heading: HeadingLevel.HEADING_3,
-        spacing: { after: 200, before: 200 }
-      }),
-      new Paragraph({
-        text: sections.objective,
-        spacing: { after: 300 }
-      }),
-      new Paragraph({
-        text: "A - Assessment",
-        heading: HeadingLevel.HEADING_3,
-        spacing: { after: 200, before: 200 }
-      }),
-      new Paragraph({
-        text: sections.assessment,
-        spacing: { after: 300 }
-      }),
-      new Paragraph({
-        text: "P - Plan",
-        heading: HeadingLevel.HEADING_3,
-        spacing: { after: 200, before: 200 }
-      }),
-      new Paragraph({
-        text: sections.plan,
-        spacing: { after: 400 }
-      })
-    );
+    if (isNewFormat) {
+      // New H&P format
+      docChildren.push(
+        new Paragraph({
+          text: "Clinical H&P Note",
+          heading: HeadingLevel.HEADING_2,
+          spacing: { after: 300, before: 200 }
+        })
+      );
+
+      if (sections.chiefComplaint) {
+        docChildren.push(
+          new Paragraph({
+            text: "Chief Complaint",
+            heading: HeadingLevel.HEADING_3,
+            spacing: { after: 200, before: 300 }
+          }),
+          new Paragraph({
+            text: sections.chiefComplaint,
+            spacing: { after: 300 }
+          })
+        );
+      }
+
+      if (sections.hpi) {
+        docChildren.push(
+          new Paragraph({
+            text: "History of Present Illness (HPI)",
+            heading: HeadingLevel.HEADING_3,
+            spacing: { after: 200, before: 200 }
+          }),
+          new Paragraph({
+            text: sections.hpi,
+            spacing: { after: 300 }
+          })
+        );
+      }
+
+      if (sections.pmh) {
+        docChildren.push(
+          new Paragraph({
+            text: "Past Medical History (PMH)",
+            heading: HeadingLevel.HEADING_3,
+            spacing: { after: 200, before: 200 }
+          }),
+          new Paragraph({
+            text: sections.pmh,
+            spacing: { after: 300 }
+          })
+        );
+      }
+
+      if (sections.psh) {
+        docChildren.push(
+          new Paragraph({
+            text: "Past Surgical History (PSH)",
+            heading: HeadingLevel.HEADING_3,
+            spacing: { after: 200, before: 200 }
+          }),
+          new Paragraph({
+            text: sections.psh,
+            spacing: { after: 300 }
+          })
+        );
+      }
+
+      if (sections.medications) {
+        docChildren.push(
+          new Paragraph({
+            text: "Medications",
+            heading: HeadingLevel.HEADING_3,
+            spacing: { after: 200, before: 200 }
+          }),
+          new Paragraph({
+            text: sections.medications,
+            spacing: { after: 300 }
+          })
+        );
+      }
+
+      if (sections.allergies) {
+        docChildren.push(
+          new Paragraph({
+            text: "Allergies",
+            heading: HeadingLevel.HEADING_3,
+            spacing: { after: 200, before: 200 }
+          }),
+          new Paragraph({
+            text: sections.allergies,
+            spacing: { after: 300 }
+          })
+        );
+      }
+
+      if (sections.ros) {
+        docChildren.push(
+          new Paragraph({
+            text: "Review of Systems (ROS)",
+            heading: HeadingLevel.HEADING_3,
+            spacing: { after: 200, before: 200 }
+          }),
+          new Paragraph({
+            text: sections.ros,
+            spacing: { after: 300 }
+          })
+        );
+      }
+
+      if (sections.assessment) {
+        docChildren.push(
+          new Paragraph({
+            text: "Assessment",
+            heading: HeadingLevel.HEADING_3,
+            spacing: { after: 200, before: 200 }
+          }),
+          new Paragraph({
+            text: sections.assessment,
+            spacing: { after: 300 }
+          })
+        );
+      }
+
+      if (sections.plan) {
+        docChildren.push(
+          new Paragraph({
+            text: "Plan",
+            heading: HeadingLevel.HEADING_3,
+            spacing: { after: 200, before: 200 }
+          }),
+          new Paragraph({
+            text: sections.plan,
+            spacing: { after: 400 }
+          })
+        );
+      }
+    } else {
+      // Legacy SOAP format
+      docChildren.push(
+        new Paragraph({
+          text: "SOAP Note - Health Consultation Summary",
+          heading: HeadingLevel.HEADING_2,
+          spacing: { after: 300, before: 200 }
+        }),
+        new Paragraph({
+          text: "S - Subjective",
+          heading: HeadingLevel.HEADING_3,
+          spacing: { after: 200, before: 300 }
+        }),
+        new Paragraph({
+          text: sections.subjective,
+          spacing: { after: 300 }
+        }),
+        new Paragraph({
+          text: "O - Objective",
+          heading: HeadingLevel.HEADING_3,
+          spacing: { after: 200, before: 200 }
+        }),
+        new Paragraph({
+          text: sections.objective,
+          spacing: { after: 300 }
+        }),
+        new Paragraph({
+          text: "A - Assessment",
+          heading: HeadingLevel.HEADING_3,
+          spacing: { after: 200, before: 200 }
+        }),
+        new Paragraph({
+          text: sections.assessment,
+          spacing: { after: 300 }
+        }),
+        new Paragraph({
+          text: "P - Plan",
+          heading: HeadingLevel.HEADING_3,
+          spacing: { after: 200, before: 200 }
+        }),
+        new Paragraph({
+          text: sections.plan,
+          spacing: { after: 400 }
+        })
+      );
+    }
 
     if (sections.note) {
       docChildren.push(
@@ -245,26 +420,89 @@ export const exportChatAsText = (messages) => {
 
   if (hasSoapNote) {
     const sections = parseSOAPSections(soapNote);
+    const isNewFormat = sections.chiefComplaint || sections.hpi;
 
     text += "=".repeat(50) + "\n";
-    text += "SOAP NOTE - HEALTH CONSULTATION SUMMARY\n";
+    if (isNewFormat) {
+      text += "CLINICAL H&P NOTE\n";
+    } else {
+      text += "SOAP NOTE - HEALTH CONSULTATION SUMMARY\n";
+    }
     text += "=".repeat(50) + "\n\n";
 
-    text += "S - SUBJECTIVE:\n";
-    text += "-".repeat(50) + "\n";
-    text += sections.subjective + "\n\n";
+    if (isNewFormat) {
+      // New H&P format
+      if (sections.chiefComplaint) {
+        text += "CHIEF COMPLAINT:\n";
+        text += "-".repeat(50) + "\n";
+        text += sections.chiefComplaint + "\n\n";
+      }
 
-    text += "O - OBJECTIVE:\n";
-    text += "-".repeat(50) + "\n";
-    text += sections.objective + "\n\n";
+      if (sections.hpi) {
+        text += "HISTORY OF PRESENT ILLNESS (HPI):\n";
+        text += "-".repeat(50) + "\n";
+        text += sections.hpi + "\n\n";
+      }
 
-    text += "A - ASSESSMENT:\n";
-    text += "-".repeat(50) + "\n";
-    text += sections.assessment + "\n\n";
+      if (sections.pmh) {
+        text += "PAST MEDICAL HISTORY (PMH):\n";
+        text += "-".repeat(50) + "\n";
+        text += sections.pmh + "\n\n";
+      }
 
-    text += "P - PLAN:\n";
-    text += "-".repeat(50) + "\n";
-    text += sections.plan + "\n\n";
+      if (sections.psh) {
+        text += "PAST SURGICAL HISTORY (PSH):\n";
+        text += "-".repeat(50) + "\n";
+        text += sections.psh + "\n\n";
+      }
+
+      if (sections.medications) {
+        text += "MEDICATIONS:\n";
+        text += "-".repeat(50) + "\n";
+        text += sections.medications + "\n\n";
+      }
+
+      if (sections.allergies) {
+        text += "ALLERGIES:\n";
+        text += "-".repeat(50) + "\n";
+        text += sections.allergies + "\n\n";
+      }
+
+      if (sections.ros) {
+        text += "REVIEW OF SYSTEMS (ROS):\n";
+        text += "-".repeat(50) + "\n";
+        text += sections.ros + "\n\n";
+      }
+
+      if (sections.assessment) {
+        text += "ASSESSMENT:\n";
+        text += "-".repeat(50) + "\n";
+        text += sections.assessment + "\n\n";
+      }
+
+      if (sections.plan) {
+        text += "PLAN:\n";
+        text += "-".repeat(50) + "\n";
+        text += sections.plan + "\n\n";
+      }
+    } else {
+      // Legacy SOAP format
+      text += "S - SUBJECTIVE:\n";
+      text += "-".repeat(50) + "\n";
+      text += sections.subjective + "\n\n";
+
+      text += "O - OBJECTIVE:\n";
+      text += "-".repeat(50) + "\n";
+      text += sections.objective + "\n\n";
+
+      text += "A - ASSESSMENT:\n";
+      text += "-".repeat(50) + "\n";
+      text += sections.assessment + "\n\n";
+
+      text += "P - PLAN:\n";
+      text += "-".repeat(50) + "\n";
+      text += sections.plan + "\n\n";
+    }
 
     if (sections.note) {
       text += "IMPORTANT NOTE:\n";
