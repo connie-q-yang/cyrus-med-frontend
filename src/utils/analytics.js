@@ -1,16 +1,29 @@
 // Analytics Event Tracking Utility (Google Analytics + PostHog)
-import posthog from 'posthog-js';
+let posthog = null;
 
-// Initialize PostHog
-if (typeof window !== 'undefined') {
-  posthog.init('phc_abdQpEqH7rzv22P0hZc3Ztwa3rvJ2luxP8d2P3RrNcs', {
-    api_host: 'https://us.i.posthog.com',
-    person_profiles: 'identified_only',
-    autocapture: true, // Automatically capture clicks, submits, and more
-    capture_pageview: true, // Automatically capture page views
-    capture_pageleave: true // Capture when users leave the page
-  });
-}
+// Lazy initialize PostHog only in browser
+const initPostHog = () => {
+  if (typeof window !== 'undefined' && !posthog) {
+    try {
+      const posthogModule = require('posthog-js');
+      posthog = posthogModule.default || posthogModule;
+
+      posthog.init('phc_abdQpEqH7rzv22P0hZc3Ztwa3rvJ2luxP8d2P3RrNcs', {
+        api_host: 'https://us.i.posthog.com',
+        person_profiles: 'identified_only',
+        autocapture: true,
+        capture_pageview: true,
+        capture_pageleave: true,
+        loaded: (ph) => {
+          console.log('PostHog loaded successfully');
+        }
+      });
+    } catch (error) {
+      console.error('Failed to initialize PostHog:', error);
+    }
+  }
+  return posthog;
+};
 
 // Helper function to check if gtag is available
 const isGtagAvailable = () => {
@@ -26,9 +39,14 @@ export const trackEvent = (eventName, parameters = {}) => {
   }
 
   // Send to PostHog
-  if (typeof window !== 'undefined') {
-    posthog.capture(eventName, parameters);
-    console.log('PostHog Event:', eventName, parameters); // Debug logging
+  const ph = initPostHog();
+  if (ph) {
+    try {
+      ph.capture(eventName, parameters);
+      console.log('PostHog Event:', eventName, parameters); // Debug logging
+    } catch (error) {
+      console.error('PostHog capture error:', error);
+    }
   }
 };
 
@@ -70,8 +88,13 @@ export const trackPageView = (pageName) => {
   }
 
   // PostHog (automatically captured with capture_pageview: true, but can manually track too)
-  if (typeof window !== 'undefined') {
-    posthog.capture('$pageview', { page_path: pageName, page_title: pageName });
+  const ph = initPostHog();
+  if (ph) {
+    try {
+      ph.capture('$pageview', { page_path: pageName, page_title: pageName });
+    } catch (error) {
+      console.error('PostHog pageview error:', error);
+    }
   }
 };
 
@@ -103,5 +126,5 @@ export const trackScrollDepth = (depth) => {
   });
 };
 
-// Export PostHog instance for direct usage if needed
-export { posthog };
+// Export PostHog getter for direct usage if needed
+export const getPostHog = () => initPostHog();
