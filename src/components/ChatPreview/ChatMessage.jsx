@@ -7,12 +7,19 @@ import './ChatMessage.css';
 const ChatMessage = ({ message, onFollowUpClick, isFinalSummary, onJoinWaitlist, onScheduleConsultation }) => {
   const isAI = message.role === 'ai' || message.role === 'assistant';
 
-  // Check if this is a summary message (contains "Your Symptoms:" or "What This Could Mean:")
+  // Check if this is a summary message (contains SOAP note, H&P note, or summary indicators)
   const isSummaryMessage = isAI && (
     message.content.includes('Your Symptoms:') ||
     message.content.includes('What This Could Mean:') ||
     message.content.includes('**Your Symptoms:**') ||
-    message.content.includes('**What This Could Mean:**')
+    message.content.includes('**What This Could Mean:**') ||
+    message.content.includes('**SOAP NOTE') ||
+    message.content.includes('SOAP NOTE') ||
+    message.content.includes('**Chief Complaint:**') ||
+    message.content.includes('Chief Complaint:') ||
+    message.content.includes('**History of Present Illness') ||
+    message.content.includes('**Assessment:**') ||
+    message.content.includes('Assessment:')
   );
 
   return (
