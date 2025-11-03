@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
@@ -6,6 +6,7 @@ import './ChatMessage.css';
 
 const ChatMessage = ({ message, onFollowUpClick, isFinalSummary, onJoinWaitlist, onScheduleConsultation }) => {
   const isAI = message.role === 'ai' || message.role === 'assistant';
+  const [activeTab, setActiveTab] = useState('summary');
 
   // Check if this is a summary message (contains SOAP note, H&P note, or summary indicators)
   const isSummaryMessage = isAI && (
@@ -22,6 +23,54 @@ const ChatMessage = ({ message, onFollowUpClick, isFinalSummary, onJoinWaitlist,
     message.content.includes('Assessment:')
   );
 
+  // Split content into AI Doctor Summary and H&P Note
+  const splitContent = () => {
+    const content = message.content;
+
+    // Look for H&P note section markers
+    const hpMarkers = [
+      '**History and Physical Note for Physicians:**',
+      'History and Physical Note for Physicians:',
+      '**History and Physical Note**',
+      'History and Physical Note',
+      '**H&P Note for Physicians:**',
+      'H&P Note for Physicians:',
+      '**HISTORY AND PHYSICAL**',
+      'HISTORY AND PHYSICAL'
+    ];
+
+    let splitIndex = -1;
+    let foundMarker = '';
+
+    for (const marker of hpMarkers) {
+      const index = content.indexOf(marker);
+      if (index !== -1) {
+        splitIndex = index;
+        foundMarker = marker;
+        break;
+      }
+    }
+
+    if (splitIndex !== -1 && isSummaryMessage && isFinalSummary) {
+      // Split the content
+      const summaryContent = content.substring(0, splitIndex).trim();
+      const hpContent = content.substring(splitIndex).trim();
+
+      return {
+        hasTabs: true,
+        summary: summaryContent,
+        hp: hpContent
+      };
+    }
+
+    return {
+      hasTabs: false,
+      fullContent: content
+    };
+  };
+
+  const contentData = splitContent();
+
   return (
     <motion.div
       className={`chat-message ${message.role}`}
@@ -30,25 +79,89 @@ const ChatMessage = ({ message, onFollowUpClick, isFinalSummary, onJoinWaitlist,
       transition={{ duration: 0.3 }}
     >
       <div className="message-bubble">
-        <ReactMarkdown
-          remarkPlugins={[remarkGfm]}
-          components={{
-            // Custom rendering for markdown elements
-            strong: ({children}) => <strong className="message-bold">{children}</strong>,
-            em: ({children}) => <em className="message-italic">{children}</em>,
-            ul: ({children}) => <ul className="message-list">{children}</ul>,
-            ol: ({children}) => <ol className="message-list ordered">{children}</ol>,
-            li: ({children}) => <li className="message-list-item">{children}</li>,
-            p: ({children}) => <p className="message-paragraph">{children}</p>,
-            blockquote: ({children}) => <blockquote className="message-quote">{children}</blockquote>,
-            code: ({inline, children}) =>
-              inline
-                ? <code className="message-code-inline">{children}</code>
-                : <pre className="message-code-block"><code>{children}</code></pre>
-          }}
-        >
-          {message.content}
-        </ReactMarkdown>
+        {contentData.hasTabs ? (
+          <>
+            {/* Tabs Navigation */}
+            <div className="summary-tabs">
+              <button
+                className={`tab-button ${activeTab === 'summary' ? 'active' : ''}`}
+                onClick={() => setActiveTab('summary')}
+              >
+                AI Doctor Summary
+              </button>
+              <button
+                className={`tab-button ${activeTab === 'hp' ? 'active' : ''}`}
+                onClick={() => setActiveTab('hp')}
+              >
+                H&P Note for Physicians
+              </button>
+            </div>
+
+            {/* Tab Content */}
+            <div className="tab-content">
+              {activeTab === 'summary' && (
+                <ReactMarkdown
+                  remarkPlugins={[remarkGfm]}
+                  components={{
+                    strong: ({children}) => <strong className="message-bold">{children}</strong>,
+                    em: ({children}) => <em className="message-italic">{children}</em>,
+                    ul: ({children}) => <ul className="message-list">{children}</ul>,
+                    ol: ({children}) => <ol className="message-list ordered">{children}</ol>,
+                    li: ({children}) => <li className="message-list-item">{children}</li>,
+                    p: ({children}) => <p className="message-paragraph">{children}</p>,
+                    blockquote: ({children}) => <blockquote className="message-quote">{children}</blockquote>,
+                    code: ({inline, children}) =>
+                      inline
+                        ? <code className="message-code-inline">{children}</code>
+                        : <pre className="message-code-block"><code>{children}</code></pre>
+                  }}
+                >
+                  {contentData.summary}
+                </ReactMarkdown>
+              )}
+
+              {activeTab === 'hp' && (
+                <ReactMarkdown
+                  remarkPlugins={[remarkGfm]}
+                  components={{
+                    strong: ({children}) => <strong className="message-bold">{children}</strong>,
+                    em: ({children}) => <em className="message-italic">{children}</em>,
+                    ul: ({children}) => <ul className="message-list">{children}</ul>,
+                    ol: ({children}) => <ol className="message-list ordered">{children}</ol>,
+                    li: ({children}) => <li className="message-list-item">{children}</li>,
+                    p: ({children}) => <p className="message-paragraph">{children}</p>,
+                    blockquote: ({children}) => <blockquote className="message-quote">{children}</blockquote>,
+                    code: ({inline, children}) =>
+                      inline
+                        ? <code className="message-code-inline">{children}</code>
+                        : <pre className="message-code-block"><code>{children}</code></pre>
+                  }}
+                >
+                  {contentData.hp}
+                </ReactMarkdown>
+              )}
+            </div>
+          </>
+        ) : (
+          <ReactMarkdown
+            remarkPlugins={[remarkGfm]}
+            components={{
+              strong: ({children}) => <strong className="message-bold">{children}</strong>,
+              em: ({children}) => <em className="message-italic">{children}</em>,
+              ul: ({children}) => <ul className="message-list">{children}</ul>,
+              ol: ({children}) => <ol className="message-list ordered">{children}</ol>,
+              li: ({children}) => <li className="message-list-item">{children}</li>,
+              p: ({children}) => <p className="message-paragraph">{children}</p>,
+              blockquote: ({children}) => <blockquote className="message-quote">{children}</blockquote>,
+              code: ({inline, children}) =>
+                inline
+                  ? <code className="message-code-inline">{children}</code>
+                  : <pre className="message-code-block"><code>{children}</code></pre>
+            }}
+          >
+            {contentData.fullContent}
+          </ReactMarkdown>
+        )}
 
         {/* Show CTAs only on final summary message */}
         {isSummaryMessage && isFinalSummary && (
