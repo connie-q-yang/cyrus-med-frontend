@@ -27,31 +27,38 @@ const ChatMessage = ({ message, onFollowUpClick, isFinalSummary, onJoinWaitlist,
   const splitContent = () => {
     const content = message.content;
 
+    // Only process AI messages
+    if (!isAI) {
+      return {
+        hasTabs: false,
+        fullContent: content
+      };
+    }
+
     // Look for H&P note section markers
     const hpMarkers = [
-      '**History and Physical Note for Physicians:**',
       'History and Physical Note for Physicians:',
-      '**History and Physical Note**',
+      '**History and Physical Note for Physicians:**',
       'History and Physical Note',
-      '**H&P Note for Physicians:**',
+      '**History and Physical Note**',
       'H&P Note for Physicians:',
-      '**HISTORY AND PHYSICAL**',
-      'HISTORY AND PHYSICAL'
+      '**H&P Note for Physicians:**',
+      'HISTORY AND PHYSICAL',
+      '**HISTORY AND PHYSICAL**'
     ];
 
     let splitIndex = -1;
-    let foundMarker = '';
 
     for (const marker of hpMarkers) {
       const index = content.indexOf(marker);
       if (index !== -1) {
         splitIndex = index;
-        foundMarker = marker;
         break;
       }
     }
 
-    if (splitIndex !== -1 && isSummaryMessage && isFinalSummary) {
+    // If we found the H&P section and there's content before it, show tabs
+    if (splitIndex !== -1 && splitIndex > 100) {
       // Split the content
       const summaryContent = content.substring(0, splitIndex).trim();
       const hpContent = content.substring(splitIndex).trim();
