@@ -1,15 +1,31 @@
-// Google Analytics Event Tracking Utility
+// Analytics Event Tracking Utility (Google Analytics + PostHog)
 
 // Helper function to check if gtag is available
 const isGtagAvailable = () => {
   return typeof window !== 'undefined' && typeof window.gtag === 'function';
 };
 
-// Track custom events
+// Helper function to check if PostHog is available
+const isPostHogAvailable = () => {
+  return typeof window !== 'undefined' && typeof window.posthog !== 'undefined' && window.posthog;
+};
+
+// Track custom events (sends to both GA and PostHog)
 export const trackEvent = (eventName, parameters = {}) => {
+  // Send to Google Analytics
   if (isGtagAvailable()) {
     window.gtag('event', eventName, parameters);
     console.log('GA Event:', eventName, parameters); // Debug logging
+  }
+
+  // Send to PostHog
+  if (isPostHogAvailable()) {
+    try {
+      window.posthog.capture(eventName, parameters);
+      console.log('PostHog Event:', eventName, parameters); // Debug logging
+    } catch (error) {
+      console.error('PostHog error:', error);
+    }
   }
 };
 
@@ -42,11 +58,24 @@ export const trackWaitlistSignup = (email, source = 'unknown') => {
 
 // Track page views
 export const trackPageView = (pageName) => {
+  // Google Analytics
   if (isGtagAvailable()) {
     window.gtag('config', 'G-57EJ7EW6NP', {
       page_path: pageName,
       page_title: pageName
     });
+  }
+
+  // PostHog
+  if (isPostHogAvailable()) {
+    try {
+      window.posthog.capture('$pageview', {
+        page_path: pageName,
+        page_title: pageName
+      });
+    } catch (error) {
+      console.error('PostHog pageview error:', error);
+    }
   }
 };
 
