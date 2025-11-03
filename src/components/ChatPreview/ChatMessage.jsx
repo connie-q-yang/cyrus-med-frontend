@@ -35,22 +35,24 @@ const ChatMessage = ({ message, onFollowUpClick, isFinalSummary, onJoinWaitlist,
       };
     }
 
-    // Look for H&P note section markers
-    const hpMarkers = [
-      'History and Physical Note for Physicians:',
-      '**History and Physical Note for Physicians:**',
-      'History and Physical Note',
-      '**History and Physical Note**',
-      'H&P Note for Physicians:',
-      '**H&P Note for Physicians:**',
-      'HISTORY AND PHYSICAL',
-      '**HISTORY AND PHYSICAL**'
+    // Look for H&P note section markers - look for patterns that indicate section start
+    // Match the H&P header that's followed by Chief Complaint (actual section, not intro mention)
+    const hpPatterns = [
+      'History and Physical Note (Physician H&P)',
+      'History and Physical Note for Physicians:\n\nChief Complaint',
+      '**History and Physical Note for Physicians:**\n\nChief Complaint',
+      'History and Physical Note:\n\nChief Complaint',
+      '\n\nHistory and Physical Note for Physicians:',
+      '\n\n**History and Physical Note for Physicians:**',
+      '\n\nHistory and Physical Note (Physician',
+      '\n\nH&P Note for Physicians:',
+      'HISTORY AND PHYSICAL\n\nChief Complaint'
     ];
 
     let splitIndex = -1;
 
-    for (const marker of hpMarkers) {
-      const index = content.indexOf(marker);
+    for (const pattern of hpPatterns) {
+      const index = content.indexOf(pattern);
       if (index !== -1) {
         splitIndex = index;
         break;
