@@ -297,13 +297,13 @@ const FullScreenChat = ({ isOpen, onClose }) => {
                           trackButtonClick('export_docx', 'demo_chat');
                           exportChatAsDocx(messages);
                         }}
-                        title="Download SOAP Note as Word Document"
+                        title="Download AI Doctor Note as Word Document"
                       >
                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
                           <path d="M10 2V10M10 10L13 7M10 10L7 7M3 12V16C3 17.1046 3.89543 18 5 18H15C16.1046 18 17 17.1046 17 16V12"
                                 stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                         </svg>
-                        {messages.length > 10 ? 'Download SOAP Note' : 'Download'}
+                        {messages.length > 10 ? 'Download AI Doctor Note' : 'Download'}
                       </button>
                       <button
                         className="export-btn text"
@@ -311,7 +311,7 @@ const FullScreenChat = ({ isOpen, onClose }) => {
                           trackButtonClick('export_text', 'demo_chat');
                           exportChatAsText(messages);
                         }}
-                        title="Download SOAP Note as Text"
+                        title="Download AI Doctor Note as Text"
                       >
                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
                           <path d="M7 18V6M7 6L4 9M7 6L10 9M13 2V14M13 14L10 11M13 14L16 11"
