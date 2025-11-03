@@ -73,7 +73,7 @@ exports.handler = async (event) => {
                                 <h3 style="color: #1f1435; font-size: 19px; margin: 0 0 16px 0; font-weight: 600;">Your Beta Benefits:</h3>
                                 <p style="color: #4a5568; font-size: 16px; line-height: 2; margin: 0;">
                                     <strong>Priority access</strong> when we launch<br>
-                                    <strong>Free AI consultations</strong> for life (normally $29/mo)<br>
+                                    <strong>Free AI consultations</strong> for 1 full year (normally $29/mo)<br>
                                     <strong>Shape our product</strong> - your feedback drives what we build<br>
                                     <strong>24/7 instant answers</strong> to your women's health questions
                                 </p>
@@ -143,10 +143,10 @@ OpenMedicine - Your AI Women's Health Companion
         'Authorization': `Bearer ${RESEND_API_KEY}`,
       },
       body: JSON.stringify({
-        from: 'OpenMedicine <noreply@openmedicine.io>', // Use noreply for automated emails
+        from: 'OpenMedicine <hello@openmedicine.io>',
         to: email,
-        reply_to: 'hello@openmedicine.io', // Users can reply to hello@
-        subject: 'Welcome to OpenMedicine Beta', // Removed emoji to avoid spam filters
+        reply_to: 'hello@openmedicine.io',
+        subject: 'Welcome to OpenMedicine Beta',
         html: emailHtml,
         text: emailText, // Include plain text version
         headers: {
