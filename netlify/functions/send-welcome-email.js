@@ -52,7 +52,7 @@ exports.handler = async (event) => {
                     <tr>
                         <td style="background: linear-gradient(135deg, #c084fc 0%, #f472b6 100%); padding: 48px 40px; text-align: center; border-radius: 16px 16px 0 0;">
                             <h1 style="color: #ffffff; font-size: 32px; font-weight: 600; margin: 0; letter-spacing: -0.5px;">
-                                🎉 You're In!
+                                You're In!
                             </h1>
                             <p style="color: rgba(255, 255, 255, 0.95); font-size: 18px; margin: 16px 0 0 0; font-weight: 500;">
                                 Welcome to OpenMedicine Beta
@@ -70,18 +70,18 @@ exports.handler = async (event) => {
                             </p>
 
                             <div style="background: linear-gradient(135deg, rgba(192, 132, 252, 0.08), rgba(244, 114, 182, 0.08)); border-left: 4px solid #c084fc; border-radius: 8px; padding: 24px; margin: 32px 0;">
-                                <h3 style="color: #1f1435; font-size: 19px; margin: 0 0 16px 0; font-weight: 600;">✨ Your Beta Benefits:</h3>
+                                <h3 style="color: #1f1435; font-size: 19px; margin: 0 0 16px 0; font-weight: 600;">Your Beta Benefits:</h3>
                                 <p style="color: #4a5568; font-size: 16px; line-height: 2; margin: 0;">
-                                    💜 <strong>Priority access</strong> when we launch<br>
-                                    🩺 <strong>Free AI consultations</strong> for life (normally $29/mo)<br>
-                                    🎯 <strong>Shape our product</strong> - your feedback drives what we build<br>
-                                    ⚡ <strong>24/7 instant answers</strong> to your women's health questions
+                                    <strong>Priority access</strong> when we launch<br>
+                                    <strong>Free AI consultations</strong> for life (normally $29/mo)<br>
+                                    <strong>Shape our product</strong> - your feedback drives what we build<br>
+                                    <strong>24/7 instant answers</strong> to your women's health questions
                                 </p>
                             </div>
 
                             <div style="background-color: #fef3f8; border-radius: 8px; padding: 20px; margin: 28px 0;">
                                 <p style="color: #831843; font-size: 15px; line-height: 1.6; margin: 0;">
-                                    <strong>💡 Did you know?</strong> Women wait 23 days longer than men for pain diagnosis. We're changing that. Get instant clarity on symptoms like UTIs, PCOS, period pain, birth control options, and more.
+                                    <strong>Did you know?</strong> Women wait 23 days longer than men for pain diagnosis. We're changing that. Get instant clarity on symptoms like UTIs, PCOS, period pain, birth control options, and more.
                                 </p>
                             </div>
 
@@ -114,19 +114,19 @@ exports.handler = async (event) => {
     `;
 
     // Plain text version for better deliverability
-    const emailText = `🎉 You're In! Welcome to OpenMedicine Beta
+    const emailText = `You're In! Welcome to OpenMedicine Beta
 
 Your health questions, answered in minutes
 
 Thank you for joining our mission to transform women's healthcare. You're among the first 500 women getting priority access to AI-powered health guidance built specifically for you.
 
-✨ Your Beta Benefits:
+Your Beta Benefits:
 • Priority access when we launch
 • Free AI consultations for life (normally $29/mo)
 • Shape our product - your feedback drives what we build
 • 24/7 instant answers to your women's health questions
 
-💡 Did you know? Women wait 23 days longer than men for pain diagnosis. We're changing that. Get instant clarity on symptoms like UTIs, PCOS, period pain, birth control options, and more.
+Did you know? Women wait 23 days longer than men for pain diagnosis. We're changing that. Get instant clarity on symptoms like UTIs, PCOS, period pain, birth control options, and more.
 
 Try our demo now: https://openmedicine.io
 
