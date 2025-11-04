@@ -135,7 +135,7 @@ const Hero = () => {
                 Join Beta Waitlist
               </button>
             </div>
-            <p className="cta-subtitle">Join 500+ women taking control of their health</p>
+            <p className="cta-subtitle">Join 1000+ women taking control of their health</p>
           </div>
         </motion.div>
 
