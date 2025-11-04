@@ -126,6 +126,45 @@
   line-height: 1.5;
 }
 
+/* Table Styling */
+.message-bubble table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 16px 0;
+  font-size: 14px;
+  display: block;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.message-bubble thead {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.message-bubble th {
+  padding: 10px 12px;
+  text-align: left;
+  font-weight: 600;
+  border-bottom: 2px solid rgba(192, 132, 252, 0.3);
+  color: rgba(255, 255, 255, 0.95);
+  white-space: nowrap;
+}
+
+.message-bubble td {
+  padding: 10px 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  vertical-align: top;
+  line-height: 1.5;
+}
+
+.message-bubble tr:last-child td {
+  border-bottom: none;
+}
+
+.message-bubble tbody tr:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+
 /* Follow-up Questions */
 .follow-up-section {
   margin-top: 20px;
@@ -335,5 +374,48 @@
 
   .cta-button {
     width: 100%;
+  }
+
+  /* Mobile table optimizations */
+  .message-bubble table {
+    font-size: 12px;
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+    max-width: 100%;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+  }
+
+  .message-bubble th,
+  .message-bubble td {
+    padding: 8px 10px;
+    font-size: 12px;
+  }
+
+  .message-bubble th {
+    position: sticky;
+    left: 0;
+    background: rgba(255, 255, 255, 0.12);
+    z-index: 1;
+  }
+
+  .message-bubble td:first-child {
+    position: sticky;
+    left: 0;
+    background: rgba(255, 255, 255, 0.05);
+    z-index: 1;
+  }
+
+  /* Add scroll indicator shadow */
+  .message-bubble table::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 20px;
+    background: linear-gradient(to right, transparent, rgba(0, 0, 0, 0.1));
+    pointer-events: none;
   }
 }
