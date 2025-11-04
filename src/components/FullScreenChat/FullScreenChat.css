@@ -676,4 +676,56 @@
   .messages-area .message-bubble {
     max-width: 85%;
   }
+
+  /* Mobile button improvements for better touch responsiveness */
+  .yes-no-buttons {
+    flex-direction: column;
+    max-width: 100%;
+    gap: 14px;
+    padding: 0 10px;
+  }
+
+  .yes-button,
+  .no-button {
+    max-width: 100%;
+    width: 100%;
+    min-height: 50px;
+    padding: 16px 20px;
+    font-size: 16px;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  .multiple-choice-buttons {
+    flex-direction: column;
+    max-width: 100%;
+    gap: 12px;
+    padding: 0 10px;
+  }
+
+  .choice-button {
+    min-width: 100%;
+    width: 100%;
+    min-height: 50px;
+    padding: 16px 18px;
+    font-size: 15px;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  .lmp-buttons .choice-button {
+    min-height: 50px;
+    padding: 16px 18px;
+  }
+
+  /* Ensure input field has proper height on mobile */
+  .age-input-field {
+    min-height: 50px;
+    font-size: 16px;
+    padding: 14px 20px;
+  }
 }
