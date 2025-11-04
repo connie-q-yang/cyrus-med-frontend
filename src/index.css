@@ -43,7 +43,7 @@
   }
   
   body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    font-family: 'Lora', Georgia, 'Times New Roman', serif;
     background: var(--bg-gradient);
     background-attachment: fixed;
     color: var(--text-light);
@@ -71,12 +71,13 @@
   
   /* Global Typography */
   h1, h2, h3, h4, h5, h6 {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-weight: 700;
     line-height: 1.2;
   }
   
   p {
-    line-height: 1.6;
+    line-height: 1.75;
   }
   
   /* Global Button Reset */
