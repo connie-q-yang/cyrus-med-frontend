@@ -42,6 +42,7 @@
   display: flex;
   flex-direction: column;
   gap: 32px;
+  padding-left: 60px;
 }
 
 .hero-badge {
@@ -395,6 +396,7 @@
   .hero-left {
     text-align: center;
     align-items: center;
+    padding-left: 0;
   }
 
   .hero-badge {
