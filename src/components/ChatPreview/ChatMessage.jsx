@@ -35,33 +35,51 @@ const ChatMessage = ({ message, onFollowUpClick, isFinalSummary, onJoinWaitlist,
       };
     }
 
-    // Look for H&P note section markers - look for patterns that indicate section start
-    // Match the H&P header that's followed by Chief Complaint (actual section, not intro mention)
-    const hpPatterns = [
-      'History and Physical Note (Physician H&P)',
-      'History and Physical Note for Physicians:\n\nChief Complaint',
-      '**History and Physical Note for Physicians:**\n\nChief Complaint',
-      'History and Physical Note:\n\nChief Complaint',
-      '\n\nHistory and Physical Note for Physicians:',
-      '\n\n**History and Physical Note for Physicians:**',
-      '\n\nHistory and Physical Note (Physician',
-      '\n\nH&P Note for Physicians:',
-      'HISTORY AND PHYSICAL\n\nChief Complaint'
-    ];
+    // Look for H&P note section markers
+    // We need to find where the H&P section actually starts (not just mentioned in intro)
 
     let splitIndex = -1;
 
-    for (const pattern of hpPatterns) {
+    // Strategy: Look for "History and Physical" text that appears after significant content
+    // and is preceded by newlines (indicating it's a section header, not inline text)
+
+    // First, try to find patterns with newlines before them (most reliable)
+    const newlinePatterns = [
+      '\n\nHistory and Physical Note (Physician H&P)',
+      '\n\nHistory and Physical Note for Physicians',
+      '\n\n**History and Physical Note for Physicians',
+      '\nHistory and Physical Note for Physicians',
+      '\n\nH&P Note for Physicians',
+      '\nH&P Note for Physicians'
+    ];
+
+    for (const pattern of newlinePatterns) {
       const index = content.indexOf(pattern);
-      if (index !== -1) {
+      if (index !== -1 && index > 500) { // Ensure there's substantial content before
         splitIndex = index;
         break;
       }
     }
 
+    // If no match yet, look for the standalone pattern
+    if (splitIndex === -1) {
+      const standalonePatterns = [
+        'History and Physical Note (Physician H&P)',
+        'History and Physical Note for Physicians:'
+      ];
+
+      for (const pattern of standalonePatterns) {
+        const index = content.indexOf(pattern);
+        if (index !== -1 && index > 500) {
+          splitIndex = index;
+          break;
+        }
+      }
+    }
+
     // If we found the H&P section and there's content before it, show tabs
-    if (splitIndex !== -1 && splitIndex > 100) {
-      // Split the content
+    if (splitIndex !== -1) {
+      // Trim any leading newlines from the split point for cleaner display
       const summaryContent = content.substring(0, splitIndex).trim();
       const hpContent = content.substring(splitIndex).trim();
 
