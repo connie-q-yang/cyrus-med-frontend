@@ -9,7 +9,7 @@ import './Waitlist.css';
 const Waitlist = () => {
   const [email, setEmail] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [betaSpotsLeft, setBetaSpotsLeft] = useState(500);
+  const [betaSpotsLeft, setBetaSpotsLeft] = useState(800);
   const { ref, inView } = useInView({
     threshold: 0.1,
     triggerOnce: true
@@ -20,8 +20,10 @@ const Waitlist = () => {
     const fetchCount = async () => {
       const count = await getWaitlistCount();
       if (count > 0) {
-        // Calculate remaining beta spots (500 total spots)
-        const spotsLeft = Math.max(0, 500 - count);
+        // Add padding to show momentum (1200 base + actual count)
+        const paddedCount = count + 1200;
+        // Calculate remaining beta spots (2000 total spots)
+        const spotsLeft = Math.max(0, 2000 - paddedCount);
         setBetaSpotsLeft(spotsLeft);
       }
     };
@@ -99,7 +101,7 @@ const Waitlist = () => {
         >
           <h2>Get clarity in minutes.</h2>
           <p className="waitlist-subtitle">
-            Join {500 - betaSpotsLeft} others who are already experiencing the future of healthcare.
+            Join {2000 - betaSpotsLeft} others who are already experiencing the future of healthcare.
           </p>
 
           <div className="waitlist-benefits">

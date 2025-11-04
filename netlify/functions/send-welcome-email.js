@@ -66,7 +66,7 @@ exports.handler = async (event) => {
                             </h2>
 
                             <p style="color: #2d3748; font-size: 17px; line-height: 1.7; margin: 0 0 28px 0;">
-                                Thank you for joining our mission to transform women's healthcare. You're among the first 500 women getting priority access to AI-powered health guidance built specifically for you.
+                                Thank you for joining our mission to transform women's healthcare. You're among the first 2000 women getting priority access to AI-powered health guidance built specifically for you.
                             </p>
 
                             <div style="background: linear-gradient(135deg, rgba(192, 132, 252, 0.08), rgba(244, 114, 182, 0.08)); border-left: 4px solid #c084fc; border-radius: 8px; padding: 24px; margin: 32px 0;">
@@ -118,7 +118,7 @@ exports.handler = async (event) => {
 
 Your health questions, answered in minutes
 
-Thank you for joining our mission to transform women's healthcare. You're among the first 500 women getting priority access to AI-powered health guidance built specifically for you.
+Thank you for joining our mission to transform women's healthcare. You're among the first 2000 women getting priority access to AI-powered health guidance built specifically for you.
 
 Your Beta Benefits:
 • Priority access when we launch
