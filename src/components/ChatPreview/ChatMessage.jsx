@@ -52,30 +52,44 @@ const ChatMessage = ({ message, onFollowUpClick, isFinalSummary, onJoinWaitlist,
     const newlinePatterns = [
       '\n\nHistory and Physical Note (Physician H&P)',
       '\n\nHistory and Physical Note for Physicians',
+      '\n\nHistory and Physical Note for physicians',
       '\n\n**History and Physical Note for Physicians',
+      '\n\n**History and Physical Note for physicians',
+      '\n\n## History and Physical Note for Physicians',
+      '\n\n## History and Physical Note for physicians',
       '\nHistory and Physical Note for Physicians',
+      '\nHistory and Physical Note for physicians',
       '\n\nH&P Note for Physicians',
-      '\nH&P Note for Physicians'
+      '\n\nH&P Note for physicians',
+      '\nH&P Note for Physicians',
+      '\nH&P Note for physicians'
     ];
 
     for (const pattern of newlinePatterns) {
       const index = content.indexOf(pattern);
-      if (index !== -1 && index > 500) { // Ensure there's substantial content before
+      if (index !== -1 && index > 200) { // Lowered from 300 to 200
         splitIndex = index;
         break;
       }
     }
 
-    // If no match yet, look for the standalone pattern
+    // If no match yet, look for the standalone pattern (case insensitive check)
     if (splitIndex === -1) {
       const standalonePatterns = [
         'History and Physical Note (Physician H&P)',
-        'History and Physical Note for Physicians:'
+        'History and Physical Note for Physicians:',
+        'History and Physical Note for physicians:',
+        '**History and Physical Note for Physicians:**',
+        '**History and Physical Note for physicians:**',
+        'History and Physical Note for Physicians',
+        'History and Physical Note for physicians',
+        'H&P Note for Physicians:',
+        'H&P Note for physicians:'
       ];
 
       for (const pattern of standalonePatterns) {
         const index = content.indexOf(pattern);
-        if (index !== -1 && index > 500) {
+        if (index !== -1 && index > 200) {
           splitIndex = index;
           break;
         }
@@ -102,6 +116,24 @@ const ChatMessage = ({ message, onFollowUpClick, isFinalSummary, onJoinWaitlist,
   };
 
   const contentData = splitContent();
+
+  // Debug logging for final summary
+  if (isFinalSummary && isAI) {
+    console.log('=== FINAL SUMMARY DEBUG ===');
+    console.log('isSummaryMessage:', isSummaryMessage);
+    console.log('isFinalSummary:', isFinalSummary);
+    console.log('hasUnlockedSummary:', hasUnlockedSummary);
+    console.log('shouldShowGate:', isSummaryMessage && isFinalSummary && !hasUnlockedSummary);
+    console.log('contentData.hasTabs:', contentData.hasTabs);
+    console.log('First 500 chars:', message.content.substring(0, 500));
+    console.log('Looking for H&P section...');
+    if (message.content.includes('History and Physical')) {
+      console.log('Found "History and Physical" in content');
+      const index = message.content.indexOf('History and Physical');
+      console.log('Index:', index, 'Text:', message.content.substring(index, index + 100));
+    }
+    console.log('=========================');
+  }
 
   const handleEmailSubmit = async (e) => {
     e.preventDefault();
