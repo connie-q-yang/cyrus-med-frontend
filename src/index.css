@@ -41,7 +41,7 @@
     /* Background gradient - Soft purple to pink */
     --bg-gradient: linear-gradient(135deg, #1F1435 0%, #2D1B3D 25%, #3D2146 50%, #2D1B3D 75%, #1F1435 100%);
   }
-  
+
   body {
     font-family: 'Lora', Georgia, 'Times New Roman', serif;
     background: var(--bg-gradient);
@@ -71,8 +71,8 @@
   
   /* Global Typography */
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    font-weight: 700;
+    font-family: 'Lora', Georgia, 'Times New Roman', serif;
+    font-weight: 600;
     line-height: 1.2;
   }
   

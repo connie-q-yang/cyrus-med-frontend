@@ -82,9 +82,9 @@
 /* Timeline Content - Sleeker Design */
 .timeline-content {
   width: calc(50% - 60px);
-  background: rgba(255, 255, 255, 0.02);
+  background: rgba(255, 255, 255, 0.06);
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(192, 132, 252, 0.2);
   border-radius: 16px;
   padding: 24px 28px;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -124,8 +124,8 @@
 
 .timeline-content:hover {
   transform: scale(1.02);
-  border-color: rgba(192, 132, 252, 0.3);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  border-color: rgba(192, 132, 252, 0.45);
+  box-shadow: 0 20px 40px rgba(192, 132, 252, 0.2);
 }
 
 .timeline-content:hover::before {
@@ -160,7 +160,7 @@
 .timeline-title {
   font-size: 19px;
   font-weight: 400;
-  color: #ffffff;
+  color: rgba(255, 255, 255, 0.95);
   margin: 0 0 8px 0;
   letter-spacing: -0.3px;
 }
@@ -168,7 +168,7 @@
 .timeline-description {
   font-size: 14px;
   font-weight: 300;
-  color: rgba(255, 255, 255, 0.55);
+  color: rgba(255, 255, 255, 0.65);
   line-height: 1.6;
   margin: 0;
 }

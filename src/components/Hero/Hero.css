@@ -96,9 +96,9 @@
   font-size: clamp(42px, 5vw, 64px);
   line-height: 1.1;
   margin: 0;
-  font-weight: 200;
+  font-weight: 400;
   letter-spacing: -2px;
-  color: #fff;
+  color: #ffffff;
   text-align: left;
 }
 
@@ -204,7 +204,7 @@
   align-items: center;
   gap: 10px;
   padding: 16px 32px;
-  background: var(--glass-pink);
+  background: rgba(255, 255, 255, 0.08);
   color: rgba(255, 255, 255, 0.95);
   border: 2px solid rgba(244, 114, 182, 0.3);
   border-radius: 100px;
@@ -240,9 +240,8 @@
 
 .cta-secondary:hover {
   transform: translateY(-2px);
-  background: var(--glass-purple);
+  background: rgba(255, 255, 255, 0.12);
   border-color: rgba(192, 132, 252, 0.5);
-  border-color: rgba(255, 255, 255, 0.3);
   box-shadow: 0 10px 40px rgba(255, 255, 255, 0.08);
 }
 
@@ -283,9 +282,9 @@
 }
 
 .fact-card {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.03));
+  background: rgba(255, 255, 255, 0.06);
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(192, 132, 252, 0.25);
   border-radius: 20px;
   padding: 44px 40px;
   position: relative;
@@ -297,7 +296,7 @@
   align-items: center;
   text-align: center;
   gap: 18px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 20px 60px rgba(192, 132, 252, 0.15);
   perspective: 1000px;
 }
 
@@ -321,7 +320,7 @@
 .fact-stat {
   font-size: 76px;
   font-weight: 800;
-  background: linear-gradient(135deg, #FFFFFF 0%, rgba(192, 132, 252, 0.95) 100%);
+  background: linear-gradient(135deg, #9333EA 0%, #C084FC 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -349,12 +348,12 @@
 .fact-impact {
   font-size: 15px;
   font-weight: 300;
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(255, 255, 255, 0.65);
   line-height: 1.6;
   position: relative;
   z-index: 2;
   padding-top: 12px;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 1px solid rgba(192, 132, 252, 0.2);
   font-style: italic;
 }
 
@@ -369,7 +368,7 @@
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(192, 132, 252, 0.3);
   border: none;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -383,7 +382,7 @@
 }
 
 .fact-dot:hover:not(.active) {
-  background: rgba(255, 255, 255, 0.4);
+  background: rgba(192, 132, 252, 0.5);
   transform: scale(1.2);
 }
 
@@ -456,10 +455,13 @@
 
   .cta-primary, .cta-secondary {
     padding: 20px 48px;
-    font-size: 15px;
+    font-size: 16px;
     width: 100%;
     max-width: 300px;
     justify-content: center;
+    min-height: 56px;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
   }
 
   .hero-badge span {

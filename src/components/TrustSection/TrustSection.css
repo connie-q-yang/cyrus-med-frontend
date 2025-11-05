@@ -42,10 +42,6 @@
   margin-bottom: 16px;
   letter-spacing: -1.5px;
   line-height: 1.1;
-  background: linear-gradient(135deg, #ffffff 0%, rgba(255, 255, 255, 0.8) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
 }
 
 .trust-subtitle {
@@ -68,9 +64,9 @@
   align-items: center;
   gap: 24px;
   padding: 28px 36px;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01));
+  background: rgba(255, 255, 255, 0.06);
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(192, 132, 252, 0.2);
   border-radius: 16px;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
@@ -91,8 +87,8 @@
 
 .trust-feature:hover {
   transform: translateY(-4px);
-  border-color: rgba(192, 132, 252, 0.3);
-  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.2);
+  border-color: rgba(192, 132, 252, 0.4);
+  box-shadow: 0 24px 48px rgba(192, 132, 252, 0.2);
 }
 
 .trust-feature:hover::before {
@@ -180,7 +176,7 @@
 .trust-feature-title {
   font-size: 20px;
   font-weight: 400;
-  color: #ffffff;
+  color: rgba(255, 255, 255, 0.95);
   margin: 0 0 6px 0;
   letter-spacing: -0.3px;
 }
@@ -188,7 +184,7 @@
 .trust-feature-description {
   font-size: 14px;
   font-weight: 300;
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(255, 255, 255, 0.65);
   line-height: 1.6;
   margin: 0;
   max-width: 500px;
