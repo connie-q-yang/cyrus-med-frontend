@@ -73,6 +73,7 @@ const FullScreenChat = ({ isOpen, onClose }) => {
   const [input, setInput] = useState('');
   const [showPrompts, setShowPrompts] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const [hasUnlockedSummary, setHasUnlockedSummary] = useState(false);
   const { messages, sendMessage, isLoading } = useChat();
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
@@ -170,6 +171,13 @@ const FullScreenChat = ({ isOpen, onClose }) => {
     messageCountRef.current++;
 
     await sendMessage(answer);
+  };
+
+  const handleEmailUnlock = (email) => {
+    trackButtonClick('unlock_summary_with_email', 'demo_chat');
+    setHasUnlockedSummary(true);
+    // You can also send this email to your backend/waitlist here
+    console.log('User unlocked summary with email:', email);
   };
 
   const handleJoinWaitlist = () => {
@@ -389,6 +397,8 @@ const FullScreenChat = ({ isOpen, onClose }) => {
                       isFinalSummary={isFinalSummary(index)}
                       onJoinWaitlist={handleJoinWaitlist}
                       onScheduleConsultation={handleScheduleConsultation}
+                      hasUnlockedSummary={hasUnlockedSummary}
+                      onEmailUnlock={handleEmailUnlock}
                     />
                   ))}
                   {isLoading && (
