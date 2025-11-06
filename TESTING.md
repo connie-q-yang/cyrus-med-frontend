@@ -77,8 +77,10 @@ RESEND_API_KEY=your_key_here
 ## Test Files
 
 - `test-email.js` - Quick email function tests
-- `netlify/functions/send-welcome-email.test.js` - Comprehensive email tests
+- `tests/send-welcome-email.test.js` - Comprehensive email tests (moved out of functions dir)
 - `src/services/__tests__/waitlist.test.js` - Waitlist service tests
+
+**Note:** Test files are kept outside `netlify/functions/` to prevent Netlify from trying to deploy them as serverless functions.
 
 ## Before Deploying
 

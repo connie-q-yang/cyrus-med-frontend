@@ -3,6 +3,10 @@
   functions = "netlify/functions"
   publish = "build"
 
+[functions]
+  # Exclude test files from being deployed as functions
+  included_files = ["**/*.js", "!**/*.test.js", "!**/*.spec.js"]
+
 [build.environment]
   NODE_VERSION = "18"
 
