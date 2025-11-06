@@ -1,14 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import FullScreenChat from '../FullScreenChat/FullScreenChat';
-import { trackButtonClick } from '../../utils/analytics';
+import { trackButtonClick, trackWaitlistSignup } from '../../utils/analytics';
+import { addToWaitlist, getWaitlistCount } from '../../lib/supabase';
+import { toast } from 'react-toastify';
 import './Hero.css';
 
 const Hero = () => {
   const [currentFact, setCurrentFact] = useState(0);
   const [isChatOpen, setIsChatOpen] = useState(false);
-  const primaryBtnRef = React.useRef(null);
-  const secondaryBtnRef = React.useRef(null);
+  const [heroEmail, setHeroEmail] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [spotsLeft, setSpotsLeft] = useState(800); // Will be updated from Supabase
+  const [totalJoined, setTotalJoined] = useState(1200); // Will be updated from Supabase
 
   // Well-documented women's health statistics
   // IMPORTANT: Verify these with current sources before going live
@@ -46,6 +50,22 @@ const Hero = () => {
     }
   ];
 
+  // Fetch waitlist count on mount - same logic as Waitlist component
+  useEffect(() => {
+    const fetchCount = async () => {
+      const count = await getWaitlistCount();
+      if (count > 0) {
+        // Add padding to show momentum (1200 base + actual count)
+        const paddedCount = count + 1200;
+        // Calculate remaining beta spots (2000 total spots)
+        const spotsRemaining = Math.max(0, 2000 - paddedCount);
+        setSpotsLeft(spotsRemaining);
+        setTotalJoined(paddedCount);
+      }
+    };
+    fetchCount();
+  }, []);
+
   useEffect(() => {
     const factInterval = setInterval(() => {
       setCurrentFact((prev) => (prev + 1) % healthFacts.length);
@@ -55,27 +75,6 @@ const Hero = () => {
       clearInterval(factInterval);
     };
   }, [healthFacts.length]);
-
-  // Magnetic button effect
-  const handleMagneticMove = (e, ref) => {
-    if (!ref.current) return;
-    const btn = ref.current;
-    const rect = btn.getBoundingClientRect();
-    const x = e.clientX - rect.left - rect.width / 2;
-    const y = e.clientY - rect.top - rect.height / 2;
-    const distance = Math.sqrt(x * x + y * y);
-    const maxDistance = 100;
-
-    if (distance < maxDistance) {
-      const strength = (maxDistance - distance) / maxDistance;
-      btn.style.transform = `translate(${x * strength * 0.3}px, ${y * strength * 0.3}px) translateY(-2px)`;
-    }
-  };
-
-  const handleMagneticLeave = (ref) => {
-    if (!ref.current) return;
-    ref.current.style.transform = 'translate(0, 0)';
-  };
 
   const openChat = () => {
     trackButtonClick('try_demo', 'hero');
@@ -88,9 +87,43 @@ const Hero = () => {
     document.body.style.overflow = 'auto';
   };
 
-  const scrollToWaitlist = () => {
-    trackButtonClick('get_on_waitlist', 'hero');
-    document.getElementById('waitlist')?.scrollIntoView({ behavior: 'smooth' });
+  const handleHeroEmailSubmit = async (e) => {
+    e.preventDefault();
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(heroEmail)) {
+      toast.error('Please enter a valid email address');
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      const result = await addToWaitlist(heroEmail);
+
+      if (result.success) {
+        // Send welcome email
+        fetch('/.netlify/functions/send-welcome-email', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: heroEmail }),
+        }).catch(err => console.error('Email error:', err));
+
+        trackWaitlistSignup(heroEmail, 'hero_inline');
+        toast.success('🎉 Welcome to OpenMedicine! Check your email.');
+        setHeroEmail('');
+        // Update both spots left and total joined
+        setSpotsLeft(prev => Math.max(0, prev - 1));
+        setTotalJoined(prev => prev + 1);
+      } else {
+        toast.info(result.message || 'Something went wrong. Please try again.');
+      }
+    } catch (error) {
+      console.error('Waitlist error:', error);
+      toast.error('Unable to join waitlist. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -115,27 +148,53 @@ const Hero = () => {
           </p>
 
           <div className="cta-container">
-            <div className="cta-buttons">
-              <button
-                ref={primaryBtnRef}
-                className="cta-primary magnetic-button"
-                onClick={openChat}
-                onMouseMove={(e) => handleMagneticMove(e, primaryBtnRef)}
-                onMouseLeave={() => handleMagneticLeave(primaryBtnRef)}
-              >
-                Try Demo
-              </button>
-              <button
-                ref={secondaryBtnRef}
-                className="cta-secondary magnetic-button"
-                onClick={scrollToWaitlist}
-                onMouseMove={(e) => handleMagneticMove(e, secondaryBtnRef)}
-                onMouseLeave={() => handleMagneticLeave(secondaryBtnRef)}
-              >
-                Join Beta Waitlist
-              </button>
+            {/* Urgency Banner */}
+            <div className="urgency-banner">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M8 4V8M8 11H8.01M14.07 11L8.54 2C8.24 1.52 7.76 1.52 7.46 2L1.93 11C1.63 11.48 1.88 12 2.47 12H13.53C14.12 12 14.37 11.48 14.07 11Z"
+                  stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+              </svg>
+              <span>Only <strong>{spotsLeft} spots</strong> left for early access</span>
             </div>
-            <p className="cta-subtitle">Join 1000+ women taking control of their health</p>
+
+            {/* Inline Email Form */}
+            <form className="hero-email-form" onSubmit={handleHeroEmailSubmit}>
+              <input
+                type="email"
+                value={heroEmail}
+                onChange={(e) => setHeroEmail(e.target.value)}
+                placeholder="Enter your email to join waitlist"
+                required
+                disabled={isSubmitting}
+                className="hero-email-input"
+              />
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="hero-submit-button"
+              >
+                {isSubmitting ? 'Joining...' : 'Get Early Access'}
+              </button>
+            </form>
+
+            <div className="hero-social-proof">
+              <div className="user-avatars">
+                <div className="avatar">👩🏻</div>
+                <div className="avatar">👩🏽</div>
+                <div className="avatar">👩🏾</div>
+                <div className="avatar">👩🏼</div>
+              </div>
+              <p className="social-proof-text">
+                Join <strong>{totalJoined.toLocaleString()} others</strong> who are already experiencing the future of healthcare
+              </p>
+            </div>
+
+            <button
+              className="try-demo-link"
+              onClick={openChat}
+            >
+              or try the demo first →
+            </button>
           </div>
         </motion.div>
 

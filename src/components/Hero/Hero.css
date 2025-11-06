@@ -253,6 +253,183 @@
   font-weight: 300;
 }
 
+/* Urgency Banner */
+.urgency-banner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px 24px;
+  background: linear-gradient(135deg, rgba(244, 114, 182, 0.18), rgba(239, 68, 68, 0.15));
+  border: 1.5px solid rgba(244, 114, 182, 0.4);
+  border-radius: 12px;
+  margin-bottom: 24px;
+  animation: pulse-glow 2.5s ease-in-out infinite;
+  align-self: flex-start;
+}
+
+.urgency-banner svg {
+  color: #f472b6;
+  flex-shrink: 0;
+}
+
+.urgency-banner span {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.95);
+  letter-spacing: 0.3px;
+}
+
+.urgency-banner strong {
+  color: #fff;
+  font-weight: 700;
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(244, 114, 182, 0.25);
+    border-color: rgba(244, 114, 182, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 35px rgba(244, 114, 182, 0.45);
+    border-color: rgba(244, 114, 182, 0.6);
+  }
+}
+
+/* Hero Email Form */
+.hero-email-form {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+  width: 100%;
+  max-width: 600px;
+  align-self: flex-start;
+}
+
+.hero-email-input {
+  flex: 1;
+  padding: 18px 24px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 2px solid rgba(192, 132, 252, 0.3);
+  border-radius: 14px;
+  color: #fff;
+  font-size: 15px;
+  outline: none;
+  transition: all 0.3s ease;
+  font-family: inherit;
+}
+
+.hero-email-input::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.hero-email-input:focus {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: #C084FC;
+  box-shadow: 0 0 0 4px rgba(192, 132, 252, 0.15);
+  transform: translateY(-1px);
+}
+
+.hero-email-input:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.hero-submit-button {
+  padding: 18px 36px;
+  background: linear-gradient(135deg, #C084FC, #F472B6);
+  border: none;
+  border-radius: 14px;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  box-shadow: 0 10px 30px rgba(192, 132, 252, 0.4);
+}
+
+.hero-submit-button:hover:not(:disabled) {
+  background: linear-gradient(135deg, #9333EA, #DB2777);
+  transform: translateY(-3px);
+  box-shadow: 0 15px 40px rgba(244, 114, 182, 0.5);
+}
+
+.hero-submit-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Social Proof Section */
+.hero-social-proof {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+  align-self: flex-start;
+}
+
+.user-avatars {
+  display: flex;
+  align-items: center;
+}
+
+.avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(192, 132, 252, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  margin-left: -12px;
+  transition: all 0.3s ease;
+}
+
+.avatar:first-child {
+  margin-left: 0;
+}
+
+.avatar:hover {
+  transform: translateY(-4px) scale(1.1);
+  z-index: 10;
+  border-color: #C084FC;
+}
+
+.social-proof-text {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0;
+  line-height: 1.4;
+}
+
+.social-proof-text strong {
+  color: #fff;
+  font-weight: 600;
+}
+
+/* Try Demo Link */
+.try-demo-link {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 0;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  align-self: flex-start;
+}
+
+.try-demo-link:hover {
+  color: #C084FC;
+  gap: 8px;
+}
+
 /* Right Side - Animated Facts */
 .hero-right {
   display: flex;
@@ -462,6 +639,46 @@
     min-height: 56px;
     touch-action: manipulation;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+  }
+
+  /* Mobile styles for new elements */
+  .urgency-banner {
+    width: 100%;
+    align-self: center;
+    justify-content: center;
+    padding: 12px 20px;
+  }
+
+  .hero-email-form {
+    flex-direction: column;
+    max-width: 100%;
+    align-self: center;
+  }
+
+  .hero-email-input {
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 16px;
+    padding: 18px 20px;
+  }
+
+  .hero-submit-button {
+    width: 100%;
+    padding: 18px 24px;
+    font-size: 16px;
+    min-height: 56px;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+  }
+
+  .hero-social-proof {
+    width: 100%;
+    justify-content: center;
+    align-self: center;
+  }
+
+  .try-demo-link {
+    align-self: center;
   }
 
   .hero-badge span {
