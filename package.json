@@ -26,6 +26,8 @@
         "start": "react-scripts start",
         "build": "react-scripts build",
         "test": "react-scripts test",
+        "test:email": "node test-email.js",
+        "test:all": "npm run test:email && npm test -- --watchAll=false",
         "eject": "react-scripts eject",
         "dev": "netlify dev",
         "netlify": "netlify dev",
