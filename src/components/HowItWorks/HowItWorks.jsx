@@ -5,26 +5,26 @@ import './HowItWorks.css';
 const steps = [
   {
     number: '1',
-    title: 'Share Your Concerns',
-    description: 'Describe your symptoms, cycle changes, or health questions in detail.',
+    title: 'Track Your Symptoms',
+    description: 'Log hot flashes, sleep quality, mood, and energy. Takes just 30 seconds daily—less time than your morning coffee.',
     icon: 'message'
   },
   {
     number: '2',
-    title: 'AI Analysis',
-    description: 'Our AI trained on women\'s health data analyzes your specific situation.',
+    title: 'Get AI Insights',
+    description: 'After 7 days, discover patterns you\'d never notice alone. See what triggers your symptoms and get personalized recommendations.',
     icon: 'brain'
   },
   {
     number: '3',
-    title: 'Personalized Guidance',
-    description: 'Get evidence-based insights for your reproductive and hormonal health.',
+    title: 'Share with Your Doctor',
+    description: 'Export your symptom data and AI insights to bring to your doctor appointments. Clear data makes for better conversations and more informed care decisions.',
     icon: 'guide'
   },
   {
     number: '4',
-    title: 'Next Steps',
-    description: 'Know when to see your OB-GYN, adjust lifestyle, or seek urgent care.',
+    title: 'Take Control',
+    description: 'Use your data to make informed decisions about treatments, lifestyle changes, and daily habits. Track what works and adjust as needed.',
     icon: 'arrow'
   }
 ];
@@ -85,7 +85,7 @@ const HowItWorks = () => {
         >
           <h2 className="how-title">How It Works</h2>
           <p className="how-subtitle">
-            Get from symptoms to clarity in minutes
+            From tracking to feeling better in 4 simple steps
           </p>
         </motion.div>
 

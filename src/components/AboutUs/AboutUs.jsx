@@ -17,22 +17,21 @@ const AboutUs = () => {
           <section className="about-section">
             <h2>Our Philosophy</h2>
             <p>
-              Getting the right care fast should feel simple, private, and reassuring.
-              OpenMedicine is a 24/7 health guide that helps you understand symptoms, decide
-              what to do now, and, when it is safer, get to Urgent Care or the ER
-              without delay. It is free to use, with affordable access to licensed
-              clinicians when you want a human.
+              Navigating menopause should feel simple, supportive, and empowering.
+              OpenMedicine is a 24/7 AI menopause specialist that helps you understand
+              your symptoms, identify patterns, and make informed decisions about your care.
+              From hot flashes to mood changes, we're here to help you feel heard and informed.
             </p>
           </section>
 
           <section className="about-section">
             <h2>How OpenMedicine Helps</h2>
             <p>
-              Think of it as a careful co-pilot: it organizes your story, flags red
-              flags, and suggests the next best step (self-care, clinic, Urgent Care
-              or ER), plus practical actions like click to call and directions. OpenMedicine
-              is not a medical diagnosis and can make mistakes; it works best alongside
-              licensed professionals, especially for urgent or complex issues.
+              Think of it as your personal menopause guide: Dr. Luna helps you track symptoms,
+              identify triggers, understand whether you're in perimenopause or menopause, and
+              learn about treatment options including HRT and lifestyle changes. Export your
+              symptom summary to share with your doctor for more informed conversations.
+              OpenMedicine is educational and works best alongside licensed healthcare providers.
             </p>
           </section>
 

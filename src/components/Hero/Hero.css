@@ -324,7 +324,7 @@
 
 .hero-email-input:focus {
   background: rgba(255, 255, 255, 0.12);
-  border-color: #C084FC;
+  border-color: #8b5cf6;
   box-shadow: 0 0 0 4px rgba(192, 132, 252, 0.15);
   transform: translateY(-1px);
 }
@@ -336,7 +336,7 @@
 
 .hero-submit-button {
   padding: 18px 36px;
-  background: linear-gradient(135deg, #C084FC, #F472B6);
+  background: linear-gradient(135deg, #8b5cf6, #F472B6);
   border: none;
   border-radius: 14px;
   color: #fff;
@@ -349,7 +349,7 @@
 }
 
 .hero-submit-button:hover:not(:disabled) {
-  background: linear-gradient(135deg, #9333EA, #DB2777);
+  background: linear-gradient(135deg, #7c3aed, #DB2777);
   transform: translateY(-3px);
   box-shadow: 0 15px 40px rgba(244, 114, 182, 0.5);
 }
@@ -394,7 +394,7 @@
 .avatar:hover {
   transform: translateY(-4px) scale(1.1);
   z-index: 10;
-  border-color: #C084FC;
+  border-color: #8b5cf6;
 }
 
 .social-proof-text {
@@ -426,7 +426,7 @@
 }
 
 .try-demo-link:hover {
-  color: #C084FC;
+  color: #8b5cf6;
   gap: 8px;
 }
 
@@ -497,7 +497,7 @@
 .fact-stat {
   font-size: 76px;
   font-weight: 800;
-  background: linear-gradient(135deg, #9333EA 0%, #C084FC 100%);
+  background: linear-gradient(135deg, #7c3aed 0%, #8b5cf6 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -555,7 +555,7 @@
 .fact-dot.active {
   width: 32px;
   border-radius: 4px;
-  background: linear-gradient(90deg, #C084FC, #F472B6);
+  background: linear-gradient(90deg, #8b5cf6, #F472B6);
 }
 
 .fact-dot:hover:not(.active) {

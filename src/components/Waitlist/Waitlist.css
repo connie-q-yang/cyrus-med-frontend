@@ -127,6 +127,61 @@
   letter-spacing: 0.2px;
 }
 
+.pricing-info {
+  margin: 32px auto 24px;
+  padding: 24px 32px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 16px;
+  border: 1px solid rgba(192, 132, 252, 0.15);
+  max-width: 400px;
+  position: relative;
+  z-index: 2;
+}
+
+.pricing-text {
+  font-size: 18px;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0 0 16px 0;
+  font-weight: 300;
+  letter-spacing: 0.3px;
+  text-align: center;
+}
+
+.pricing-text strong {
+  font-weight: 600;
+  background: var(--primary-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.pricing-details {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.pricing-details li {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.65);
+  font-weight: 300;
+  letter-spacing: 0.2px;
+  padding-left: 20px;
+  position: relative;
+  text-align: left;
+}
+
+.pricing-details li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: var(--pink-light);
+  font-size: 16px;
+}
+
 .waitlist-form {
   position: relative;
   z-index: 2;
@@ -171,7 +226,7 @@
 
 .submit-button {
   padding: 18px 36px;
-  background: linear-gradient(135deg, #C084FC, #F472B6);
+  background: linear-gradient(135deg, #8b5cf6, #F472B6);
   color: #ffffff;
   border: none;
   border-radius: 100px;
@@ -188,7 +243,7 @@
 }
 
 .submit-button:hover:not(:disabled) {
-  background: linear-gradient(135deg, #9333EA, #DB2777);
+  background: linear-gradient(135deg, #7c3aed, #DB2777);
   transform: translateY(-3px) scale(1.02);
   box-shadow:
     0 20px 50px rgba(192, 132, 252, 0.4),

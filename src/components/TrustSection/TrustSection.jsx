@@ -5,19 +5,19 @@ import './TrustSection.css';
 
 const trustPoints = [
   {
-    title: 'Evidence-Based',
-    description: 'Trained on millions of medical cases and peer-reviewed research',
-    icon: 'research'
-  },
-  {
-    title: 'Physician-Reviewed',
-    description: 'Developed with healthcare professionals to ensure accuracy',
+    title: 'Evidence-Based Approach',
+    description: 'Built on the latest menopause research and medical guidelines to help you track and understand your symptoms',
     icon: 'medical'
   },
   {
-    title: 'Privacy-First',
-    description: 'Your health data stays private. No sharing without consent',
+    title: 'HIPAA Secure & Private',
+    description: 'Your symptoms and health data are encrypted and protected. We never share without your permission',
     icon: 'lock'
+  },
+  {
+    title: 'AI-Powered Insights',
+    description: 'Advanced pattern recognition helps you identify triggers, trends, and correlations you might miss on your own',
+    icon: 'research'
   }
 ];
 

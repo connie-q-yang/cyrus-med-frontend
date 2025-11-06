@@ -390,7 +390,7 @@ export const exportChatAsDocx = async (messages) => {
       spacing: { after: 400 }
     }),
     new Paragraph({
-      text: "© 2025 OpenMedicine - AI Health Companion",
+      text: "© 2025 OpenMedicine - AI Menopause Specialist",
       italics: true,
       alignment: AlignmentType.CENTER,
       spacing: { before: 400 }
@@ -535,7 +535,7 @@ export const exportChatAsText = (messages) => {
   text += "• Always consult with healthcare professionals for medical advice\n";
   text += "• Share this SOAP note with your healthcare provider for better care\n";
   text += "• Keep this document secure if it contains personal health information\n\n";
-  text += "© 2025 OpenMedicine - AI Health Companion\n";
+  text += "© 2025 OpenMedicine - AI Menopause Specialist\n";
 
   const blob = new Blob([text], { type: 'text/plain' });
   const fileName = `openmedicine-soap-note-${new Date().toISOString().slice(0, 10)}.txt`;

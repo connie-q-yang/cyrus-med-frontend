@@ -5,29 +5,29 @@
   }
   
   :root {
-    /* Primary Gradient: Purple → Pink */
-    --primary-gradient: linear-gradient(135deg, #C084FC 0%, #F472B6 100%);
+    /* Primary Gradient: Lavender → Coral (Menopause-focused warm tones) */
+    --primary-gradient: linear-gradient(135deg, #8b5cf6 0%, #F472B6 100%);
 
     /* Secondary Gradient variations */
-    --gradient-warm: linear-gradient(135deg, #A78BFA 0%, #F472B6 50%, #FCA5A5 100%);
+    --gradient-warm: linear-gradient(135deg, #8b5cf6 0%, #F472B6 50%, #FCA5A5 100%);
     --gradient-subtle: linear-gradient(135deg, #E9D5FF 0%, #FBCFE8 50%, #FED7E2 100%);
-    --gradient-vibrant: linear-gradient(135deg, #DB2777 0%, #9333EA 100%);
+    --gradient-vibrant: linear-gradient(135deg, #DB2777 0%, #7c3aed 100%);
 
-    /* Glass effects - Frosted with pink tint */
+    /* Glass effects - Frosted with warm tint */
     --glass-bg: rgba(255, 255, 255, 0.1);
     --glass-bg-hover: rgba(255, 255, 255, 0.15);
     --glass-border: rgba(255, 255, 255, 0.25);
     --glass-white: rgba(255, 255, 255, 0.95);
     --glass-pink: rgba(244, 114, 182, 0.1);
-    --glass-purple: rgba(168, 85, 247, 0.1);
+    --glass-purple: rgba(139, 92, 246, 0.1);
 
-    /* Core colors */
-    --purple: #A855F7;
-    --purple-light: #C084FC;
-    --purple-dark: #9333EA;
-    --pink: #EC4899;
-    --pink-light: #F472B6;
-    --pink-dark: #DB2777;
+    /* Core colors - Warm lavender & coral palette */
+    --purple: #8b5cf6;
+    --purple-light: #a78bfa;
+    --purple-dark: #7c3aed;
+    --pink: #F472B6;
+    --pink-light: #f9a8d4;
+    --pink-dark: #ec4899;
     --rose: #FB7185;
     --lavender: #E9D5FF;
     --emerald: #10B981;

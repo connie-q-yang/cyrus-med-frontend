@@ -37,7 +37,7 @@ const useChat = () => {
   const [messages, setMessages] = useState([
     {
       role: 'ai',
-      content: "Hi, I'm OpenMedicine, your personal AI health companion. Can you tell me what's going on today?"
+      content: "Hi, I'm Dr. Luna, your AI menopause specialist. I'm here to help you understand your symptoms and find relief. What menopause symptoms are you experiencing?"
     }
   ]);
   const [isLoading, setIsLoading] = useState(false);
@@ -85,7 +85,7 @@ const useChat = () => {
   const clearChat = useCallback(() => {
     setMessages([{
       role: 'ai',
-      content: "Hi, I'm OpenMedicine, your personal AI health companion. Can you tell me what's going on today?"
+      content: "Hi, I'm Dr. Luna, your AI menopause specialist. I'm here to help you understand your symptoms and find relief. What menopause symptoms are you experiencing?"
     }]);
   }, []);
 

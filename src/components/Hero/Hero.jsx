@@ -14,39 +14,37 @@ const Hero = () => {
   const [spotsLeft, setSpotsLeft] = useState(800); // Will be updated from Supabase
   const [totalJoined, setTotalJoined] = useState(1200); // Will be updated from Supabase
 
-  // Well-documented women's health statistics
-  // IMPORTANT: Verify these with current sources before going live
-  // Suggested sources: WHO, NIH, ACOG, CDC, American Thyroid Association
-  const healthFacts = [
+  // Menopause statistics - Sources: North American Menopause Society (NAMS), WHO
+  const menopauseFacts = [
     {
-      stat: "1 in 10",
-      description: "women have endometriosis worldwide",
-      impact: "That's 190 million women, yet diagnosis takes 7-10 years on average"
+      stat: "450M",
+      description: "women worldwide are in menopause",
+      impact: "Yet most get zero medical support or guidance through this transition"
     },
     {
-      stat: "1 in 3",
-      description: "women say they don't fully understand their birth control options",
-      impact: "Or which method is best for their body and lifestyle"
+      stat: "7-10 years",
+      description: "average duration of menopause symptoms",
+      impact: "But with the right care, you can feel better in weeks, not years"
     },
     {
-      stat: "70%",
-      description: "of women experience period pain",
-      impact: "But only 1 in 5 seek medical help, often dismissed as 'normal'"
+      stat: "75%",
+      description: "of women experience hot flashes",
+      impact: "On average 7 times per day. Tracking helps identify triggers and patterns"
     },
     {
-      stat: "1 in 5",
-      description: "women develop thyroid disorders in their lifetime",
-      impact: "Women are 5-8x more likely than men to have thyroid problems"
+      stat: "60%",
+      description: "of menopausal women report sleep problems",
+      impact: "Poor sleep affects mood, energy, and quality of life—but it's treatable"
     },
     {
-      stat: "8%",
-      description: "of reproductive-age women have PCOS",
-      impact: "Yet 70% remain undiagnosed despite treatable symptoms"
+      stat: "1 in 4",
+      description: "women consider leaving their job due to symptoms",
+      impact: "Severe symptoms don't have to derail your career or life"
     },
     {
-      stat: "23 days",
-      description: "longer wait time for pain diagnosis in women vs men",
-      impact: "Gender bias in healthcare delays critical diagnoses"
+      stat: "Only 20%",
+      description: "of women who could benefit get treatment",
+      impact: "Many doctors aren't trained in menopause care. We specialize in it"
     }
   ];
 
@@ -68,13 +66,13 @@ const Hero = () => {
 
   useEffect(() => {
     const factInterval = setInterval(() => {
-      setCurrentFact((prev) => (prev + 1) % healthFacts.length);
+      setCurrentFact((prev) => (prev + 1) % menopauseFacts.length);
     }, 2500); // Faster rotation - 2.5 seconds
 
     return () => {
       clearInterval(factInterval);
     };
-  }, [healthFacts.length]);
+  }, [menopauseFacts.length]);
 
   const openChat = () => {
     trackButtonClick('try_demo', 'hero');
@@ -103,11 +101,24 @@ const Hero = () => {
 
       if (result.success) {
         // Send welcome email
-        fetch('/.netlify/functions/send-welcome-email', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email: heroEmail }),
-        }).catch(err => console.error('Email error:', err));
+        try {
+          const emailResponse = await fetch('/.netlify/functions/send-welcome-email', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email: heroEmail }),
+          });
+
+          const emailResult = await emailResponse.json();
+          console.log('Email result:', emailResult);
+
+          if (!emailResponse.ok) {
+            console.error('Email sending failed:', emailResult);
+            // Don't block the user flow, but log the error
+          }
+        } catch (err) {
+          console.error('Email error:', err);
+          // Don't block the user flow, but log the error
+        }
 
         trackWaitlistSignup(heroEmail, 'hero_inline');
         toast.success('🎉 Welcome to OpenMedicine! Check your email.');
@@ -137,14 +148,13 @@ const Hero = () => {
           transition={{ duration: 0.8 }}
         >
           <div className="hero-badge">
-            <span>AI-Powered Women's Health</span>
+            <span>AI-Powered Menopause Care</span>
           </div>
 
-          <h1>Women's health answers you can <span className="gradient-text">trust.</span></h1>
+          <h1>Finally, menopause care that actually <span className="gradient-text">works</span></h1>
 
           <p className="hero-description">
-            Get instant, evidence-based guidance for your reproductive and hormonal health.
-            No more waiting weeks for answers or second-guessing your symptoms.
+            Track symptoms. Get AI-powered insights. Join women taking control of their menopause journey.
           </p>
 
           <div className="cta-container">
@@ -154,7 +164,7 @@ const Hero = () => {
                 <path d="M8 4V8M8 11H8.01M14.07 11L8.54 2C8.24 1.52 7.76 1.52 7.46 2L1.93 11C1.63 11.48 1.88 12 2.47 12H13.53C14.12 12 14.37 11.48 14.07 11Z"
                   stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
               </svg>
-              <span>Only <strong>{spotsLeft} spots</strong> left for early access</span>
+              <span>Only <strong>{spotsLeft} early access spots</strong> remaining</span>
             </div>
 
             {/* Inline Email Form */}
@@ -163,7 +173,7 @@ const Hero = () => {
                 type="email"
                 value={heroEmail}
                 onChange={(e) => setHeroEmail(e.target.value)}
-                placeholder="Enter your email to join waitlist"
+                placeholder="Enter your email for early access"
                 required
                 disabled={isSubmitting}
                 className="hero-email-input"
@@ -173,7 +183,7 @@ const Hero = () => {
                 disabled={isSubmitting}
                 className="hero-submit-button"
               >
-                {isSubmitting ? 'Joining...' : 'Get Early Access'}
+                {isSubmitting ? 'Joining...' : 'Join Waitlist'}
               </button>
             </form>
 
@@ -185,7 +195,7 @@ const Hero = () => {
                 <div className="avatar">👩🏼</div>
               </div>
               <p className="social-proof-text">
-                Join <strong>{totalJoined.toLocaleString()} others</strong> who are already experiencing the future of healthcare
+                Join <strong>{totalJoined.toLocaleString()} women</strong> managing menopause symptoms with OpenMedicine
               </p>
             </div>
 
@@ -193,7 +203,7 @@ const Hero = () => {
               className="try-demo-link"
               onClick={openChat}
             >
-              or try the demo first →
+              or see how it works →
             </button>
           </div>
         </motion.div>
@@ -230,10 +240,10 @@ const Hero = () => {
                   ease: "easeOut"
                 }}
               >
-                <div className="did-you-know">Did you know that...</div>
-                <div className="fact-stat">{healthFacts[currentFact].stat}</div>
-                <div className="fact-description">{healthFacts[currentFact].description}</div>
-                <div className="fact-impact">{healthFacts[currentFact].impact}</div>
+                <div className="did-you-know">Did you know...</div>
+                <div className="fact-stat">{menopauseFacts[currentFact].stat}</div>
+                <div className="fact-description">{menopauseFacts[currentFact].description}</div>
+                <div className="fact-impact">{menopauseFacts[currentFact].impact}</div>
 
                 {/* Decorative elements */}
                 <div className="fact-glow"></div>
@@ -242,7 +252,7 @@ const Hero = () => {
 
             {/* Progress indicators */}
             <div className="fact-indicators">
-              {healthFacts.map((_, index) => (
+              {menopauseFacts.map((_, index) => (
                 <button
                   key={index}
                   className={`fact-dot ${index === currentFact ? 'active' : ''}`}

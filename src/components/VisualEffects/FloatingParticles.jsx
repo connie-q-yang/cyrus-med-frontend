@@ -27,7 +27,7 @@ const FloatingParticles = () => {
         this.speedX = Math.random() * 0.5 - 0.25;
         this.speedY = Math.random() * 0.5 - 0.25;
         this.opacity = Math.random() * 0.5 + 0.2;
-        this.color = Math.random() > 0.5 ? '#C084FC' : '#F472B6';
+        this.color = Math.random() > 0.5 ? '#8b5cf6' : '#F472B6';
       }
 
       update() {
@@ -75,7 +75,7 @@ const FloatingParticles = () => {
           const distance = Math.sqrt(dx * dx + dy * dy);
 
           if (distance < 120) {
-            ctx.strokeStyle = '#C084FC';
+            ctx.strokeStyle = '#8b5cf6';
             ctx.lineWidth = 0.5;
             ctx.globalAlpha = (1 - distance / 120) * 0.2;
             ctx.beginPath();

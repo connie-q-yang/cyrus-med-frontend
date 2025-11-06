@@ -47,26 +47,31 @@ const Waitlist = () => {
 
       if (result.success) {
         // Send welcome email via Netlify Function
-        fetch('/.netlify/functions/send-welcome-email', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ email }),
-        })
-        .then(res => res.json())
-        .then(data => {
-          console.log('Email sent:', data);
-        })
-        .catch(err => {
+        try {
+          const emailResponse = await fetch('/.netlify/functions/send-welcome-email', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email }),
+          });
+
+          const emailResult = await emailResponse.json();
+          console.log('Email result:', emailResult);
+
+          if (!emailResponse.ok) {
+            console.error('Email sending failed:', emailResult);
+            // Don't block the user flow, but log the error
+          }
+        } catch (err) {
           console.error('Email error:', err);
           // Don't show error to user as the signup was successful
-        });
+        }
 
         // Track successful signup
         trackWaitlistSignup(email, 'waitlist_section');
 
-        toast.success(result.message || 'Welcome to OpenMedicine! Check your email for next steps.');
+        toast.success(result.message || '🎉 Welcome to OpenMedicine! Check your email for next steps.');
         setEmail('');
         // Update remaining spots
         setBetaSpotsLeft(prev => Math.max(0, prev - 1));
@@ -99,9 +104,9 @@ const Waitlist = () => {
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
-          <h2>Get clarity in minutes.</h2>
+          <h2>Join the Waitlist</h2>
           <p className="waitlist-subtitle">
-            Join {2000 - betaSpotsLeft} others who are already experiencing the future of healthcare.
+            Be among the first to access our AI-powered menopause care platform. {2000 - betaSpotsLeft} women have already joined.
           </p>
 
           <div className="waitlist-benefits">
@@ -110,14 +115,28 @@ const Waitlist = () => {
                 <circle cx="9" cy="9" r="8" stroke="currentColor" strokeWidth="1.5" opacity="0.3"/>
                 <path d="M5 9L8 12L13 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
-              <span>Priority access to all features</span>
+              <span>Daily symptom tracking</span>
             </div>
             <div className="benefit">
               <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
                 <circle cx="9" cy="9" r="8" stroke="currentColor" strokeWidth="1.5" opacity="0.3"/>
                 <path d="M5 9L8 12L13 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
-              <span>Help shape product development</span>
+              <span>AI-powered insights and patterns</span>
+            </div>
+            <div className="benefit">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                <circle cx="9" cy="9" r="8" stroke="currentColor" strokeWidth="1.5" opacity="0.3"/>
+                <path d="M5 9L8 12L13 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+              <span>Early access to launch</span>
+            </div>
+            <div className="benefit">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                <circle cx="9" cy="9" r="8" stroke="currentColor" strokeWidth="1.5" opacity="0.3"/>
+                <path d="M5 9L8 12L13 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+              <span>Help shape the future of menopause care</span>
             </div>
           </div>
 
@@ -133,14 +152,14 @@ const Waitlist = () => {
                 className="email-input"
               />
               <button type="submit" disabled={isSubmitting} className="submit-button">
-                {isSubmitting ? 'Processing...' : 'Get Early Access'}
+                {isSubmitting ? 'Joining...' : 'Join Waitlist'}
               </button>
             </div>
           </form>
 
           <div className="spots-remaining">
             <span className="spots-number">{betaSpotsLeft}</span>
-            <span className="spots-label">spots remaining</span>
+            <span className="spots-label">early access spots remaining</span>
           </div>
 
           <p className="privacy-note">

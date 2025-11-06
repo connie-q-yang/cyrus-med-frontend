@@ -8,63 +8,63 @@ import './FullScreenChat.css';
 
 const samplePrompts = [
   {
-    category: "Urinary Tract Infection (UTI)",
-    icon: "💧",
+    category: "Hot Flashes & Night Sweats",
+    icon: "🔥",
     prompts: [
-      "I have burning when I urinate, could this be a UTI?",
-      "I keep getting UTIs, what can I do to prevent them?",
-      "Is it normal to have UTI symptoms after sex?",
-      "What's the difference between a UTI and a bladder infection?"
+      "I'm having hot flashes 10+ times a day, what can help?",
+      "Are night sweats normal during menopause?",
+      "What triggers hot flashes and how can I avoid them?",
+      "When do hot flashes typically start and stop?"
     ]
   },
   {
-    category: "Vaginal Infections",
-    icon: "🔬",
+    category: "Sleep Issues",
+    icon: "😴",
     prompts: [
-      "I have a fishy odor and discharge, could this be BV?",
-      "What's the difference between a yeast infection and BV?",
-      "I have itching and white discharge, is this a yeast infection?",
-      "How can I tell if I have bacterial vaginosis?"
+      "I can't sleep through the night, is this menopause?",
+      "What can I do about insomnia during menopause?",
+      "Why am I waking up multiple times a night?",
+      "Are there natural remedies for menopause-related sleep problems?"
     ]
   },
   {
-    category: "Birth Control & Contraception",
-    icon: "💊",
+    category: "Mood & Mental Health",
+    icon: "💭",
     prompts: [
-      "Which birth control method is right for me?",
-      "I missed a birth control pill, what should I do?",
-      "Can birth control cause yeast infections or UTIs?",
-      "What are my emergency contraception options?"
+      "I've been feeling anxious and irritable, is this menopause?",
+      "Can menopause cause depression or mood swings?",
+      "I'm experiencing brain fog and memory issues, what helps?",
+      "How do I cope with emotional changes during menopause?"
     ]
   },
   {
-    category: "Period & Menstrual Issues",
+    category: "Period Changes & Irregular Bleeding",
     icon: "🌸",
     prompts: [
-      "I have severe period cramps, what can help?",
-      "My period is 2 weeks late, what could it mean?",
-      "I have heavy bleeding and clots, is this normal?",
-      "I'm spotting between periods, should I be concerned?"
+      "My periods are irregular, am I starting menopause?",
+      "I'm having heavy bleeding and clots, is this perimenopause?",
+      "I'm spotting between periods, should I be concerned?",
+      "When do periods completely stop during menopause?"
     ]
   },
   {
-    category: "PCOS & Hormonal Health",
+    category: "Physical Symptoms",
     icon: "⚖️",
     prompts: [
-      "What are the signs and symptoms of PCOS?",
-      "I have irregular periods and acne, could it be PCOS?",
-      "How is PCOS diagnosed and treated?",
-      "I think I have a hormonal imbalance, what should I know?"
+      "I have joint pain and stiffness, is this related to menopause?",
+      "Why am I gaining weight during menopause?",
+      "I have heart palpitations, could this be menopause?",
+      "What causes vaginal dryness and how can I treat it?"
     ]
   },
   {
-    category: "Pregnancy & Fertility",
-    icon: "🤰",
+    category: "Treatment Options",
+    icon: "💊",
     prompts: [
-      "What are the early signs of pregnancy?",
-      "I'm trying to conceive, when should I take a test?",
-      "Is this discharge or symptom normal during pregnancy?",
-      "How can I improve my chances of getting pregnant?"
+      "What is hormone replacement therapy (HRT)?",
+      "Are there natural alternatives to HRT?",
+      "What are the benefits and risks of HRT?",
+      "How do I know if I'm a candidate for hormone therapy?"
     ]
   }
 ];
@@ -294,7 +294,7 @@ const FullScreenChat = ({ isOpen, onClose }) => {
               </div>
               <div className="header-content">
                 <div className="header-info">
-                  <h2>OpenMedicine AI Health Companion</h2>
+                  <h2>OpenMedicine AI Menopause Companion</h2>
                 </div>
                 <div className="header-actions">
                   {messages.length > 1 && (
@@ -340,8 +340,8 @@ const FullScreenChat = ({ isOpen, onClose }) => {
             <div className="chat-body">
               {showPrompts && messages.length <= 1 ? (
                 <div className="prompts-container">
-                  <h3 className="prompts-title">What can I help you with today?</h3>
-                  <p className="prompts-subtitle">Select a topic or type your own question below</p>
+                  <h3 className="prompts-title">What menopause symptom can I help you with?</h3>
+                  <p className="prompts-subtitle">Select a topic or describe your symptoms below</p>
 
                   <div className="prompt-categories">
                     {samplePrompts.map((category, idx) => (
@@ -550,7 +550,7 @@ const FullScreenChat = ({ isOpen, onClose }) => {
                     getQuestionType() === 'lmp' ? "Or type your response..." :
                     getQuestionType() === 'pregnancy' ? "Or type your response..." :
                     shouldShowYesNoButtons() ? "Or type your own response..." :
-                    "Type your health question here..."
+                    "Describe your menopause symptoms..."
                   }
                   disabled={isLoading}
                   className="chat-input"
@@ -567,7 +567,7 @@ const FullScreenChat = ({ isOpen, onClose }) => {
               </form>
 
               <div className="footer-disclaimer">
-                <p>Remember: This is for informational purposes only. Always consult healthcare professionals for medical advice.</p>
+                <p>This AI provides information about menopause symptoms. Always consult your healthcare provider for personalized medical advice.</p>
               </div>
             </div>
           </motion.div>

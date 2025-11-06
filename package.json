@@ -3,6 +3,7 @@
     "version": "0.1.0",
     "private": true,
     "dependencies": {
+        "@netlify/edge-functions-bootstrap": "^2.17.1",
         "@supabase/supabase-js": "^2.74.0",
         "axios": "^1.6.0",
         "cors": "^2.8.5",

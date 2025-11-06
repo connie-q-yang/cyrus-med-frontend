@@ -5,112 +5,52 @@ import './FAQ.css';
 
 const faqData = [
   {
-    category: "Getting Started",
+    category: "About OpenMedicine",
     questions: [
       {
-        question: "What is OpenMedicine?",
-        answer: `OpenMedicine helps you make sense of symptoms. In a short chat, we turn your story into:
+        question: "How does symptom tracking work?",
+        answer: `Takes 30 seconds daily on your phone. Log hot flashes, sleep quality, mood, and energy. After 7 days, our AI identifies patterns you'd never spot alone—like which days trigger more symptoms, how sleep affects your mood, and what lifestyle factors help or hurt.
 
-• A Differential Snapshot (likely / possible / rule-out)
-• A Seriousness Gauge (clear, plain-English risk cues and escalation advice)
-• A Share-Ready Summary you can hand to any clinician to speed up care`
+You can track as long as you like. The more data, the clearer the patterns become.`
       },
       {
-        question: "How do I get started?",
-        answer: `Open OpenMedicine on your phone or computer and start a chat. No downloads, no forms, no fees. You'll get a differential, seriousness guidance, and a shareable summary in minutes.`
-      },
-      {
-        question: "When should I use OpenMedicine?",
-        answer: `Use us when you want clarity before contacting a clinician, preparing for urgent care/ER, or getting a second look at what might be going on.
+        question: "What symptoms can I track?",
+        answer: `• Hot flashes and night sweats (frequency, severity, triggers)
+• Sleep quality and disruptions
+• Mood changes, anxiety, irritability
+• Brain fog and memory issues
+• Energy levels throughout the day
+• Physical symptoms (joint pain, headaches)
+• Weight changes
+• And more
 
-If you have severe symptoms right now (e.g., chest pain, trouble breathing, stroke signs, heavy bleeding), call 911 or your local emergency number immediately.`
+Track what matters to you. The AI learns your patterns regardless of which symptoms you focus on.`
       },
       {
-        question: "Who can use OpenMedicine?",
-        answer: `Adults 18+ (U.S.), English only for now. Parents/guardians may use OpenMedicine themselves to better understand a child's symptoms; minors should not use the service independently.`
-      }
-    ]
-  },
-  {
-    category: "How It Works",
-    questions: [
-      {
-        question: "What will I see after a chat?",
-        answer: `• Top 3-5 possibilities with brief reasoning
-• Seriousness cues (what would make this urgent vs. watchful waiting)
-• Next-step guidance (what to prepare, what to bring)
-• Share-Ready Summary (PDF/link) for your doctor, urgent care, or ER`
+        question: "When will OpenMedicine launch?",
+        answer: `We're currently in development and gathering feedback from our waitlist community. Early access members will be notified first when we launch. Join the waitlist to stay updated on our progress and be among the first to try the platform.`
       },
       {
-        question: "Can I skip questions and jump to a summary?",
-        answer: `We keep questions brief and your answers make the output safer and the handoff more useful. Most chats take under a minute.`
+        question: "Is my data private and secure?",
+        answer: `Yes. All data is HIPAA-compliant and encrypted at rest and in transit. We never share your health information with advertisers or third parties without your explicit consent.
+
+You own your data. You can download it or delete your account anytime.`
       },
       {
-        question: "Where does it run?",
-        answer: `Any modern web browser (phone, tablet, computer). Additional languages and native apps are planned.`
-      }
-    ]
-  },
-  {
-    category: "Features & Capabilities",
-    questions: [
-      {
-        question: "Can OpenMedicine tell me exactly what I have?",
-        answer: `No single tool can guarantee a diagnosis. We provide a structured differential plus a Seriousness Gauge, then equip you and your clinician to decide next steps quickly.`
+        question: "Can I use this if I'm already on HRT or other treatments?",
+        answer: `Absolutely! OpenMedicine is designed to help you track how well your current treatments are working. The data can help you and your doctor optimize dosing, try different formulations, or adjust your approach.
+
+If you're not on treatment yet, tracking helps you decide whether you want to pursue HRT, lifestyle changes, supplements, or other options.`
       },
       {
-        question: "Can I save my results?",
-        answer: `• Without an account: download or copy your summary before closing your browser
-• With an account: your summaries live in your dashboard for easy sharing`
-      },
-      {
-        question: "Can I upload my medical records?",
-        answer: `Coming soon. For now, add key history (meds, allergies, conditions) during the chat. Record uploads and health-system syncing are on our roadmap. Join the waitlist.`
-      },
-      {
-        question: "Do you provide medical visits or prescriptions?",
-        answer: `Not yet. No video visits or prescriptions at this time. We're building MD FastPass so a licensed physician can rapidly approve the AI assessment for safety and seriousness. Join the waitlist.`
-      }
-    ]
-  },
-  {
-    category: "Privacy & Pricing",
-    questions: [
-      {
-        question: "How is my data handled?",
-        answer: `• Use OpenMedicine without an account for maximum privacy
-• Create an account if you want us to save your summaries for easy sharing
-• We don't sell your personal data. You can delete your account anytime
-• If you access OpenMedicine through a healthcare partner later, your data may be governed by that partner's privacy and security rules`
+        question: "What if I'm not sure I'm in menopause yet?",
+        answer: `That's exactly why tracking helps. Perimenopause (the transition before menopause) can start in your 40s—or even late 30s. Symptoms are often subtle and confusing at first.
+
+OpenMedicine will help you document what's happening so you can see patterns and better understand whether your symptoms might be menopause-related.`
       },
       {
         question: "How much does it cost?",
-        answer: `OpenMedicine is free. We may add optional paid features later (e.g., long-term history, record integrations). The core experience remains free.`
-      }
-    ]
-  },
-  {
-    category: "Important Disclaimers",
-    questions: [
-      {
-        question: "What OpenMedicine is NOT",
-        answer: `• We don't diagnose, treat, or prescribe
-• We don't offer video visits today`
-      },
-      {
-        question: "Is OpenMedicine a medical device?",
-        answer: `OpenMedicine provides information to support understanding and clinician communication. It does not diagnose, treat, or prescribe. Always follow guidance from your healthcare professionals and emergency services.`
-      }
-    ]
-  },
-  {
-    category: "For Healthcare Partners",
-    questions: [
-      {
-        question: "For clinics, health systems, and employers",
-        answer: `We're piloting EHR-friendly summaries and ahead-of-arrival sharing to reduce repetitive intake and speed clinical review. This program is a work in progress.
-
-Interested? Join the partner waitlist.`
+        answer: `Pricing details will be announced closer to launch. Our goal is to make evidence-based menopause care accessible and affordable. Join the waitlist to be notified when pricing is available.`
       }
     ]
   }
@@ -151,7 +91,7 @@ const FAQ = () => {
           transition={{ duration: 0.6 }}
         >
           <h2 className="faq-title">Frequently Asked Questions</h2>
-          <p className="faq-subtitle">Everything you need to know about OpenMedicine</p>
+          <p className="faq-subtitle">Everything you need to know about managing menopause with OpenMedicine</p>
         </motion.div>
 
         <motion.div
