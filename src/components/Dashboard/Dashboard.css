@@ -102,6 +102,39 @@
   box-shadow: 0 2px 8px rgba(139, 92, 246, 0.3);
 }
 
+.mood-score-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  margin-left: 12px;
+  background: rgba(139, 92, 246, 0.12);
+  border: 1px solid rgba(139, 92, 246, 0.25);
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 700;
+  transition: all 0.3s ease;
+}
+
+.mood-score-badge:hover {
+  background: rgba(139, 92, 246, 0.18);
+  border-color: rgba(139, 92, 246, 0.35);
+  transform: scale(1.05);
+}
+
+.mood-score-badge svg {
+  color: #fbbf24;
+  filter: drop-shadow(0 0 4px rgba(251, 191, 36, 0.5));
+}
+
+.score-positive {
+  color: rgba(74, 222, 128, 1);
+}
+
+.score-negative {
+  color: rgba(248, 113, 113, 1);
+}
+
 /* Tab Navigation */
 .jarvis-tabs {
   display: flex;
@@ -597,6 +630,22 @@
     font-size: 16px;
   }
 
+  .dr-luna-badge {
+    font-size: 11px;
+    padding: 3px 10px;
+  }
+
+  .mood-score-badge {
+    font-size: 13px;
+    padding: 5px 10px;
+    gap: 5px;
+  }
+
+  .mood-score-badge svg {
+    width: 14px;
+    height: 14px;
+  }
+
   .jarvis-tabs {
     order: 3;
     width: 100%;
@@ -916,6 +965,11 @@
     padding: 10px 12px;
   }
 
+  .jarvis-brand {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
   .jarvis-brand h1 {
     font-size: 14px;
   }
@@ -928,6 +982,19 @@
   .dr-luna-badge {
     font-size: 10px;
     padding: 3px 8px;
+    margin-left: 0;
+  }
+
+  .mood-score-badge {
+    font-size: 12px;
+    padding: 4px 8px;
+    gap: 4px;
+    margin-left: 0;
+  }
+
+  .mood-score-badge svg {
+    width: 12px;
+    height: 12px;
   }
 
   .jarvis-icon-button {

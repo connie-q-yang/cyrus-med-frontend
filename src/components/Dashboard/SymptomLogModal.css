@@ -99,6 +99,7 @@
 
 /* Date Section */
 .symptom-date-section label,
+.symptom-mood-section label,
 .symptom-chips-section label,
 .symptom-notes-section label {
   display: block;
@@ -125,6 +126,73 @@
   background: rgba(139, 92, 246, 0.12);
   border-color: rgba(139, 92, 246, 0.4);
   box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+}
+
+/* Mood Selector */
+.mood-options {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.mood-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 12px;
+  background: rgba(139, 92, 246, 0.08);
+  border: 2px solid rgba(139, 92, 246, 0.2);
+  border-radius: 12px;
+  color: rgba(255, 255, 255, 0.8);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.mood-btn:hover {
+  background: rgba(139, 92, 246, 0.12);
+  border-color: rgba(139, 92, 246, 0.3);
+  transform: translateY(-2px);
+}
+
+.mood-btn.selected {
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(236, 72, 153, 0.2));
+  border-color: rgba(139, 92, 246, 0.6);
+  color: white;
+  box-shadow: 0 4px 16px rgba(139, 92, 246, 0.3);
+}
+
+.mood-btn svg {
+  color: rgba(139, 92, 246, 0.7);
+  transition: all 0.3s ease;
+}
+
+.mood-btn.selected svg {
+  color: #c084fc;
+  transform: scale(1.1);
+}
+
+.mood-btn span {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.mood-points {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  padding: 2px 6px;
+  background: rgba(139, 92, 246, 0.3);
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.mood-btn.selected .mood-points {
+  background: linear-gradient(135deg, #8b5cf6, #ec4899);
+  color: white;
 }
 
 /* Symptom Chips */
@@ -258,6 +326,14 @@
     font-size: 13px;
     padding: 7px 14px;
   }
+
+  .mood-btn {
+    padding: 14px 10px;
+  }
+
+  .mood-btn span {
+    font-size: 12px;
+  }
 }
 
 /* Extra small mobile devices */
@@ -309,5 +385,30 @@
   .symptom-save-btn {
     padding: 11px 20px;
     font-size: 14px;
+  }
+
+  .mood-options {
+    gap: 8px;
+  }
+
+  .mood-btn {
+    padding: 12px 8px;
+    gap: 6px;
+  }
+
+  .mood-btn svg {
+    width: 28px;
+    height: 28px;
+  }
+
+  .mood-btn span {
+    font-size: 11px;
+  }
+
+  .mood-points {
+    top: 6px;
+    right: 6px;
+    padding: 2px 5px;
+    font-size: 10px;
   }
 }

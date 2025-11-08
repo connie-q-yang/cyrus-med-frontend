@@ -18,10 +18,34 @@ const Dashboard = () => {
   const [inputValue, setInputValue] = useState('');
   const [showScrollButton, setShowScrollButton] = useState(false);
   const [isSymptomLogOpen, setIsSymptomLogOpen] = useState(false);
+  const [moodScore, setMoodScore] = useState(0);
   const messagesContainerRef = useRef(null);
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
   const isUserScrollingRef = useRef(false);
+
+  // Calculate mood score from journal entries
+  useEffect(() => {
+    const calculateMoodScore = () => {
+      try {
+        const localEntries = JSON.parse(localStorage.getItem('symptom_journal') || '[]');
+        const score = localEntries.reduce((total, entry) => {
+          if (entry.mood === 'happy') return total + 1;
+          if (entry.mood === 'sad') return total - 1;
+          return total; // neutral = 0
+        }, 0);
+        setMoodScore(score);
+      } catch (error) {
+        console.error('Error calculating mood score:', error);
+      }
+    };
+
+    calculateMoodScore();
+    // Recalculate when modal closes (after saving)
+    if (!isSymptomLogOpen) {
+      calculateMoodScore();
+    }
+  }, [isSymptomLogOpen]);
 
   const scrollToBottom = (behavior = 'smooth') => {
     if (messagesContainerRef.current) {
@@ -91,6 +115,14 @@ const Dashboard = () => {
           {chatMode === 'dr-luna' && activeTab === 'chat' && (
             <span className="dr-luna-badge">Dr. Luna</span>
           )}
+          <div className="mood-score-badge" title="Your wellness score based on mood tracking">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+            </svg>
+            <span className={moodScore >= 0 ? 'score-positive' : 'score-negative'}>
+              {moodScore > 0 ? '+' : ''}{moodScore}
+            </span>
+          </div>
         </div>
 
         {/* Tab Navigation */}

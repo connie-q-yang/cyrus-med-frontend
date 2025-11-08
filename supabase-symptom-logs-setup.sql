@@ -6,6 +6,7 @@ CREATE TABLE IF NOT EXISTS symptom_logs (
   user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
   log_date DATE NOT NULL,
   symptoms TEXT[] NOT NULL,
+  mood TEXT CHECK (mood IN ('happy', 'neutral', 'sad')),
   notes TEXT,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc', NOW()),
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc', NOW())

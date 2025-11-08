@@ -28,6 +28,7 @@ const SymptomLogModal = ({ isOpen, onClose }) => {
   const { user } = useAuth();
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
   const [selectedSymptoms, setSelectedSymptoms] = useState([]);
+  const [mood, setMood] = useState('neutral'); // 'happy', 'neutral', 'sad'
   const [notes, setNotes] = useState('');
   const [saving, setSaving] = useState(false);
 
@@ -75,6 +76,7 @@ const SymptomLogModal = ({ isOpen, onClose }) => {
       user_id: user.id,
       log_date: selectedDate,
       symptoms: selectedSymptoms,
+      mood: mood,
       notes: notes.trim() || null,
     };
 
@@ -102,6 +104,7 @@ const SymptomLogModal = ({ isOpen, onClose }) => {
 
       // Reset form
       setSelectedSymptoms([]);
+      setMood('neutral');
       setNotes('');
       setSelectedDate(new Date().toISOString().split('T')[0]);
 
@@ -112,6 +115,7 @@ const SymptomLogModal = ({ isOpen, onClose }) => {
         toast.warning('Saved to local journal only. Cloud sync pending.');
         // Still reset and close since local save worked
         setSelectedSymptoms([]);
+        setMood('neutral');
         setNotes('');
         setSelectedDate(new Date().toISOString().split('T')[0]);
         onClose();
@@ -178,6 +182,55 @@ const SymptomLogModal = ({ isOpen, onClose }) => {
                   max={new Date().toISOString().split('T')[0]}
                   className="symptom-date-input"
                 />
+              </div>
+
+              {/* Mood Selector */}
+              <div className="symptom-mood-section">
+                <label>How did you feel today?</label>
+                <div className="mood-options">
+                  <button
+                    type="button"
+                    className={`mood-btn ${mood === 'happy' ? 'selected' : ''}`}
+                    onClick={() => setMood('happy')}
+                  >
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <circle cx="12" cy="12" r="10" />
+                      <path d="M8 14s1.5 2 4 2 4-2 4-2" />
+                      <line x1="9" y1="9" x2="9.01" y2="9" />
+                      <line x1="15" y1="9" x2="15.01" y2="9" />
+                    </svg>
+                    <span>Good Day</span>
+                    <span className="mood-points">+1</span>
+                  </button>
+                  <button
+                    type="button"
+                    className={`mood-btn ${mood === 'neutral' ? 'selected' : ''}`}
+                    onClick={() => setMood('neutral')}
+                  >
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <circle cx="12" cy="12" r="10" />
+                      <line x1="8" y1="15" x2="16" y2="15" />
+                      <line x1="9" y1="9" x2="9.01" y2="9" />
+                      <line x1="15" y1="9" x2="15.01" y2="9" />
+                    </svg>
+                    <span>Neutral Day</span>
+                    <span className="mood-points">0</span>
+                  </button>
+                  <button
+                    type="button"
+                    className={`mood-btn ${mood === 'sad' ? 'selected' : ''}`}
+                    onClick={() => setMood('sad')}
+                  >
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <circle cx="12" cy="12" r="10" />
+                      <path d="M16 16s-1.5-2-4-2-4 2-4 2" />
+                      <line x1="9" y1="9" x2="9.01" y2="9" />
+                      <line x1="15" y1="9" x2="15.01" y2="9" />
+                    </svg>
+                    <span>Difficult Day</span>
+                    <span className="mood-points">-1</span>
+                  </button>
+                </div>
               </div>
 
               {/* Symptom Chips */}

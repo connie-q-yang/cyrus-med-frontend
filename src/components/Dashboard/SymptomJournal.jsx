@@ -324,6 +324,39 @@ const SymptomJournal = ({ onOpenLogModal }) => {
                   )}
                 </div>
                 <div className="entry-card">
+                  {entry.mood && (
+                    <div className={`entry-mood mood-${entry.mood}`}>
+                      {entry.mood === 'happy' && (
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <circle cx="12" cy="12" r="10" />
+                          <path d="M8 14s1.5 2 4 2 4-2 4-2" />
+                          <line x1="9" y1="9" x2="9.01" y2="9" />
+                          <line x1="15" y1="9" x2="15.01" y2="9" />
+                        </svg>
+                      )}
+                      {entry.mood === 'neutral' && (
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <circle cx="12" cy="12" r="10" />
+                          <line x1="8" y1="15" x2="16" y2="15" />
+                          <line x1="9" y1="9" x2="9.01" y2="9" />
+                          <line x1="15" y1="9" x2="15.01" y2="9" />
+                        </svg>
+                      )}
+                      {entry.mood === 'sad' && (
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <circle cx="12" cy="12" r="10" />
+                          <path d="M16 16s-1.5-2-4-2-4 2-4 2" />
+                          <line x1="9" y1="9" x2="9.01" y2="9" />
+                          <line x1="15" y1="9" x2="15.01" y2="9" />
+                        </svg>
+                      )}
+                      <span>
+                        {entry.mood === 'happy' && 'Good Day'}
+                        {entry.mood === 'neutral' && 'Neutral Day'}
+                        {entry.mood === 'sad' && 'Difficult Day'}
+                      </span>
+                    </div>
+                  )}
                   <div className="entry-symptoms">
                     {entry.symptoms?.map(symptom => (
                       <span key={symptom} className="symptom-tag">
