@@ -19,6 +19,7 @@ import ComingSoon from './components/ComingSoon/ComingSoon';
 import Login from './components/Auth/Login';
 import SignUp from './components/Auth/SignUp';
 import ConfirmEmail from './components/Auth/ConfirmEmail';
+import AuthCallback from './components/Auth/AuthCallback';
 import ResetPassword from './components/Auth/ResetPassword';
 import Onboarding from './components/Onboarding/Onboarding';
 import Dashboard from './components/Dashboard/Dashboard';
@@ -60,6 +61,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/auth/confirm-email" element={<ConfirmEmail />} />
+            <Route path="/auth/callback" element={<AuthCallback />} />
             <Route path="/auth/reset-password" element={<ResetPassword />} />
 
             {/* Onboarding route - protected but doesn't require onboarding to be complete */}
