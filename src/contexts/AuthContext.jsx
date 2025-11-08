@@ -98,7 +98,19 @@ export const AuthProvider = ({ children }) => {
       return { error: null };
     } catch (error) {
       console.error('Sign out error:', error);
-      return { error: error.message };
+
+      // Even if the API call fails, clear the local session
+      // This ensures users can always sign out from the client
+      setSession(null);
+      setUser(null);
+
+      // Clear local storage as a fallback
+      if (typeof window !== 'undefined') {
+        window.localStorage.removeItem('sb-rsgvhilaapbyhvzfmldu-auth-token');
+      }
+
+      // Return success anyway since local session is cleared
+      return { error: null };
     }
   };
 

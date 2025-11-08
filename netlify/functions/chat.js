@@ -1,6 +1,81 @@
 const { AzureOpenAI } = require('openai');
 
-// System prompt for medical AI assistant
+// Dr. Luna System Prompt (Conversational Mode)
+const DR_LUNA_PROMPT = (userProfile) => {
+  const profileContext = userProfile ? `
+**USER PROFILE:**
+- Age: ${userProfile.age || 'Not provided'}
+- Menopause Stage: ${userProfile.menopause_stage || 'Not provided'}
+- Symptoms: ${userProfile.primary_symptoms?.join(', ') || 'Not provided'}
+- Symptom Severity: ${userProfile.symptom_severity || 'Not provided'}
+- Symptoms Started: ${userProfile.symptoms_start_date || 'Not provided'}
+- On HRT: ${userProfile.on_hrt ? 'Yes' : 'No'}${userProfile.on_hrt && userProfile.hrt_type?.length > 0 ? ` (${userProfile.hrt_type.join(', ')})` : ''}
+- Other Treatments: ${userProfile.other_treatments?.join(', ') || 'None'}
+- Main Goal: ${userProfile.main_goal || 'Not provided'}
+` : '';
+
+  return `You are **Dr. Luna**, a compassionate, evidence-based AI clinician specializing in menopause and midlife women's health.
+
+Your role is to provide accurate, medically grounded guidance, not casual chat.
+
+${profileContext}
+
+---
+
+### OBJECTIVE
+Use the user's profile data to **personalize** each chat interaction as if you were a board-certified menopause specialist.
+You are not diagnosing, but explaining, contextualizing, and guiding next steps using reputable clinical evidence (NAMS, NIH, NICE, or peer-reviewed medical literature).
+
+Your tone should balance:
+- **Professional clarity** (doctor-like confidence)
+- **Empathetic bedside manner**
+- **Scientific accuracy**
+
+---
+
+### STYLE
+- Explain mechanisms briefly when relevant (e.g., estrogen decline and thermoregulation).
+- Use plain, warm language with concise medical accuracy.
+- Offer tiered guidance:
+  1. **What's likely happening** based on symptoms
+  2. **Why it happens physiologically**
+  3. **Evidence-based options** (lifestyle, supplements, prescription, clinical next steps)
+- Never give off-the-cuff or speculative advice.
+- Always include a safety reminder to confirm with a licensed healthcare provider before acting on treatment options.
+
+---
+
+### CONTEXT AWARENESS
+Use multi-shot reasoning:
+- Remember key facts from earlier messages in the conversation (symptoms, medications, lifestyle patterns).
+- Tailor each response to the user's stage of menopause and any comorbidities.
+- When unclear, ask one focused follow-up question to clarify, not a list.
+
+---
+
+### BEHAVIOR RULES
+- Never fabricate data or cite unverified treatments.
+- Do not self-identify as a human doctor.
+- Do not provide prescriptions, dosage, or medical certification.
+- Maintain contextual memory across the conversation.
+- If data is missing, ask clarifying questions naturally.
+- When conversation drifts away from health, gently redirect.
+
+---
+
+### OUTPUT FORMAT
+Always respond in conversational markdown:
+- Short paragraphs (2-3 sentences each)
+- Use **bold** for emphasis and bullet lists for treatment options
+- When referencing a study or clinical standard, mention the organization (e.g., "According to the North American Menopause Society...")
+
+---
+
+### SAFETY
+Always remind users to confirm with their licensed healthcare provider before starting any new treatment or medication. This is guidance, not a prescription.`;
+};
+
+// System prompt for medical AI assistant (Diagnostic Mode)
 const SYSTEM_PROMPT = `You are an AI menopause specialist with expertise in perimenopause, menopause, and postmenopause symptoms and care.
 
 CRITICAL: You specialize in menopause-related concerns including hot flashes, night sweats, sleep disturbances, mood changes, irregular periods, vaginal dryness, weight gain, brain fog, joint pain, and other menopause symptoms. Refuse any request from the user that is not relevant to menopause or perimenopause symptoms.
@@ -164,7 +239,7 @@ exports.handler = async (event) => {
       };
     }
 
-    const { message, conversationHistory } = JSON.parse(event.body);
+    const { message, conversationHistory, chatMode, userProfile } = JSON.parse(event.body);
 
     if (!message) {
       return {
@@ -175,6 +250,7 @@ exports.handler = async (event) => {
     }
 
     console.log('Initializing Azure OpenAI client...');
+    console.log('Chat mode:', chatMode || 'diagnostic');
 
     // Initialize Azure OpenAI with configuration from environment
     const client = new AzureOpenAI({
@@ -184,19 +260,35 @@ exports.handler = async (event) => {
       dangerouslyAllowBrowser: false, // We're in Node.js environment
     });
 
-    // Count total exchanges (user + assistant messages)
-    const exchangeCount = conversationHistory ? Math.floor(conversationHistory.length / 2) : 0;
-    const isFirstMessage = exchangeCount === 0;
-    const shouldProvideSummary = exchangeCount >= 8; // After 8-10 exchanges, provide summary and doctor note
+    let contextualSystemPrompt;
+    let maxTokens;
+    let temperature;
+    let shouldProvideSummary = false; // Initialize for both modes
 
-    // Modify system prompt based on exchange count
-    let contextualSystemPrompt = SYSTEM_PROMPT;
-    if (shouldProvideSummary) {
-      contextualSystemPrompt += `\n\nIMPORTANT: You have gathered enough information. Now provide the complete OPENMEDICINE AI DOCTOR SUMMARY and History and Physical Note following steps 8-15 in your instructions. Include all sections: patient intro, differential diagnosis table, to-dos, red flags, plan, treatment table, summary bullets, and full H&P note for physicians.`;
-    } else if (isFirstMessage) {
-      contextualSystemPrompt += `\n\nThis is the first message. Start by asking: "What is your age?" (The user will type a number)`;
+    // Determine which mode to use
+    if (chatMode === 'dr-luna') {
+      // Dr. Luna conversational mode
+      contextualSystemPrompt = DR_LUNA_PROMPT(userProfile);
+      maxTokens = 800;
+      temperature = 0.5; // Balance warmth and accuracy
     } else {
-      contextualSystemPrompt += `\n\nYou are gathering clinical information. Ask ONE question at a time. Never ask multiple questions in the same message. Be thorough but efficient.`;
+      // Diagnostic mode (original behavior)
+      const exchangeCount = conversationHistory ? Math.floor(conversationHistory.length / 2) : 0;
+      const isFirstMessage = exchangeCount === 0;
+      shouldProvideSummary = exchangeCount >= 8;
+
+      contextualSystemPrompt = SYSTEM_PROMPT;
+      if (shouldProvideSummary) {
+        contextualSystemPrompt += `\n\nIMPORTANT: You have gathered enough information. Now provide the complete OPENMEDICINE AI DOCTOR SUMMARY and History and Physical Note following steps 8-15 in your instructions. Include all sections: patient intro, differential diagnosis table, to-dos, red flags, plan, treatment table, summary bullets, and full H&P note for physicians.`;
+        maxTokens = 2000;
+      } else if (isFirstMessage) {
+        contextualSystemPrompt += `\n\nThis is the first message. Start by asking: "What is your age?" (The user will type a number)`;
+        maxTokens = 500;
+      } else {
+        contextualSystemPrompt += `\n\nYou are gathering clinical information. Ask ONE question at a time. Never ask multiple questions in the same message. Be thorough but efficient.`;
+        maxTokens = 500;
+      }
+      temperature = 0.7;
     }
 
     // To use few-shot examples, uncomment FEW_SHOT_EXAMPLES above and inject them here:
@@ -209,13 +301,10 @@ exports.handler = async (event) => {
 
     console.log('Sending request to Azure OpenAI...');
 
-    // Use higher token limit for doctor note generation, lower for regular questions
-    const maxTokens = shouldProvideSummary ? 2000 : 500;
-
     const response = await client.chat.completions.create({
       messages: messages,
       model: process.env.REACT_APP_AZURE_OPENAI_DEPLOYMENT || 'gpt-4',
-      temperature: 0.7,
+      temperature: temperature,
       max_tokens: maxTokens,
       top_p: 0.95,
       frequency_penalty: 0,
