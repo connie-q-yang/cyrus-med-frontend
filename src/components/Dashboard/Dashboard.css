@@ -102,6 +102,50 @@
   box-shadow: 0 2px 8px rgba(139, 92, 246, 0.3);
 }
 
+/* Tab Navigation */
+.jarvis-tabs {
+  display: flex;
+  gap: 8px;
+  background: rgba(139, 92, 246, 0.08);
+  padding: 4px;
+  border-radius: 12px;
+  border: 1px solid rgba(139, 92, 246, 0.15);
+}
+
+.jarvis-tab {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: transparent;
+  border: none;
+  border-radius: 10px;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.jarvis-tab:hover {
+  color: rgba(255, 255, 255, 0.8);
+  background: rgba(139, 92, 246, 0.1);
+}
+
+.jarvis-tab.active {
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(236, 72, 153, 0.2));
+  color: white;
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.2);
+}
+
+.jarvis-tab svg {
+  color: rgba(139, 92, 246, 0.8);
+}
+
+.jarvis-tab.active svg {
+  color: #c084fc;
+}
+
 .jarvis-user-section {
   display: flex;
   align-items: center;
@@ -551,6 +595,22 @@
 
   .jarvis-brand h1 {
     font-size: 16px;
+  }
+
+  .jarvis-tabs {
+    order: 3;
+    width: 100%;
+    margin-top: 8px;
+  }
+
+  .jarvis-tab {
+    flex: 1;
+    justify-content: center;
+    padding: 8px 16px;
+  }
+
+  .jarvis-tab span {
+    font-size: 13px;
   }
 
   .jarvis-user-name {

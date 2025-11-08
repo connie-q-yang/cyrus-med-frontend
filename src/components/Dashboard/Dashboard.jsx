@@ -6,11 +6,13 @@ import { useDashboardChat } from '../../hooks/useDashboardChat';
 import ReactMarkdown from 'react-markdown';
 import rehypeSanitize from 'rehype-sanitize';
 import SymptomLogModal from './SymptomLogModal';
+import SymptomJournal from './SymptomJournal';
 import './Dashboard.css';
 
 const Dashboard = () => {
   const { user, signOut } = useAuth();
   const navigate = useNavigate();
+  const [activeTab, setActiveTab] = useState('chat'); // 'chat' or 'journal'
   const chatMode = 'dr-luna'; // Using Dr. Luna mode for personalized menopause guidance
   const { messages, isLoading, sendMessage } = useDashboardChat(chatMode);
   const [inputValue, setInputValue] = useState('');
@@ -86,10 +88,34 @@ const Dashboard = () => {
         <div className="jarvis-brand">
           <div className="jarvis-logo-pulse"></div>
           <h1>OpenMedicine AI</h1>
-          {chatMode === 'dr-luna' && (
+          {chatMode === 'dr-luna' && activeTab === 'chat' && (
             <span className="dr-luna-badge">Dr. Luna</span>
           )}
         </div>
+
+        {/* Tab Navigation */}
+        <div className="jarvis-tabs">
+          <button
+            className={`jarvis-tab ${activeTab === 'chat' ? 'active' : ''}`}
+            onClick={() => setActiveTab('chat')}
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+            </svg>
+            <span>Chat</span>
+          </button>
+          <button
+            className={`jarvis-tab ${activeTab === 'journal' ? 'active' : ''}`}
+            onClick={() => setActiveTab('journal')}
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+            </svg>
+            <span>Journal</span>
+          </button>
+        </div>
+
         <div className="jarvis-header-actions">
           {/* Action Buttons */}
           <button
@@ -137,8 +163,9 @@ const Dashboard = () => {
         </div>
       </div>
 
-      {/* Main Chat Area */}
-      <div className="jarvis-chat-container">
+      {/* Main Content Area */}
+      {activeTab === 'chat' ? (
+        <div className="jarvis-chat-container">
         <div className="jarvis-messages-wrapper">
           <div
             className="jarvis-messages"
@@ -292,6 +319,9 @@ const Dashboard = () => {
           </button>
         </form>
       </div>
+      ) : (
+        <SymptomJournal onOpenLogModal={() => setIsSymptomLogOpen(true)} />
+      )}
 
       {/* Symptom Log Modal */}
       <SymptomLogModal
