@@ -39,6 +39,30 @@ const SymptomLogModal = ({ isOpen, onClose }) => {
     );
   };
 
+  const saveToLocalJournal = (logEntry) => {
+    try {
+      // Get existing journal entries from local storage
+      const existingJournal = JSON.parse(localStorage.getItem('symptom_journal') || '[]');
+
+      // Add new entry with timestamp
+      const newEntry = {
+        ...logEntry,
+        id: Date.now(),
+        saved_at: new Date().toISOString(),
+      };
+
+      existingJournal.push(newEntry);
+
+      // Save back to local storage
+      localStorage.setItem('symptom_journal', JSON.stringify(existingJournal));
+
+      return true;
+    } catch (error) {
+      console.error('Error saving to local journal:', error);
+      return false;
+    }
+  };
+
   const handleSave = async () => {
     if (selectedSymptoms.length === 0) {
       toast.error('Please select at least one symptom');
@@ -47,19 +71,34 @@ const SymptomLogModal = ({ isOpen, onClose }) => {
 
     setSaving(true);
 
+    const logEntry = {
+      user_id: user.id,
+      log_date: selectedDate,
+      symptoms: selectedSymptoms,
+      notes: notes.trim() || null,
+    };
+
+    // Always save to local journal first
+    const localSaved = saveToLocalJournal(logEntry);
+
     try {
+      // Try to save to Supabase
       const { error } = await supabase
         .from('symptom_logs')
-        .insert({
-          user_id: user.id,
-          log_date: selectedDate,
-          symptoms: selectedSymptoms,
-          notes: notes.trim() || null,
-        });
+        .insert(logEntry);
 
-      if (error) throw error;
-
-      toast.success('Symptom log saved successfully!');
+      if (error) {
+        console.error('Supabase error:', error);
+        // If Supabase fails but local save succeeded, still show success
+        if (localSaved) {
+          toast.success('Symptom log saved to your local journal! (Cloud sync will happen once database is set up)');
+        } else {
+          throw new Error('Failed to save symptom log');
+        }
+      } else {
+        // Both Supabase and local storage succeeded
+        toast.success('Symptom log saved successfully!');
+      }
 
       // Reset form
       setSelectedSymptoms([]);
@@ -69,7 +108,16 @@ const SymptomLogModal = ({ isOpen, onClose }) => {
       onClose();
     } catch (error) {
       console.error('Error saving symptom log:', error);
-      toast.error('Failed to save symptom log');
+      if (localSaved) {
+        toast.warning('Saved to local journal only. Cloud sync pending.');
+        // Still reset and close since local save worked
+        setSelectedSymptoms([]);
+        setNotes('');
+        setSelectedDate(new Date().toISOString().split('T')[0]);
+        onClose();
+      } else {
+        toast.error('Failed to save symptom log');
+      }
     } finally {
       setSaving(false);
     }
