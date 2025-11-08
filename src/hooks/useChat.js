@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import chatService from '../services/chatService';
 
 // Generate contextual follow-up questions to encourage engagement
@@ -41,6 +41,23 @@ const useChat = () => {
     }
   ]);
   const [isLoading, setIsLoading] = useState(false);
+
+  // Check for saved demo chat on mount
+  useEffect(() => {
+    const savedChat = localStorage.getItem('savedDemoChat');
+    if (savedChat) {
+      try {
+        const { messages: savedMessages } = JSON.parse(savedChat);
+        if (savedMessages && savedMessages.length > 0) {
+          setMessages(savedMessages);
+          // Clear the saved chat after restoring it
+          localStorage.removeItem('savedDemoChat');
+        }
+      } catch (error) {
+        console.error('Error restoring saved chat:', error);
+      }
+    }
+  }, []);
 
   const sendMessage = useCallback(async (content) => {
     // Add user message

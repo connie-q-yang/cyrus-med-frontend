@@ -359,6 +359,37 @@
   cursor: not-allowed;
 }
 
+/* Sign In Link */
+.hero-signin-link {
+  align-self: flex-start;
+  margin-top: -8px;
+  margin-bottom: 8px;
+}
+
+.hero-signin-link p {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0;
+}
+
+.signin-text-link {
+  background: none;
+  border: none;
+  color: #c084fc;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0;
+  font-size: 14px;
+  text-decoration: none;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+
+.signin-text-link:hover {
+  color: #f472b6;
+  text-decoration: underline;
+}
+
 /* Social Proof Section */
 .hero-social-proof {
   display: flex;

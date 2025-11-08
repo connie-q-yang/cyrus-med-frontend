@@ -1,17 +1,15 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { toast } from 'react-toastify';
-import { addToWaitlist } from '../../lib/supabase';
-import { trackWaitlistSignup } from '../../utils/analytics';
 import './ChatMessage.css';
 
-const ChatMessage = ({ message, onFollowUpClick, isFinalSummary, onJoinWaitlist, onScheduleConsultation, hasUnlockedSummary, onEmailUnlock }) => {
+const ChatMessage = ({ message, onFollowUpClick, isFinalSummary, onJoinWaitlist, onScheduleConsultation, hasUnlockedSummary, onEmailUnlock, allMessages }) => {
   const isAI = message.role === 'ai' || message.role === 'assistant';
   const [activeTab, setActiveTab] = useState('summary');
-  const [emailInput, setEmailInput] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const navigate = useNavigate();
 
   // Check if this is a summary message (contains SOAP note, H&P note, or summary indicators)
   const isSummaryMessage = isAI && (
@@ -135,56 +133,19 @@ const ChatMessage = ({ message, onFollowUpClick, isFinalSummary, onJoinWaitlist,
     console.log('=========================');
   }
 
-  const handleEmailSubmit = async (e) => {
-    e.preventDefault();
-    if (!emailInput.trim() || isSubmitting) return;
-
-    // Basic email validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(emailInput)) {
-      toast.error('Please enter a valid email address');
-      return;
+  const handleSignUpToUnlock = () => {
+    // Save the chat conversation to localStorage
+    if (allMessages && allMessages.length > 0) {
+      localStorage.setItem('savedDemoChat', JSON.stringify({
+        messages: allMessages,
+        timestamp: new Date().toISOString(),
+        source: 'demo_chat_unlock'
+      }));
+      toast.info('Chat saved! Sign up to continue.');
     }
 
-    setIsSubmitting(true);
-
-    try {
-      const result = await addToWaitlist(emailInput);
-
-      if (result.success) {
-        // Send welcome email via Netlify Function
-        fetch('/.netlify/functions/send-welcome-email', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ email: emailInput }),
-        })
-        .then(res => res.json())
-        .then(data => {
-          console.log('Email sent:', data);
-        })
-        .catch(err => {
-          console.error('Email error:', err);
-          // Don't show error to user as the signup was successful
-        });
-
-        // Track successful signup from demo chat
-        trackWaitlistSignup(emailInput, 'demo_chat_unlock');
-
-        toast.success(result.message || 'Welcome to OpenMedicine! Your summary is now unlocked.');
-
-        // Unlock the summary
-        onEmailUnlock(emailInput);
-      } else {
-        toast.info(result.message || 'Something went wrong. Please try again.');
-      }
-    } catch (error) {
-      console.error('Waitlist submission error:', error);
-      toast.error('Unable to unlock summary. Please try again later.');
-    } finally {
-      setIsSubmitting(false);
-    }
+    // Navigate to signup page
+    navigate('/signup');
   };
 
   // Check if this message needs to be gated
@@ -227,30 +188,18 @@ const ChatMessage = ({ message, onFollowUpClick, isFinalSummary, onJoinWaitlist,
                               stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
                       </svg>
                     </div>
-                    <h3 className="gate-title">Unlock Your AI Doctor Summary</h3>
+                    <h3 className="gate-title">See Your Complete Results</h3>
                     <p className="gate-description">
-                      Join our waitlist to see your personalized health summary and H&P note. Get early access when we launch!
+                      Create a free account to unlock your personalized health summary, H&P note, and continue this conversation anytime.
                     </p>
-                    <form className="gate-form" onSubmit={handleEmailSubmit}>
-                      <input
-                        type="email"
-                        className="gate-email-input"
-                        placeholder="Enter your email address"
-                        value={emailInput}
-                        onChange={(e) => setEmailInput(e.target.value)}
-                        required
-                        disabled={isSubmitting}
-                      />
-                      <button
-                        type="submit"
-                        className="gate-submit-button"
-                        disabled={isSubmitting || !emailInput.trim()}
-                      >
-                        {isSubmitting ? 'Unlocking...' : 'Unlock Summary'}
-                      </button>
-                    </form>
+                    <button
+                      className="gate-submit-button"
+                      onClick={handleSignUpToUnlock}
+                    >
+                      Create Free Account to See Your Results
+                    </button>
                     <p className="gate-privacy">
-                      🔒 We respect your privacy. No spam, ever.
+                      🔒 Your chat will be saved. Sign up in 30 seconds.
                     </p>
                   </div>
                 ) : (
@@ -284,30 +233,18 @@ const ChatMessage = ({ message, onFollowUpClick, isFinalSummary, onJoinWaitlist,
                               stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
                       </svg>
                     </div>
-                    <h3 className="gate-title">Unlock H&P Note for Physicians</h3>
+                    <h3 className="gate-title">See Your H&P Note</h3>
                     <p className="gate-description">
-                      Join our waitlist to see your complete History & Physical note formatted for healthcare providers.
+                      Create a free account to access your complete History & Physical note formatted for healthcare providers.
                     </p>
-                    <form className="gate-form" onSubmit={handleEmailSubmit}>
-                      <input
-                        type="email"
-                        className="gate-email-input"
-                        placeholder="Enter your email address"
-                        value={emailInput}
-                        onChange={(e) => setEmailInput(e.target.value)}
-                        required
-                        disabled={isSubmitting}
-                      />
-                      <button
-                        type="submit"
-                        className="gate-submit-button"
-                        disabled={isSubmitting || !emailInput.trim()}
-                      >
-                        {isSubmitting ? 'Unlocking...' : 'Unlock H&P Note'}
-                      </button>
-                    </form>
+                    <button
+                      className="gate-submit-button"
+                      onClick={handleSignUpToUnlock}
+                    >
+                      Create Free Account to See Your Results
+                    </button>
                     <p className="gate-privacy">
-                      🔒 We respect your privacy. No spam, ever.
+                      🔒 Your chat will be saved. Sign up in 30 seconds.
                     </p>
                   </div>
                 ) : (

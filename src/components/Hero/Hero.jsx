@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 import FullScreenChat from '../FullScreenChat/FullScreenChat';
 import { trackButtonClick, trackWaitlistSignup } from '../../utils/analytics';
 import { addToWaitlist, getWaitlistCount } from '../../lib/supabase';
@@ -7,6 +8,7 @@ import { toast } from 'react-toastify';
 import './Hero.css';
 
 const Hero = () => {
+  const navigate = useNavigate();
   const [currentFact, setCurrentFact] = useState(0);
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [heroEmail, setHeroEmail] = useState('');
@@ -186,6 +188,18 @@ const Hero = () => {
                 {isSubmitting ? 'Joining...' : 'Join Waitlist'}
               </button>
             </form>
+
+            <div className="hero-signin-link">
+              <p>
+                Already have an account?{' '}
+                <button
+                  onClick={() => navigate('/login')}
+                  className="signin-text-link"
+                >
+                  Sign in
+                </button>
+              </p>
+            </div>
 
             <div className="hero-social-proof">
               <div className="user-avatars">

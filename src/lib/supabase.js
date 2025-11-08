@@ -4,15 +4,18 @@ import { createClient } from '@supabase/supabase-js';
 const supabaseUrl = 'https://rsgvhilaapbyhvzfmldu.supabase.co';
 const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJzZ3ZoaWxhYXBieWh2emZtbGR1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTk1MjQxOTksImV4cCI6MjA3NTEwMDE5OX0.8Q3mimHi0mNqrwfJ1Wys4Jy71YUCvF-2dS6U4lKxKvI';
 
-// Create Supabase client with additional options
+// Create Supabase client with auth enabled
 const supabase = createClient(supabaseUrl, supabaseAnonKey, {
   auth: {
-    persistSession: false,
-    autoRefreshToken: false,
+    persistSession: true, // Enable session persistence
+    autoRefreshToken: true, // Automatically refresh tokens
+    detectSessionInUrl: true, // Support email confirmation links
+    storage: typeof window !== 'undefined' ? window.localStorage : undefined,
   },
 });
 
 console.log('Supabase initialized with URL:', supabaseUrl);
+console.log('Authentication enabled');
 
 export { supabase };
 

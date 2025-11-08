@@ -535,6 +535,43 @@
   width: 100%;
 }
 
+/* Demo Limit Notice */
+.demo-limit-notice {
+  max-width: 800px;
+  margin: 0 auto 16px;
+  background: linear-gradient(135deg, rgba(192, 132, 252, 0.1), rgba(244, 114, 182, 0.1));
+  border: 1px solid rgba(192, 132, 252, 0.3);
+  border-radius: 16px;
+  padding: 24px;
+  text-align: center;
+}
+
+.demo-limit-notice .limit-text {
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0 0 16px 0;
+  line-height: 1.5;
+}
+
+.signup-cta-button {
+  padding: 14px 32px;
+  font-size: 16px;
+  font-weight: 600;
+  color: white;
+  background: linear-gradient(135deg, #c084fc, #f472b6);
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s;
+  width: 100%;
+  max-width: 300px;
+}
+
+.signup-cta-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(192, 132, 252, 0.4);
+}
+
 .chat-form {
   display: flex;
   gap: 16px;

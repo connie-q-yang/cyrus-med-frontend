@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import FullScreenChat from '../FullScreenChat/FullScreenChat';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../contexts/AuthContext';
 import './Header.css';
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isChatOpen, setIsChatOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const navigate = useNavigate();
+  const { user } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -16,17 +18,6 @@ const Header = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
-  const openChat = () => {
-    setIsChatOpen(true);
-    document.body.style.overflow = 'hidden';
-    setIsMobileMenuOpen(false);
-  };
-
-  const closeChat = () => {
-    setIsChatOpen(false);
-    document.body.style.overflow = 'auto';
-  };
 
   const scrollToSection = (sectionId) => {
     // Close menu first to prevent layout shifts
@@ -79,19 +70,44 @@ const Header = () => {
               <a href="/about" target="_blank" rel="noopener noreferrer" className="nav-link">
                 About Us
               </a>
+              <a href="/contact" className="nav-link">
+                Contact Us
+              </a>
             </nav>
 
             <div className="header-actions">
-              <button
-                className="beta-badge desktop-only"
-                onClick={() => scrollToSection('waitlist')}
-              >
-                <span className="beta-dot"></span>
-                Beta Access
-              </button>
-              <button className="consult-button" onClick={openChat}>
-                Start Consultation
-              </button>
+              {user ? (
+                <>
+                  <button
+                    className="nav-link desktop-only"
+                    onClick={() => navigate('/dashboard')}
+                  >
+                    Dashboard
+                  </button>
+                  <button className="consult-button" onClick={() => navigate('/chat')}>
+                    Start Chat
+                  </button>
+                </>
+              ) : (
+                <>
+                  <button
+                    className="beta-badge desktop-only"
+                    onClick={() => scrollToSection('waitlist')}
+                  >
+                    <span className="beta-dot"></span>
+                    Beta Access
+                  </button>
+                  <button
+                    className="nav-link desktop-only"
+                    onClick={() => navigate('/login')}
+                  >
+                    Log In
+                  </button>
+                  <button className="consult-button" onClick={() => navigate('/signup')}>
+                    Sign Up
+                  </button>
+                </>
+              )}
               <button
                 className="mobile-menu-toggle mobile-only"
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -129,18 +145,55 @@ const Header = () => {
             <a href="/about" target="_blank" rel="noopener noreferrer" className="mobile-nav-link">
               About Us
             </a>
-            <button
-              className="mobile-beta-button"
-              onClick={() => scrollToSection('waitlist')}
-            >
-              <span className="beta-dot"></span>
-              Join Beta Waitlist
-            </button>
+            <a href="/contact" className="mobile-nav-link">
+              Contact Us
+            </a>
+            {user ? (
+              <>
+                <button
+                  className="mobile-nav-link"
+                  onClick={() => {
+                    navigate('/dashboard');
+                    setIsMobileMenuOpen(false);
+                  }}
+                >
+                  Dashboard
+                </button>
+                <button
+                  className="mobile-beta-button"
+                  onClick={() => {
+                    navigate('/chat');
+                    setIsMobileMenuOpen(false);
+                  }}
+                >
+                  Start Chat
+                </button>
+              </>
+            ) : (
+              <>
+                <button
+                  className="mobile-nav-link"
+                  onClick={() => {
+                    navigate('/login');
+                    setIsMobileMenuOpen(false);
+                  }}
+                >
+                  Log In
+                </button>
+                <button
+                  className="mobile-beta-button"
+                  onClick={() => {
+                    navigate('/signup');
+                    setIsMobileMenuOpen(false);
+                  }}
+                >
+                  Sign Up
+                </button>
+              </>
+            )}
           </nav>
         </motion.div>
       </motion.header>
-
-      <FullScreenChat isOpen={isChatOpen} onClose={closeChat} />
     </>
   );
 };

@@ -1,5 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../contexts/AuthContext';
+import { toast } from 'react-toastify';
 import ChatMessage from '../ChatPreview/ChatMessage';
 import useChat from '../../hooks/useChat';
 import { exportChatAsDocx, exportChatAsText } from '../../utils/exportChat';
@@ -75,10 +78,16 @@ const FullScreenChat = ({ isOpen, onClose }) => {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [hasUnlockedSummary, setHasUnlockedSummary] = useState(false);
   const { messages, sendMessage, isLoading } = useChat();
+  const { user } = useAuth();
+  const navigate = useNavigate();
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
   const sessionStartRef = useRef(null);
   const messageCountRef = useRef(0);
+
+  // Demo message limit for non-logged-in users (3 user messages = 7 total with AI responses)
+  const DEMO_MESSAGE_LIMIT = 7;
+  const isDemoLimitReached = !user && messages.length >= DEMO_MESSAGE_LIMIT;
 
   // Only scroll when new messages are added, not on every render
   useEffect(() => {
@@ -118,8 +127,36 @@ const FullScreenChat = ({ isOpen, onClose }) => {
     }
   }, [isOpen]);
 
+  const handleDemoLimitReached = () => {
+    // Save the chat conversation to localStorage
+    if (messages && messages.length > 0) {
+      localStorage.setItem('savedDemoChat', JSON.stringify({
+        messages: messages,
+        timestamp: new Date().toISOString(),
+        source: 'demo_limit_reached'
+      }));
+    }
+
+    toast.info('Demo limit reached! Sign up to continue chatting.', {
+      autoClose: 4000
+    });
+
+    // Close chat and navigate to signup
+    onClose();
+    setTimeout(() => {
+      navigate('/signup');
+    }, 500);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Check if demo limit has been reached for non-logged-in users
+    if (isDemoLimitReached) {
+      handleDemoLimitReached();
+      return;
+    }
+
     if (input.trim() && !isLoading) {
       // Track message sent (not the content)
       trackDemoAction('message_sent', {
@@ -135,6 +172,12 @@ const FullScreenChat = ({ isOpen, onClose }) => {
   };
 
   const handlePromptClick = async (prompt) => {
+    // Check if demo limit has been reached for non-logged-in users
+    if (isDemoLimitReached) {
+      handleDemoLimitReached();
+      return;
+    }
+
     // Track prompt usage (category, not the actual prompt)
     const category = samplePrompts.find(cat =>
       cat.prompts.includes(prompt)
@@ -393,6 +436,7 @@ const FullScreenChat = ({ isOpen, onClose }) => {
                     <ChatMessage
                       key={index}
                       message={message}
+                      allMessages={messages}
                       onFollowUpClick={handlePromptClick}
                       isFinalSummary={isFinalSummary(index)}
                       onJoinWaitlist={handleJoinWaitlist}
@@ -538,33 +582,47 @@ const FullScreenChat = ({ isOpen, onClose }) => {
                 </div>
               )}
 
-              <form className="chat-form" onSubmit={handleSubmit}>
-                <input
-                  ref={inputRef}
-                  type={getQuestionType() === 'age' ? 'number' : 'text'}
-                  value={input}
-                  onChange={(e) => setInput(e.target.value)}
-                  placeholder={
-                    getQuestionType() === 'age' ? "Enter your age (e.g., 25)" :
-                    getQuestionType() === 'sex' ? "Or type your response..." :
-                    getQuestionType() === 'lmp' ? "Or type your response..." :
-                    getQuestionType() === 'pregnancy' ? "Or type your response..." :
-                    shouldShowYesNoButtons() ? "Or type your own response..." :
-                    "Describe your menopause symptoms..."
-                  }
-                  disabled={isLoading}
-                  className="chat-input"
-                />
-                <button
-                  type="submit"
-                  className="send-button"
-                  disabled={isLoading || !input.trim()}
-                >
-                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                    <path d="M2 10L17 2L13 18L11 11L2 10Z" fill="currentColor"/>
-                  </svg>
-                </button>
-              </form>
+              {isDemoLimitReached ? (
+                <div className="demo-limit-notice">
+                  <p className="limit-text">
+                    🎉 You've tried the demo! Sign up to continue this conversation and save your results.
+                  </p>
+                  <button
+                    className="signup-cta-button"
+                    onClick={handleDemoLimitReached}
+                  >
+                    Sign Up to Continue
+                  </button>
+                </div>
+              ) : (
+                <form className="chat-form" onSubmit={handleSubmit}>
+                  <input
+                    ref={inputRef}
+                    type={getQuestionType() === 'age' ? 'number' : 'text'}
+                    value={input}
+                    onChange={(e) => setInput(e.target.value)}
+                    placeholder={
+                      getQuestionType() === 'age' ? "Enter your age (e.g., 25)" :
+                      getQuestionType() === 'sex' ? "Or type your response..." :
+                      getQuestionType() === 'lmp' ? "Or type your response..." :
+                      getQuestionType() === 'pregnancy' ? "Or type your response..." :
+                      shouldShowYesNoButtons() ? "Or type your own response..." :
+                      "Describe your menopause symptoms..."
+                    }
+                    disabled={isLoading}
+                    className="chat-input"
+                  />
+                  <button
+                    type="submit"
+                    className="send-button"
+                    disabled={isLoading || !input.trim()}
+                  >
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                      <path d="M2 10L17 2L13 18L11 11L2 10Z" fill="currentColor"/>
+                    </svg>
+                  </button>
+                </form>
+              )}
 
               <div className="footer-disclaimer">
                 <p>This AI provides information about menopause symptoms. Always consult your healthcare provider for personalized medical advice.</p>
