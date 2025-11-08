@@ -382,12 +382,24 @@
 /* Quick Actions */
 .jarvis-quick-actions {
   display: flex;
+  flex-direction: column;
   gap: 12px;
   padding: 20px 24px;
-  justify-content: center;
-  flex-wrap: wrap;
   border-top: 1px solid rgba(139, 92, 246, 0.1);
   flex-shrink: 0;
+}
+
+.quick-actions-header {
+  text-align: center;
+  margin-bottom: 4px;
+}
+
+.quick-actions-header span {
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(139, 92, 246, 0.9);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .jarvis-quick-btn {
@@ -581,13 +593,58 @@
   }
 
   .jarvis-quick-actions {
-    flex-direction: column;
     padding: 16px;
+  }
+
+  .quick-actions-header span {
+    font-size: 12px;
   }
 
   .jarvis-quick-btn {
     width: 100%;
-    justify-content: center;
+    justify-content: flex-start;
+    font-size: 13px;
+    padding: 12px 16px;
+  }
+
+  /* Mobile-optimized markdown tables */
+  .markdown-content table {
+    font-size: 0.85em;
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .markdown-content th,
+  .markdown-content td {
+    padding: 6px 8px;
+    white-space: nowrap;
+  }
+
+  .markdown-content th {
+    font-size: 0.9em;
+  }
+
+  /* Smaller code blocks on mobile */
+  .markdown-content code {
+    font-size: 0.85em;
+  }
+
+  .markdown-content pre {
+    padding: 10px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Adjust message text size on mobile */
+  .jarvis-message-text {
+    font-size: 14px;
+    padding: 12px 16px;
+  }
+
+  .jarvis-avatar {
+    width: 36px;
+    height: 36px;
   }
 }
 
@@ -786,4 +843,105 @@
 
 .markdown-content tr:nth-child(even) td {
   background: rgba(255, 255, 255, 0.02);
+}
+
+/* Table wrapper for horizontal scroll on mobile */
+.markdown-content table {
+  min-width: 100%;
+}
+
+/* Extra small mobile devices */
+@media (max-width: 480px) {
+  .jarvis-header {
+    padding: 10px 12px;
+  }
+
+  .jarvis-brand h1 {
+    font-size: 14px;
+  }
+
+  .jarvis-logo-pulse {
+    width: 10px;
+    height: 10px;
+  }
+
+  .dr-luna-badge {
+    font-size: 10px;
+    padding: 3px 8px;
+  }
+
+  .jarvis-icon-button {
+    width: 36px;
+    height: 36px;
+  }
+
+  .jarvis-action-button {
+    padding: 8px;
+    min-width: 36px;
+  }
+
+  .jarvis-chat-container {
+    padding: 10px 8px;
+    gap: 12px;
+  }
+
+  .jarvis-messages {
+    padding: 12px;
+    gap: 16px;
+  }
+
+  .jarvis-message.user-message,
+  .jarvis-message.ai-message {
+    max-width: 95%;
+  }
+
+  .jarvis-message-text {
+    font-size: 13px;
+    padding: 10px 14px;
+  }
+
+  .jarvis-avatar {
+    width: 32px;
+    height: 32px;
+  }
+
+  .jarvis-input-container {
+    padding: 10px;
+    gap: 8px;
+  }
+
+  .jarvis-input {
+    font-size: 14px;
+    padding: 12px 16px;
+  }
+
+  .jarvis-send-button {
+    width: 44px;
+    height: 44px;
+  }
+
+  .markdown-content table {
+    font-size: 0.8em;
+  }
+
+  .markdown-content th,
+  .markdown-content td {
+    padding: 4px 6px;
+    font-size: 0.85em;
+  }
+
+  .markdown-content h1 {
+    font-size: 1.15em;
+  }
+
+  .markdown-content h2 {
+    font-size: 1.1em;
+  }
+
+  .markdown-content h3,
+  .markdown-content h4,
+  .markdown-content h5,
+  .markdown-content h6 {
+    font-size: 1.05em;
+  }
 }

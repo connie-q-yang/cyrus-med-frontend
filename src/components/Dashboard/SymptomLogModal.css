@@ -251,5 +251,63 @@
 
   .symptom-modal-content {
     padding: 20px;
+    gap: 20px;
+  }
+
+  .symptom-chip {
+    font-size: 13px;
+    padding: 7px 14px;
+  }
+}
+
+/* Extra small mobile devices */
+@media (max-width: 480px) {
+  .symptom-modal-header {
+    padding: 16px;
+  }
+
+  .symptom-modal-header h2 {
+    font-size: 18px;
+  }
+
+  .symptom-modal-header p {
+    font-size: 12px;
+  }
+
+  .symptom-modal-close {
+    width: 32px;
+    height: 32px;
+  }
+
+  .symptom-modal-content {
+    padding: 16px;
+    gap: 18px;
+  }
+
+  .symptom-date-section label,
+  .symptom-chips-section label,
+  .symptom-notes-section label {
+    font-size: 13px;
+  }
+
+  .symptom-date-input {
+    padding: 10px 14px;
+    font-size: 14px;
+  }
+
+  .symptom-chip {
+    font-size: 12px;
+    padding: 6px 12px;
+  }
+
+  .symptom-notes-input {
+    font-size: 13px;
+    padding: 10px 14px;
+  }
+
+  .symptom-cancel-btn,
+  .symptom-save-btn {
+    padding: 11px 20px;
+    font-size: 14px;
   }
 }

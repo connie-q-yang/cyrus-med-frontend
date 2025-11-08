@@ -11,7 +11,7 @@ import './Dashboard.css';
 const Dashboard = () => {
   const { user, signOut } = useAuth();
   const navigate = useNavigate();
-  const [chatMode, setChatMode] = useState('diagnostic'); // 'diagnostic' or 'dr-luna'
+  const chatMode = 'dr-luna'; // Using Dr. Luna mode for personalized menopause guidance
   const { messages, isLoading, sendMessage } = useDashboardChat(chatMode);
   const [inputValue, setInputValue] = useState('');
   const [showScrollButton, setShowScrollButton] = useState(false);
@@ -64,16 +64,14 @@ const Dashboard = () => {
     await sendMessage(message);
   };
 
-  const handleQuickAction = (action) => {
-    if (action === 'chat') {
-      // Switch to Dr. Luna mode for personalized symptom chat
-      setChatMode('dr-luna');
-      setInputValue("I'd like to chat with you about my symptoms");
-      inputRef.current?.focus();
-    } else if (action === 'log') {
-      setInputValue("I'd like to log my symptoms");
-      inputRef.current?.focus();
-    }
+  const handleQuickAction = (question) => {
+    setInputValue(question);
+    inputRef.current?.focus();
+    // Auto-send the question
+    setTimeout(() => {
+      sendMessage(question);
+      setInputValue('');
+    }, 100);
   };
 
   const userName = user?.user_metadata?.preferred_name ||
@@ -221,27 +219,51 @@ const Dashboard = () => {
             </button>
           )}
 
-          {/* Quick Actions (shown for first message) */}
+          {/* FAQ Quick Questions (shown for first message) */}
           {messages.length === 1 && !isLoading && (
             <div className="jarvis-quick-actions">
+              <div className="quick-actions-header">
+                <span>Frequently Asked Questions:</span>
+              </div>
               <button
                 className="jarvis-quick-btn"
-                onClick={() => handleQuickAction('chat')}
+                onClick={() => handleQuickAction('What are the most common menopause symptoms?')}
               >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <circle cx="12" cy="12" r="10" />
+                  <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+                  <line x1="12" y1="17" x2="12.01" y2="17" />
                 </svg>
-                Chat about symptoms
+                What are the most common menopause symptoms?
               </button>
               <button
                 className="jarvis-quick-btn"
-                onClick={() => handleQuickAction('log')}
+                onClick={() => handleQuickAction('How can I manage hot flashes naturally?')}
               >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
-                  <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16c0 1.1.9 2 2 2h12a2 2 0 0 0 2-2V8l-6-6z" />
+                  <path d="M14 3v5h5M16 13H8M16 17H8M10 9H8" />
                 </svg>
-                Log symptoms
+                How can I manage hot flashes naturally?
+              </button>
+              <button
+                className="jarvis-quick-btn"
+                onClick={() => handleQuickAction('Should I consider hormone replacement therapy?')}
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+                </svg>
+                Should I consider hormone replacement therapy?
+              </button>
+              <button
+                className="jarvis-quick-btn"
+                onClick={() => handleQuickAction('What lifestyle changes can help with menopause symptoms?')}
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <circle cx="12" cy="12" r="10" />
+                  <path d="M12 16v-4M12 8h.01" />
+                </svg>
+                What lifestyle changes can help with menopause symptoms?
               </button>
             </div>
           )}
