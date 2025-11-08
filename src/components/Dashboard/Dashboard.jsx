@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 import { useDashboardChat } from '../../hooks/useDashboardChat';
 import ReactMarkdown from 'react-markdown';
 import rehypeSanitize from 'rehype-sanitize';
+import SymptomLogModal from './SymptomLogModal';
 import './Dashboard.css';
 
 const Dashboard = () => {
@@ -14,6 +15,7 @@ const Dashboard = () => {
   const { messages, isLoading, sendMessage } = useDashboardChat(chatMode);
   const [inputValue, setInputValue] = useState('');
   const [showScrollButton, setShowScrollButton] = useState(false);
+  const [isSymptomLogOpen, setIsSymptomLogOpen] = useState(false);
   const messagesContainerRef = useRef(null);
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
@@ -90,21 +92,50 @@ const Dashboard = () => {
             <span className="dr-luna-badge">Dr. Luna</span>
           )}
         </div>
-        <div className="jarvis-user-section">
-          <span className="jarvis-user-name">Welcome, {userName}</span>
-          <button onClick={() => navigate('/profile')} className="jarvis-icon-button" title="Profile">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-              <circle cx="12" cy="7" r="4" />
+        <div className="jarvis-header-actions">
+          {/* Action Buttons */}
+          <button
+            onClick={() => setIsSymptomLogOpen(true)}
+            className="jarvis-action-button"
+            title="Log Symptoms"
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
             </svg>
+            <span className="action-button-text">Log Symptoms</span>
           </button>
-          <button onClick={handleSignOut} className="jarvis-icon-button" title="Sign Out">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
-              <polyline points="16 17 21 12 16 7" />
-              <line x1="21" y1="12" x2="9" y2="12" />
+          <button
+            className="jarvis-action-button disabled"
+            title="Available in future updates"
+            disabled
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+              <line x1="16" y1="2" x2="16" y2="6" />
+              <line x1="8" y1="2" x2="8" y2="6" />
+              <line x1="3" y1="10" x2="21" y2="10" />
             </svg>
+            <span className="action-button-text">Schedule</span>
+            <div className="coming-soon-badge-header">Soon</div>
           </button>
+
+          {/* User Section */}
+          <div className="jarvis-user-section">
+            <span className="jarvis-user-name">Welcome, {userName}</span>
+            <button onClick={() => navigate('/profile')} className="jarvis-icon-button" title="Profile">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+              </svg>
+            </button>
+            <button onClick={handleSignOut} className="jarvis-icon-button" title="Sign Out">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                <polyline points="16 17 21 12 16 7" />
+                <line x1="21" y1="12" x2="9" y2="12" />
+              </svg>
+            </button>
+          </div>
         </div>
       </div>
 
@@ -239,6 +270,12 @@ const Dashboard = () => {
           </button>
         </form>
       </div>
+
+      {/* Symptom Log Modal */}
+      <SymptomLogModal
+        isOpen={isSymptomLogOpen}
+        onClose={() => setIsSymptomLogOpen(false)}
+      />
     </div>
   );
 };

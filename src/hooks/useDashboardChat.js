@@ -5,12 +5,19 @@ import { useAuth } from '../contexts/AuthContext';
 export const useDashboardChat = (chatMode = 'diagnostic') => {
   const { user } = useAuth();
   const [userProfile, setUserProfile] = useState(null);
+
+  // Get user's preferred name or first name
+  const userName = user?.user_metadata?.preferred_name ||
+                   user?.user_metadata?.first_name ||
+                   user?.email?.split('@')[0] ||
+                   'there';
+
   const [messages, setMessages] = useState([
     {
       role: 'assistant',
       content: chatMode === 'dr-luna'
-        ? "Hello! I'm Dr. Luna, your personal menopause specialist. I've reviewed your profile and I'm here to help you navigate your menopause journey with evidence-based guidance. What would you like to discuss today?"
-        : "Welcome to your personalized menopause AI doctor so you don't have to go through this alone. What would you like to do first? Chat with me or log some symptoms? I'm here to make you feel better and get the proper care and support you need.",
+        ? `Hello ${userName}! I'm Dr. Luna, your personal menopause specialist. I've reviewed your profile and I'm here to help you navigate your menopause journey with evidence-based guidance. What would you like to discuss today?`
+        : `Welcome ${userName}! I'm your personalized menopause AI doctor so you don't have to go through this alone. What would you like to do first? Chat with me or log some symptoms? I'm here to make you feel better and get the proper care and support you need.`,
       timestamp: new Date()
     }
   ]);
@@ -112,12 +119,12 @@ export const useDashboardChat = (chatMode = 'diagnostic') => {
     setMessages([{
       role: 'assistant',
       content: chatMode === 'dr-luna'
-        ? "Hello! I'm Dr. Luna, your personal menopause specialist. I've reviewed your profile and I'm here to help you navigate your menopause journey with evidence-based guidance. What would you like to discuss today?"
-        : "Welcome to your personalized menopause AI doctor so you don't have to go through this alone. What would you like to do first? Chat with me or log some symptoms? I'm here to make you feel better and get the proper care and support you need.",
+        ? `Hello ${userName}! I'm Dr. Luna, your personal menopause specialist. I've reviewed your profile and I'm here to help you navigate your menopause journey with evidence-based guidance. What would you like to discuss today?`
+        : `Welcome ${userName}! I'm your personalized menopause AI doctor so you don't have to go through this alone. What would you like to do first? Chat with me or log some symptoms? I'm here to make you feel better and get the proper care and support you need.`,
       timestamp: new Date()
     }]);
     setError(null);
-  }, [chatMode]);
+  }, [chatMode, userName]);
 
   return {
     messages,
